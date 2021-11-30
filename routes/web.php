@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AddAdminController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,3 +47,13 @@ Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::get('index', [AddAdminController::class, 'index'])->name('admin.index');
 Route::get('addAdmin/{id}/edit', [AddAdminController::class, 'edit'])->name('addAdmin.edit');
 Route::resource('addAdmin', AddAdminController::class);
+
+//company route
+Route::get('company/{id}/edit', [CompanyController::class, 'edit'])->name('company.edit');
+Route::resource('company', CompanyController::class)->except(['show']);
+
+//category route
+Route::get('category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
+Route::resource('category', CategoryController::class)->except(['show']);
+
+

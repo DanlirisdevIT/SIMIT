@@ -30,7 +30,7 @@ class AddAdminController extends Controller
     }
 
     public function create(){
-
+        //
     }
 
     public function store(Request $request)
@@ -47,7 +47,7 @@ class AddAdminController extends Controller
         }
         else
         {
-            $createdBy = Auth::user()->level;
+            $createdBy = Auth::user()->name;
             $createdUtc = Carbon::now();
             $password = $request->password;
 
