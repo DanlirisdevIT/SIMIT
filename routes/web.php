@@ -7,6 +7,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AddAdminController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\ManufactureController;
+use App\Models\Location;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,5 +58,13 @@ Route::resource('company', CompanyController::class)->except(['show']);
 //category route
 Route::get('category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
 Route::resource('category', CategoryController::class)->except(['show']);
+
+//location route
+Route::get('location/{id}/edit', [LocationController::class, 'edit'])->name('category.edit');
+Route::resource('location', LocationController::class)->except(['show']);
+
+//manufacture route
+Route::get('manufacture/{id}/edit', [ManufactureController::class, 'edit'])->name('manufacture.edit');
+Route::resource('manufacture', ManufactureController::class)->except(['show']);
 
 

@@ -66,6 +66,18 @@
                         <p>Category</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('location.index') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Location</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('manufacture.index') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Manufacture</p>
+                        </a>
+                    </li>
                 </ul>
             </li>
             </ul>
