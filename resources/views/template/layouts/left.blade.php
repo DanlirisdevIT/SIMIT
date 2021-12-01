@@ -73,6 +73,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ route('division.index') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Division</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('manufacture.index') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Manufacture</p>
