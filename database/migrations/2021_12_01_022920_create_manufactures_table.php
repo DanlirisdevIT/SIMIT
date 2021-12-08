@@ -19,7 +19,7 @@ class CreateManufacturesTable extends Migration
             $table->string('url', 255);
             $table->string('supportEmail', 255);
             $table->string('supportPhone', 255);
-            $table->string('image', 255);
+            $table->string('Image');
             $table->string('createdBy', 255)->nullable();
             $table->dateTime('createdUtc')->nullable();
             $table->string('updatedBy', 255)->nullable();

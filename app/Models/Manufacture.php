@@ -10,5 +10,5 @@ class Manufacture extends Model
     use HasFactory;
     public $timestamps = false;
 
-    protected $fillable = ['manufactureName', 'Url', 'supportEmail', 'supportPhone', 'image'];
+    protected $fillable = ['manufactureName', 'url', 'supportEmail', 'supportPhone', 'Image'];
 }
