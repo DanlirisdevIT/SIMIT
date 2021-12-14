@@ -260,7 +260,6 @@
                             {
                                 $('#updateForm_errList').html("");
                                 $('#success_message').addClass('alert alert-success');
-                                $
                                 $('#success_message').text(response.messages);
                                 $('#updateCategory').find('input').val('');
                                 $('.update').text('update');

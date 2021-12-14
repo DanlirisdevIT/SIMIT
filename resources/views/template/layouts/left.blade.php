@@ -84,6 +84,12 @@
                         <p>Manufacture</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('asset.index') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Asset</p>
+                        </a>
+                    </li>
                 </ul>
             </li>
             </ul>
