@@ -23,7 +23,6 @@
                                         <th>Url</th>
                                         <th>Email</th>
                                         <th>Phone</th>
-                                        <th>Image</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -47,7 +46,8 @@
             <div class="modal-body">
                 <ul id="saveForm_errList"></ul>
 
-                <div class="modal-body1">
+                <div class="modal-body">
+                    <form id="upload" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label name="manufactureName" class="col-sm-4 control-label"> Nama </label>
                         <div class="col-sm-12">
@@ -76,17 +76,19 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label name="Image" class="col-sm-4 control-label"> Image </label>
+                    <div class="form-group mb-3">
+                        <label name="Image" class="col-sm-4 control-label"> Pilih Gambar </label>
                         <div class="col-sm-12">
-                            <input type="file" class="form-control" id="Image" name="Image" maxlength="50">
+                            <input type="file" class="form-control-file" id="Image" name="Image">
                         </div>
+                        <br>
+                        <img src="https://via.placeholder.com/150" id="upload-img" width="100" height="100">
                     </div>
+                    </form>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary reset">Reset</button>
-                {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button> --}}
                 <button type="button" class="btn btn-primary create">Simpan</button>
             </div>
           </div>
@@ -97,27 +99,63 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Edit Manufaktur</h5>
+              <h5 class="modal-title">Edit Asset</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
-                <ul id="updateForm_errList"></ul>
-                <form id="ManufactureForm" name="ManufactureForm" class="form-horizontal">
-                    <input type="hidden" id="id">
-                    <div class="EditManufactureBody">
-
+            <form id="updateManufactureForm" action="#" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body">
+                        <ul id="updateForm_errList"></ul>
+                        <input type="hidden" id="id">
+                        <div class="form-group">
+                            <label name="manufactureName" class="col-sm-4 control-label"> Nama </label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="manufactureName" name="manufactureName" placeholder="Masukkan nama manufaktur..." value = "'.$manufactures->manufactureName.'"  maxlength="50" required>
+                            </div>
+                        </div>
+            
+                        <div class="form-group">
+                            <label name="url" class="col-sm-4 control-label"> Url </label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="url" name="url" placeholder="Masukkan url..." value = "'.$manufactures->url.'" maxlength="50" required>
+                            </div>
+                        </div>
+            
+                        <div class="form-group">
+                            <label name="supportEmail" class="col-sm-4 control-label"> Email </label>
+                            <div class="col-sm-12">
+                                <input type="email" class="form-control" id="supportEmail" name="supportEmail" placeholder="Masukkan email.." value = "'.$manufactures->supportEmail.'" maxlength="50" required>
+                            </div>
+                        </div>
+            
+                        <div class="form-group">
+                            <label name="supportPhone" class="col-sm-4 control-label"> Phone </label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="supportPhone" name="supportPhone" placeholder="Masukkan no telp..." value = "'.$manufactures->supportPhone.'" maxlength="50" required>
+                            </div>
+                        </div>
+            
+                        <div class="form-group mb-3">
+                        <label name="Image" class="col-sm-4 control-label"> Pilih Gambar </label>
+                        <div class="col-sm-12">
+                            <input type="file" class="form-control-file" id="update-Image" name="Image" >
+                        </div>
+                        <br>
+                        <div id="upload-update-img"></div>
+                    </div>
+                    </div>
+                    {{-- <div class="deleteConfirm"></div> --}}
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary reset-update">Reset</button>
+                        <button type="button" class="btn btn-primary update">Perbaharui</button>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary reset-update">Reset</button>
-                <button type="button" class="btn btn-primary update">Perbaharui</button>
             </div>
-          </div>
         </div>
-    </div>
 
     <div class="modal fade" id="deleteManufacture" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -161,7 +199,6 @@
                     {data: 'url', name: 'url'},
                     {data: 'supportEmail', name: 'supportEmail'},
                     {data: 'supportPhone', name: 'supportPhone'},
-                    {data: 'Image', name: 'Image'},
                     {data: 'action', name: 'action', width: '10%'},
                 ],
                 order: [
@@ -169,146 +206,181 @@
                 ],
             });
 
-            $(".reset").click( function(){
-                $('#manufactureName').val("");
-                $('#url').val("");
-                $('#supportEmail').val("");
-                $('#supportPhone').val("");
-                $('#Image').val("");
-            });
-
+             //create/post/store
             $(document).ready(function () {
+                $(".reset").click( function(){
+                    $('#manufactureName').val("");
+                    $('#url').val("");
+                    $('#supportEmail').val("");
+                    $('#supprtPhone').val("");
+                    $('#Image').val('');
+                    $('#upload-img').attr('src', "https://via.placeholder.com/150"); // replace preview image with default image
+                });
+
                 $(document).on('click', '.create', function (e) {
-                    e.preventDefault();
+                e.preventDefault();
+                let formData = new FormData($('#upload')[0]);
+                console.log(formData);
 
-                    var data = {
-                        'manufactureName': $('#manufactureName').val(),
-                        'url': $('#url').val(),
-                        'supportEmail': $('#supportEmail').val(),
-                        'supportPhone': $('#supportPhone').val(),
-                        'Image': $('#Image').val(),
-                    }
-
-                    $.ajax({
-                        type: "POST",
-                        url: "{{ route('manufacture.store') }}",
-                        data: data,
-                        dataType: "json",
-                        success: function(response){
-                            if(response.status == 400)
-                            {
-                                $('#saveForm_errList').html("");
-                                $('#saveForm_errList').addClass('alert alert-danger');
-                                $.each(response.errors, function(key, err_values) {
-                                    $('#saveForm_errList').append('<li>'+err_values+'</li>');
-                                });
-                            }
-                            else if(response.status == 200)
-                            {
-                                $('#saveForm_errList').html("");
-                                $('#success_message').addClass('alert alert-success');
-                                $('#success_message').text(response.messages);
-                                $('#addManufacture').modal('hide');
-                                $('#addManufacture').find('input').val("");
-                                $('.modal-backdrop').remove();
-                                var table = $('.datatables').DataTable();
-                                table.ajax.reload();
-                            }
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('manufacture.store') }}",
+                    data: formData,
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    success: function(response){
+                        if(response.status == 400){
+                            $('#saveForm_errList').html("");
+                            $('#saveForm_errList').addClass('alert alert-danger');
+                            $.each(response.errors, function(key, err_values) {
+                                $('#saveForm_errList').append('<li>'+err_values+'</li>');
+                            });
+                        }else if(response.status == 200)
+                        {
+                            $('#saveForm_errList').html("");
+                            $('#success_message').addClass('alert alert-success');
+                            $('#success_message').text(response.messages);
+                            $('#addManufacture').modal('hide');
+                            $('#addManufacture').find("input").val("");
+                            $('.modal-backdrop').remove();
+                            var table = $('.datatables').DataTable();
+                            table.ajax.reload();
                         }
-                    });
+                    }
                 });
             });
 
-            $(document).on('click', '.editManufacture', function (e) {
-                e.preventDefault();
+                //show preview image
+                function readImage(input){
+                    if(input.files && input.files[0]){
+                        var reader = new FileReader();
 
-                var id = $(this).data('id');
-
-                $('#updateManufacture').modal('show');
-
-                    console.log(id);
-
-                    $.ajax({
-                        type: "GET",
-                        url: "{{ route('manufacture.index') }}" + '/' + id + '/edit',
-                        success: function (response) {
-                            if (response.status == 404) {
-                                $('#updateForm_errList').addClass('alert alert-success');
-                                $('#updateForm_errList').text(response.message);
-                                $('.editManufacture').modal('hide');
-                            }
-                            else
-                            {
-                                $('.EditManufactureBody').html(response.html)
-                                $(".reset-update").click( function(){
-                                    $('.EditManufactureBody').find('#manufactureName').val("");
-                                    $('.EditManufactureBody').find('#url').val("");
-                                    $('.EditManufactureBody').find('#supportEmail').val("");
-                                    $('.EditManufactureBody').find('#supportPhone').val("");
-                                    $('.EditManufactureBody').find('#Image').val("");
-                                });
-                                $("#manufactureName").html(response.manufactures['manufactureName']);
-                                $("#url").html(response.manufactures['url']);
-                                $("#supportEmail").html(response.manufactures['supportEmail']);
-                                $("#supportPhone").html(response.manufactures['supportPhone']);
-                                $("#Image").html(response.manufactures['Image']);
-                                console.log(response.manufactures['manufactureName'])
-                                console.log(response.manufactures['url'])
-                                console.log(response.manufactures['supportEmail'])
-                                console.log(response.manufactures['supportPhone'])
-                                console.log(response.manufactures['Image'])
-                                $("#id").val(id);
-                            }
+                        reader.onload = function (e){
+                            $('#upload-img').attr('src', e.target.result);
                         }
-                    });
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+                $('#Image').change(function () {
+                    readImage(this);
                 });
+                
+        });
 
-                $(document).on('click', '.update', function (e) {
-                    e.preventDefault();
+            //edit/update
+        $(document).on('click', '.editManufacture', function (e){
 
-                    $(this).text("Memperbaharui...");
+            e.preventDefault();
 
-                    var id = $('#id').val();
+            var id = $(this).data('id');
 
-                    console.log(id)
+            $('#updateManufacture').modal('show');
 
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            $.ajax({
+                type: "GET",
+                url: "{{ route('manufacture.index') }}" + '/' + id + '/edit',
+                success: function(response){
+                    if (response.status == 404) {
+                        $('#updateForm_errList').addClass('alert alert-success');
+                        $('#updateForm_errList').text(response.message);
+                        $('.editManufacture').modal('hide');
+                    }
+                    else
+                    {
+                        $('#btnDelete').html(response.html)
+                        $(".reset-update").click( function(){
+                            $('#updateManufactureForm').find('#manufactureName').val("");
+                            $('#updateManufactureForm').find('#url').val("");
+                            $('#updateManufactureForm').find('#supportEmail').val("");
+                            $('#updateManufactureForm').find('#supportPhone').val("");
+                            $('#updateManufactureForm').find('#Image').val("");
+                        });
+                        $("#id").val(id);
+                        $('#updateManufacture').find("#manufactureName").val(response.manufactures.manufactureName);
+                        $('#updateManufacture').find("#url").val(response.manufactures.url);
+                        $('#updateManufacture').find("#supportEmail").val(response.manufactures.supportEmail);
+                        $('#updateManufacture').find("#supportPhone").val(response.manufactures.supportPhone);
+                        $('#updateManufacture').find("#upload-update-img").html('<img src="/uploads/Image/'+response.manufactures.Image+'" class="img-fluid" style="max-width:100px;margin-bottom:10px;">');
+                        var image_name = response.manufactures.Image;
+                        $('#updateManufacture').find('input[type="file"]').val('');
+                    }
+                }
+            })
+
+            $('input[type="file"][name="Image"]').on('change', function() {
+                var img_path = $(this)[0].value;
+                var img_holder = $('#upload-update-img');
+                var currentImagePath = $(this).data('value');
+                var extension = img_path.substring(img_path.lastIndexOf('.')+1).toLowerCase();
+                if(extension == 'jpg' || extension == 'jpeg' || extension == 'png'){
+                    if(typeof(FileReader) != 'undefined'){
+                        img_holder.empty();
+                        var reader = new FileReader();
+                        reader.onload = function(e){
+                            $('<img/>', {'src':e.target.result, 'class':'img-fluid', 'style':'max-width:100px;margin-bottom:10px;'}).appendTo(img_holder);
                         }
-                    });
+                        img_holder.show();
+                        reader.readAsDataURL($(this)[0].files[0]);
+                    }else{
+                        $(img_holder).html('this browser not supporting file reader');
+                    }
+                }else{
+                    $(img_holder).html(currentImagePath);
+                }
+            });
+        });
 
-                    $.ajax({
-                        url: "/manufacture/" + id,
-                        method: 'PUT',
-                        data: $('#ManufactureForm').serialize(),
-                        dataType: "json",
-                        success: function(response){
-                            if(response.status == 400)
-                            {
-                                $('#updateForm_errList').html("");
-                                $('#updateForm_errList').addClass('alert alert-danger');
-                                $.each(response.errors, function (key, err_value) {
-                                    $('#updateForm_errList').append('<li>'+err_value+'</li>');
-                                });
-                                $('.update').text('update');
-                            }
-                            else
-                            {
-                                $('#updateForm_errList').html("");
-                                $('#success_message').addClass('alert alert-success');
-                                $
-                                $('#success_message').text(response.messages);
-                                $('#updateManufacture').find('input').val('');
-                                $('.update').text('update');
-                                $('#updateManufacture').modal('hide');
-                                $('.modal-backdrop').remove();
-                                var table = $('.datatables').DataTable();
-                                table.ajax.reload();
-                            }
-                        }
-                    })
-                });
+        $(document).on('click', '.update', function(e) {
+            e.preventDefault();
+
+            $(this).text('Memperbaharui...');
+
+            var id = $('#id').val();
+            console.log(id)
+
+            let formData = new FormData($('#updateManufactureForm')[0]);
+            console.log(formData)
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: "/manufacture/" + id,
+                method: 'POST',
+                data:
+                formData,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    if(response.status == 400)
+                    {
+                        $('#updateForm_errList').html("");
+                        $('#updateForm_errList').addClass('alert alert-danger');
+                        $.each(response.errors, function (key, err_value) {
+                            $('#updateForm_errList').append('<li>'+err_value+'</li>');
+                        });
+                        $('.update').text('update');
+                    }
+                    else
+                    {
+                        $('#updateForm_errList').html("");
+                        $('#success_message').addClass('alert alert-success');
+                        $('#success_message').text(response.messages);
+                        $('#updateManufacture').find('input').val('');
+                        $('.update').text('update');
+                        $('#updateManufacture').modal('hide');
+                        $('.modal-backdrop').remove();
+                        var table = $('.datatables').DataTable();
+                        table.ajax.reload();
+                    }
+                }
+            })
+        })
 
                 $(document).on('click', '.deleteManufacture', function () {
                     id = $(this).attr('id');
@@ -316,12 +388,11 @@
                     url = $(this).attr('url');
                     supportEmail = $(this).attr('email');
                     supportPhone = $(this).attr('phone');
-                    Image = $(this).attr('image');
                     console.log(id)
                     $('#deleteManufacture').modal('show');
                     $('#id').val(id);
 
-                    show = "<h5> Nama Manufaktur: <b>" + manufactureName + "</b> <br></br> Url : <b>" +url+ "</b> <br></br> Support Email : <b>" +supportEmail+ "</b> <br></br> Support Phone : <b>" +supportPhone+ "</b> <br></br> Image : <b>" +Image+ "</b><h5>" ;
+                    show = "<h5> Nama Manufaktur: <b>" + manufactureName + "</b> <br></br> Url : <b>" +url+ "</b> <br></br> Support Email : <b>" +supportEmail+ "</b> <br></br> Support Phone : <b>" +supportPhone+ "</b><h5>" ;
 
                     $('.show-data').html(show);
 

@@ -25,7 +25,7 @@ class ManufactureController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function($data) {
                 $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-primary btn-sm editManufacture"><i class="far fa-edit"></i></a>';
-                $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->id.'" name="'.$data->manufactureName.'" " url="'.$data->url.'" " email="'.$data->supportEmail.'" " phone="'.$data->supportPhone.'" " image="'.$data->Image.'"
+                $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->id.'" name="'.$data->manufactureName.'" " url="'.$data->url.'" " email="'.$data->supportEmail.'" " phone="'.$data->supportPhone.'"
                 data-original-title="Delete" class="btn btn-danger btn-sm deleteManufacture"><i class="far fa-trash-alt"></i></a>';
                 return $btn;
             })
@@ -58,7 +58,7 @@ class ManufactureController extends Controller
             'url' => 'required',
             'supportEmail' => 'required',
             'supportPhone' => 'required|string|min:10|max:12|regex:/[0-9]{9}/',
-            'Image' => 'required'
+            'Image'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         if($validator->fails())
@@ -75,7 +75,13 @@ class ManufactureController extends Controller
             $data -> url = $request->input('url');
             $data -> supportEmail = $request->input('supportEmail');
             $data -> supportPhone = $request->input('supportPhone');
-            $data -> Image = $request->input('Image');
+            if($request->hasFile('Image')){
+                $file = $request->file('Image');
+                $extension = $file->getClientOriginalName();
+                $filename = date('d-m-Y').' - '.$extension;
+                $file->move('uploads/Image/', $filename);
+                $data->Image = $filename;
+            }
             $data -> createdBy = $createdBy;
             $data -> createdUtc = $createdUtc;
             $data -> save();
@@ -106,45 +112,8 @@ class ManufactureController extends Controller
         $manufactures = Manufacture::find($id);
         if($manufactures)
         {
-            $html =
-            '<div class="form-group">
-                <label name="manufactureName" class="col-sm-4 control-label"> Nama </label>
-                <div class="col-sm-12">
-                    <input type="text" class="form-control" id="manufactureName" name="manufactureName" placeholder="Masukkan nama manufaktur..." value = "'.$manufactures->manufactureName.'"  maxlength="50" required>
-                </div>
-            </div>
 
-            <div class="form-group">
-                <label name="url" class="col-sm-4 control-label"> Url </label>
-                <div class="col-sm-12">
-                    <input type="text" class="form-control" id="url" name="url" placeholder="Masukkan url..." value = "'.$manufactures->url.'" maxlength="50" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label name="supportEmail" class="col-sm-4 control-label"> Email </label>
-                <div class="col-sm-12">
-                    <input type="email" class="form-control" id="supportEmail" name="supportEmail" placeholder="Masukkan email.." value = "'.$manufactures->supportEmail.'" maxlength="50" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label name="supportPhone" class="col-sm-4 control-label"> Phone </label>
-                <div class="col-sm-12">
-                    <input type="text" class="form-control" id="supportPhone" name="supportPhone" placeholder="Masukkan no telp..." value = "'.$manufactures->supportPhone.'" maxlength="50" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label name="Image" class="col-sm-4 control-label"> Phone </label>
-                <div class="col-sm-12">
-                    <input type="file" class="form-control" id="Image" name="Image" placeholder="..."  maxlength="50">
-                </div>
-            </div>
-        </div>';
-
-
-            return response()->json(['status' => 200, 'html' => $html, 'manufactures'=>$manufactures]);
+            return response()->json(['status' => 200,'manufactures'=>$manufactures]);
         }
         else
         {

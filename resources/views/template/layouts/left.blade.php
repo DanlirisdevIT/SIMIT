@@ -90,6 +90,12 @@
                         <p>Asset</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('unit.index') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Unit</p>
+                        </a>
+                    </li>
                 </ul>
             </li>
             </ul>

@@ -10,5 +10,11 @@ class Division extends Model
     use HasFactory;
     public $timestamps = false;
 
+    protected $primaryKey = 'id';
+
     protected $fillable = ['division_name'];
+
+    public function units(){
+        return $this->hasOne(Unit::class, 'division_id', 'id');
+    }
 }
