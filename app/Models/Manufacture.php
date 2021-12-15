@@ -14,7 +14,7 @@ class Manufacture extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['manufactureName', 'Url', 'supportEmail', 'supportPhone', 'image'];
+    protected $fillable = ['manufactureName', 'url', 'supportEmail', 'supportPhone', 'Image'];
 
     public function assets(){
         return $this->hasOne(Asset::class, 'manufacture_id', 'id');

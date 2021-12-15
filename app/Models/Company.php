@@ -11,5 +11,11 @@ class Company extends Model
 
     public $timestamps = false;
 
+    protected $primaryKey = 'id';
+
     protected $fillable = ['companyName'];
+
+    public function units(){
+        return $this->hasOne(Unit::class, 'company_id', 'id');
+    }
 }

@@ -11,6 +11,7 @@ use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ManufactureController;
 use App\Http\Controllers\AssetController;
+use App\Http\Controllers\UnitController;
 use App\Models\Location;
 
 /*
@@ -76,4 +77,8 @@ Route::resource('manufacture', ManufactureController::class)->except(['show']);
 //asset route
 Route::get('asset/{id}/edit', [AssetController::class, 'edit'])->name('asset.edit');
 Route::resource('asset', AssetController::class);
+
+//unit route
+Route::get('unit/{id}/edit', [UnitController::class, 'edit'])->name('unit.edit');
+Route::resource('unit', UnitController::class)->except(['show']);
 

@@ -11,5 +11,11 @@ class Location extends Model
 
     public $timestamps = false;
 
+    protected $primaryKey = 'id';
+
     protected $fillable = ['location_name'];
+
+    public function units(){
+        return $this->hasOne(Unit::class, 'location_id', 'id');
+    }
 }
