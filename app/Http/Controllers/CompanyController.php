@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Unit;
 
 
 class CompanyController extends Controller
@@ -26,7 +27,7 @@ class CompanyController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function($data) {
                 $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-primary btn-sm editCompany"><i class="far fa-edit"></i></a>';
-                $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->id.'" name="'.$data->companyName.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteCompany"><i class="far fa-trash-alt"></i></a>';
+                // $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->id.'" name="'.$data->companyName.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteCompany"><i class="far fa-trash-alt"></i></a>';
                 return $btn;
             })
             ->rawColumns(['action'])
@@ -164,15 +165,23 @@ class CompanyController extends Controller
     public function destroy($id)
     {
         $companies = Company::find($id);
+        $units = Unit::with('companies')->where('company_id', $companies->id)->exists();
         if($companies)
         {
-            $companies->deletedBy = Auth::user()->name;
-            $companies->deletedUtc = Carbon::now();
-            $companies->update();
-            return response()->json([
-                'status' => 200,
-                'messages' => 'Data berhasil dihapus.'
-            ]);
+            if($units)
+            {
+                return response()->json(['status'=>400, 'messages'=>'Data Perusahaan masih digunakan di menu Unit']);
+            }
+            else
+            {
+                $companies->deletedBy = Auth::user()->name;
+                $companies->deletedUtc = Carbon::now();
+                $companies->update();
+                return response()->json([
+                    'status' => 200,
+                    'messages' => 'Data berhasil dihapus.'
+                ]);
+            }
         }
         else
         {

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Unit;
 
 class DivisionController extends Controller
 {
@@ -25,7 +26,7 @@ class DivisionController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function($data) {
                 $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-primary btn-sm editDivision"><i class="far fa-edit"></i></a>';
-                $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->id.'" name="'.$data->division_name.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteDivision"><i class="far fa-trash-alt"></i></a>';
+                // $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->id.'" name="'.$data->division_name.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteDivision"><i class="far fa-trash-alt"></i></a>';
                 return $btn;
             })
             ->rawColumns(['action'])
@@ -163,15 +164,23 @@ class DivisionController extends Controller
     public function destroy($id)
     {
         $divisions = Division::find($id);
+        $units =  Unit::with('divisions')->where('division_id', $divisions->id)->exists();
         if($divisions)
         {
-            $divisions->deletedBy = Auth::user()->name;
-            $divisions->deletedUtc = Carbon::now();
-            $divisions->update();
-            return response()->json([
-                'status' => 200,
-                'messages' => 'Data berhasil dihapus.'
-            ]);
+            if($units)
+            {
+                return response()->json(['status'=>400, 'messages'=>'Data Divisi masih digunakan di menu Unit']);
+            }
+            else
+            {
+                $divisions->deletedBy = Auth::user()->name;
+                $divisions->deletedUtc = Carbon::now();
+                $divisions->update();
+                return response()->json([
+                    'status' => 200,
+                    'messages' => 'Data berhasil dihapus.'
+                ]);
+            }
         }
         else
         {

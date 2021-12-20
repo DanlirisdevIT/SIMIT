@@ -91,16 +91,19 @@
                     </div>
                 </form>
             </div>
+            {{-- konfirmasi hapus data --}}
+            <div class="col-md-12 col-sm-12 col-xs-12 deleteConfirm"></div>
             <div class="modal-footer">
                 {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button> --}}
                 <button type="button" class="btn btn-outline-secondary reset-update">Reset</button>
                 <button type="button" class="btn btn-primary update">Perbaharui</button>
+                <button type="button" class="btn btn-danger deleteCategory"><i class="far fa-trash-alt"></i></button>
             </div>
           </div>
         </div>
     </div>
 
-    <div class="modal fade" id="deleteCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="deleteCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -116,12 +119,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button> --}}
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                 <button type="button" class="btn btn-danger delete">Hapus Data?</button>
             </div>
           </div>
         </div>
-    </div>
+    </div> --}}
 
     <script type="text/javascript">
         $(function() {
@@ -273,16 +276,41 @@
                 });
 
                 $(document).on('click', '.deleteCategory', function () {
-                    id = $(this).attr('id');
-                    category_name = $(this).attr('name');
-                    category_type = $(this).attr('type');
+                    // id = $(this).attr('id');
+                    // category_name = $(this).attr('name');
+                    // category_type = $(this).attr('type');
+                    // console.log(id)
+                    // $('#deleteCategory').modal('show');
+                    // $('#id').val(id);
+
+                    // show = "<h5> Nama Kategori: <b>" + category_name + "</b> <br></br> Tipe Kategori : <b>" +category_type+ "</b><h5>";
+
+                    // $('.show-data').html(show);
+
+                    var id = $('#id').val();
                     console.log(id)
-                    $('#deleteCategory').modal('show');
-                    $('#id').val(id);
 
-                    show = "<h5> Nama Kategori: <b>" + category_name + "</b> <br></br> Tipe Kategori : <b>" +category_type+ "</b><h5>";
+                    show = '<div class="col-md-12">';
+                    show = show+'<div class="card mb-3 box-shadow"><div class="card-body"><h5>';
+                    show = show+'Ingin menghapus data ini?';
+                    show = show+'<button style="float: right; font-weight: 900;" type="button" class="btn btn-danger delete">Hapus Data?</button>';
+                    show = show+'</h5></div></div></div>';
 
-                    $('.show-data').html(show);
+                    // show dan hide konfirmasi by click
+                    var $this = $('.deleteConfirm').html(show);
+
+                    var clickCount = ($this.data("click-count")|| 0) + 1;
+
+                    var odd = clickCount % 2;
+
+                    $this.data("click-count", odd);
+
+                    if (odd == 0) {
+                        $this.hide();
+                    }
+                    else {
+                        $this.show();
+                    }
 
                     $('.delete').click(function () {
                         $.ajax({
@@ -290,9 +318,19 @@
                             type: "DELETE",
                             dataType: "json",
                             success:function (response) {
-                                $('#deleteCategory').modal('hide');
-                                var table = $('.datatables').DataTable();
-                                table.ajax.reload();
+                                if(response.status == 400)
+                                {
+                                    $('#updateForm_errList').html("");
+                                    $('#updateForm_errList').addClass('alert alert-danger');
+                                    $('#updateForm_errList').append('<li>'+response.messages+'</li>');
+                                }
+                                else
+                                {
+                                    $('#updateCategory').modal('hide');
+                                    var table = $('.datatables').DataTable();
+                                    table.ajax.reload();
+                                    location.reload();
+                                }
                             }
                         })
                     })

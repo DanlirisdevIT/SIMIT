@@ -21,7 +21,7 @@
                                         <th>No</th>
                                         <th>Nama</th>
                                         <th>Nama Manufaktur</th>
-                                        <th>Nama Kategory</th>
+                                        <th>Nama Kategori</th>
                                         <th>Nomor Model</th>
                                         <th>EOL</th>
                                         <th>Action</th>
@@ -58,7 +58,9 @@
                                 <label name="manufacture_id" class="col-sm-4 control-label"> Pilih Manufaktur </label>
                                 <select class="form-control" id="manufacture_id" name="manufacture_id">
                                     @foreach ($manufactures as $manufacture)
-                                        <option value={{ $manufacture->id }}>{{$manufacture->manufactureName}}</option>
+                                        @if ($manufacture->deletedBy == '')
+                                            <option value={{ $manufacture->id }}>{{$manufacture->manufactureName}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -66,7 +68,9 @@
                                 <label name="category_id" class="col-sm-4 control-label"> Pilih Kategori </label>
                                 <select class="form-control" id="category_id" name="category_id">
                                     @foreach ($categories as $category)
-                                        <option value={{ $category->id }}>{{$category->category_name}}</option>
+                                        @if ($category->deletedBy == '')
+                                            <option value={{ $category->id }}>{{$category->category_name}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -145,7 +149,9 @@
                         <select class="form-control" id="manufacture_id" name="manufacture_id">
                             {{-- <option value="0" disabled="true" selected="true"> Pilih </option> --}}
                             @foreach ($manufactures as $manufacture)
-                                <option value={{ $manufacture->id }}>{{$manufacture->manufactureName}}</option>
+                                @if ($manufacture->deletedBy == '')
+                                    <option value={{ $manufacture->id }}>{{$manufacture->manufactureName}}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
@@ -153,7 +159,9 @@
                         <label name="category_id" class="col-sm-4 control-label"> Pilih Kategori </label>
                         <select class="form-control" id="category_id" name="category_id">
                             @foreach ($categories as $category)
-                                <option value={{ $category->id }}>{{$category->category_name}}</option>
+                                @if ($category->deletedBy == '')
+                                    <option value={{ $category->id }}>{{$category->category_name}}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
@@ -184,19 +192,19 @@
                         <div id="upload-update-img"></div>
                     </div>
                 </div>
-                {{-- <div class="deleteConfirm"></div> --}}
+                <div class="col-md-12 col-sm-12 col-xs-12 deleteConfirm"></div>
                 <div class="modal-footer">
                     {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button> --}}
                     <button type="button" class="btn btn-outline-secondary reset-update">Reset</button>
                     <button type="button" class="btn btn-primary update">Perbaharui</button>
-                    {{-- <button type="button" class="btn btn-danger deleteAsset"><i class="far fa-trash-alt"></i></button> --}}
+                    <button type="button" class="btn btn-danger deleteAsset"><i class="far fa-trash-alt"></i></button>
                 </div>
             </form>
           </div>
         </div>
     </div>
 
-    <div class="modal fade" id="deleteAsset" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="deleteAsset" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -212,12 +220,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button> --}}
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                 <button type="button" class="btn btn-danger delete">Hapus Data?</button>
             </div>
           </div>
         </div>
-    </div>
+    </div> --}}
 
     <script type="text/javascript">
         $(function() {
@@ -240,7 +248,7 @@
                     {data: 'categories.category_name', name: 'categories.category_name', width: '15%'},
                     {data: 'model_number', name: 'model_number', width: '15%'},
                     {data: 'EOL', name: 'EOL', width: '15%'},
-                    {data: 'action', name: 'action', width: '10%'},
+                    {data: 'action', name: 'action', width: '5%'},
                 ],
                 order: [
                     [0, 'desc'],
@@ -395,17 +403,6 @@
                     $(img_holder).html(currentImagePath);
                 }
             });
-
-            // $('#manufacture_id').on('change', function () {
-            //     var manufaktur = $(this).val();
-
-            //     $('')
-            //     if(manufaktur){
-            //         $.ajax({
-
-            //         })
-            //     }
-            // })
         });
 
         $(document).on('click', '.update', function(e) {
@@ -438,17 +435,7 @@
             $.ajax({
                 url: "/asset/" + id,
                 method: 'POST',
-                data:
-                // {
-                //     asset_name: $('.EditAssetBody').find('#asset_name').val(),
-                //     manufacture_id: $('.EditAssetBody').find('#manufacture_id').val(),
-                //     category_id: $('.EditAssetBody').find('#category_id').val(),
-                //     EOL: $('.EditAssetBody').find('#EOL').val(),
-                //     model_number: $('.EditAssetBody').find('#model_number').val(),
-                //     images: $(this).find('#update_images').val(),
-                //     notes: $('.EditAssetBody').find('#notes').val(),
-                // }
-                formData,
+                data: formData,
                 dataType: "json",
                 contentType: false,
                 processData: false,
@@ -479,21 +466,46 @@
             })
         })
 
+        // $(function(){
+        //         if (Cookies.get('deleteConfirm') == 'true' && Cookies.get('deleteConfirm') != 'undefined' ){
+        //     $(".deleteConfirm").hide();
+        //     }
+        //     else
+        //     {
+        //         $(".deleteConfirm").show();
+        //     }
+
+        //     $('.deleteAsset').click(function () {
+        //          Cookies.set('deleteConfirm', 'true');
+        //             $(".deleteConfirm").hide();
+        //     });
+        // });
+
         $(document).on('click', '.deleteAsset', function () {
-            id = $(this).attr('id');
-            asset_name = $(this).attr('asset_name');
-            model_number = $(this).attr('model_number');
-            EOL = $(this).attr('EOL');
+
+            var id = $('#id').val();
             console.log(id)
-            $('#deleteAsset').modal('show');
-            $('#id').val(id);
 
-            show = "<h5> Nama Asset: <b>" + asset_name + "</b> <br></br> Nomor Model : <b>" +model_number+ "</b> <br></br> EOL : <b>" +EOL+ "</b><h5>";
-            // show = "<button type='button' class='btn btn-danger delete'>Hapus Data?</button>";
+            show = '<div class="col-md-12">';
+            show = show+'<div class="card mb-3 box-shadow"><div class="card-body"><h5>';
+            show = show+'Ingin menghapus data ini?';
+            show = show+'<button style="float: right; font-weight: 900;" type="button" class="btn btn-danger delete">Hapus Data?</button>';
+            show = show+'</h5></div></div></div>';
 
-            // $('.deleteConfirm').html(show);
+            var $this = $('.deleteConfirm').html(show);
 
-            $('.show-data').html(show);
+            var clickCount = ($this.data("click-count")|| 0) + 1;
+
+            var odd = clickCount % 2;
+
+            $this.data("click-count", odd);
+
+            if (odd == 0) {
+                $this.hide();
+            }
+            else {
+                $this.show();
+            }
 
             $('.delete').click(function () {
                 $.ajax({
@@ -501,9 +513,28 @@
                     type: "DELETE",
                     dataType: "json",
                     success:function (response) {
-                        $('#deleteAsset').modal('hide');
-                        var table = $('.datatables').DataTable();
-                        table.ajax.reload();
+                        if(response.status == 200){
+                            $('#updateAsset').modal('hide');
+                            var table = $('.datatables').DataTable();
+                            table.ajax.reload();
+                            location.reload();
+                            // clickCount.reset();
+                        }
+                        else if(response.status == 400){
+                            $('#updateForm_errList').html("");
+                            $('#updateForm_errList').addClass('alert alert-danger');
+                            $.each(response.errors, function (key, err_value) {
+                                $('#updateForm_errList').append('<li>'+err_value+'</li>');
+                            });
+                            $('.update').text('update');
+                        }else if(response.status == 404){
+                            $('#updateForm_errList').html("");
+                            $('#updateForm_errList').addClass('alert alert-danger');
+                            $.each(response.errors, function (key, err_value) {
+                                $('#updateForm_errList').append('<li>'+err_value+'</li>');
+                            });
+                            $('.update').text('update');
+                        }
                     }
                 })
             })

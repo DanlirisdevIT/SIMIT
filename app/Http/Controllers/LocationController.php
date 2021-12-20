@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Unit;
 
 class LocationController extends Controller
 {
@@ -25,7 +26,7 @@ class LocationController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function($data) {
                 $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-primary btn-sm editLocation"><i class="far fa-edit"></i></a>';
-                $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->id.'" name="'.$data->location_name.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteLocation"><i class="far fa-trash-alt"></i></a>';
+                // $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->id.'" name="'.$data->location_name.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteLocation"><i class="far fa-trash-alt"></i></a>';
                 return $btn;
             })
             ->rawColumns(['action'])
@@ -163,15 +164,23 @@ class LocationController extends Controller
     public function destroy($id)
     {
         $locations = Location::find($id);
+        $units =  Unit::with('locations')->where('location_id', $locations->id)->exists();
         if($locations)
         {
-            $locations->deletedBy = Auth::user()->name;
-            $locations->deletedUtc = Carbon::now();
-            $locations->update();
-            return response()->json([
-                'status' => 200,
-                'messages' => 'Data berhasil dihapus.'
-            ]);
+            if($units)
+            {
+                return response()->json(['status'=>400, 'messages'=>'Data Lokasi masih digunakan di menu Unit']);
+            }
+            else
+            {
+                $locations->deletedBy = Auth::user()->name;
+                $locations->deletedUtc = Carbon::now();
+                $locations->update();
+                return response()->json([
+                    'status' => 200,
+                    'messages' => 'Data berhasil dihapus.'
+                ]);
+            }
         }
         else
         {

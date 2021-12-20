@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\Asset;
 
 class CategoryController extends Controller
 {
@@ -25,7 +26,7 @@ class CategoryController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function($data) {
                 $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-primary btn-sm editCategory"><i class="far fa-edit"></i></a>';
-                $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->id.'" name="'.$data->category_name.'" type="'.$data->category_type.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteCategory"><i class="far fa-trash-alt"></i></a>';
+                // $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->id.'" name="'.$data->category_name.'" type="'.$data->category_type.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteCategory"><i class="far fa-trash-alt"></i></a>';
                 return $btn;
             })
             ->rawColumns(['action'])
@@ -180,16 +181,24 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $categories=Category::find($id);
+        $assets = Asset::with('categories')->where('category_id', $categories->id)->exists();
         if($categories)
         {
-            $getBy  = Auth::user()->name;
-            $getUtc = Carbon::now();
+            if($assets)
+            {
+                return response()->json(['status'=>400, 'messages'=>'Data Kategori masih digunakan di menu Asset']);
+            }
+            else
+            {
+                $getBy  = Auth::user()->name;
+                $getUtc = Carbon::now();
 
-            $categories->deletedBy=$getBy;
-            $categories->deletedUtc=$getUtc;
-            $categories->update();
+                $categories->deletedBy=$getBy;
+                $categories->deletedUtc=$getUtc;
+                $categories->update();
 
-            return response()->json(['status' => 200, 'messages' => 'Data telah terhapus']);
+                return response()->json(['status' => 200, 'messages' => 'Data telah terhapus']);
+            }
         }
         else
         {

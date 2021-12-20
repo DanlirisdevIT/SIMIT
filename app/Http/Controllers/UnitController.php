@@ -31,7 +31,7 @@ class UnitController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function($data) {
                 $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-primary btn-sm editUnit"><i class="far fa-edit"></i></a>';
-                $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->id.'" unit_name="'.$data->unit_name.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteUnit"><i class="far fa-trash-alt"></i></a>';
+                // $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->id.'" unit_name="'.$data->unit_name.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteUnit"><i class="far fa-trash-alt"></i></a>';
                 return $btn;
             })
             ->rawColumns(['action'])
@@ -171,7 +171,7 @@ class UnitController extends Controller
         {
             $getBy  = Auth::user()->name;
             $getUtc = Carbon::now();
-            
+
             $units->deletedBy = $getBy;
             $units->deletedUtc = $getUtc;
             $units->update();

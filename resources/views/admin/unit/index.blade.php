@@ -58,7 +58,9 @@
                                 <select class="form-control" id="division_id" name="division_id">
                                     <option value="">Pilih  divisi----</option>
                                     @foreach ($divisions as $division)
-                                        <option value={{ $division->id }}>{{$division->division_name}}</option>
+                                        @if ($division->deletedBy == '')
+                                            <option value={{ $division->id }}>{{$division->division_name}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -67,7 +69,9 @@
                                 <select class="form-control" id="company_id" name="company_id">
                                     <option value="">Pilih  company----</option>
                                     @foreach ($companies as $company)
-                                        <option value={{ $company->id }}>{{$company->companyName}}</option>
+                                        @if ($company->deletedBy == '')
+                                            <option value={{ $company->id }}>{{$company->companyName}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -76,11 +80,13 @@
                                 <select class="form-control" id="location_id" name="location_id">
                                     <option value="">Pilih  lokasi----</option>
                                     @foreach ($locations as $location)
-                                        <option value={{ $location->id }}>{{$location->location_name}}</option>
+                                        @if ($location->deletedBy == '')
+                                            <option value={{ $location->id }}>{{$location->location_name}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
-                           
+
                         </form>
                 </div>
                 <div class="modal-footer">
@@ -118,7 +124,9 @@
                         <label name="division_id" class="col-sm-4 control-label"> Pilih Divisi </label>
                         <select class="form-control" id="division_id" name="division_id">
                             @foreach ($divisions as $division)
-                                <option value={{ $division->id }}>{{$division->division_name}}</option>
+                                @if ($division->deletedBy == '')
+                                    <option value={{ $division->id }}>{{$division->division_name}}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
@@ -126,7 +134,9 @@
                         <label name="company_id" class="col-sm-4 control-label"> Pilih Company </label>
                         <select class="form-control" id="company_id" name="company_id">
                             @foreach ($companies as $company)
-                                <option value={{ $company->id }}>{{$company->companyName}}</option>
+                                @if ($company->deletedBy == '')
+                                    <option value={{ $company->id }}>{{$company->companyName}}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
@@ -134,15 +144,19 @@
                         <label name="location_id" class="col-sm-4 control-label"> Pilih Lokasi </label>
                         <select class="form-control" id="location_id" name="location_id">
                             @foreach ($locations as $location)
-                                <option value={{ $location->id }}>{{$location->location_name}}</option>
+                                @if ($location->deletedBy == '')
+                                    <option value={{ $location->id }}>{{$location->location_name}}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
-                   
+
                 </div>
+                <div class="col-md-12 col-sm-12 col-xs-12 deleteConfirm"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary reset-update">Reset</button>
                     <button type="button" class="btn btn-primary update">Perbaharui</button>
+                    <button type="button" class="btn btn-danger deleteUnit"><i class="far fa-trash-alt"></i></button>
                 </div>
             </form>
           </div>
@@ -336,15 +350,39 @@
         })
 
         $(document).on('click', '.deleteUnit', function () {
-            id = $(this).attr('id');
-            unit_name = $(this).attr('unit_name');
+            // id = $(this).attr('id');
+            // unit_name = $(this).attr('unit_name');
+            // console.log(id)
+            // $('#deleteUnit').modal('show');
+            // $('#id').val(id);
+
+            // show = "<h5> Nama Unit: <b>" + unit_name + "</b><h5>";;
+
+            // $('.show-data').html(show);
+
+            var id = $('#id').val();
             console.log(id)
-            $('#deleteUnit').modal('show');
-            $('#id').val(id);
 
-            show = "<h5> Nama Unit: <b>" + unit_name + "</b><h5>";;
+            show = '<div class="col-md-12">';
+            show = show+'<div class="card mb-3 box-shadow"><div class="card-body"><h5>';
+            show = show+'Ingin menghapus data ini?';
+            show = show+'<button style="float: right; font-weight: 900;" type="button" class="btn btn-danger delete">Hapus Data?</button>';
+            show = show+'</h5></div></div></div>';
 
-            $('.show-data').html(show);
+            var $this = $('.deleteConfirm').html(show);
+
+            var clickCount = ($this.data("click-count")|| 0) + 1;
+
+            var odd = clickCount % 2;
+
+            $this.data("click-count", odd);
+
+            if (odd == 0) {
+                $this.hide();
+            }
+            else {
+                $this.show();
+            }
 
             $('.delete').click(function () {
                 $.ajax({
@@ -352,9 +390,13 @@
                     type: "DELETE",
                     dataType: "json",
                     success:function (response) {
-                        $('#deleteUnit').modal('hide');
+                        // $('#deleteUnit').modal('hide');
+                        // var table = $('.datatables').DataTable();
+                        // table.ajax.reload();
+                        $('#updateManufacture').modal('hide');
                         var table = $('.datatables').DataTable();
                         table.ajax.reload();
+                        location.reload();
                     }
                 })
             })

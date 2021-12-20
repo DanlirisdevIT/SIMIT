@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Manufacture;
 use App\Http\Controllers\Controller;
+use App\Models\Asset;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -25,8 +26,8 @@ class ManufactureController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function($data) {
                 $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-primary btn-sm editManufacture"><i class="far fa-edit"></i></a>';
-                $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->id.'" name="'.$data->manufactureName.'" " url="'.$data->url.'" " email="'.$data->supportEmail.'" " phone="'.$data->supportPhone.'"
-                data-original-title="Delete" class="btn btn-danger btn-sm deleteManufacture"><i class="far fa-trash-alt"></i></a>';
+                // $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->id.'" name="'.$data->manufactureName.'" " url="'.$data->url.'" " email="'.$data->supportEmail.'" " phone="'.$data->supportPhone.'"
+                // data-original-title="Delete" class="btn btn-danger btn-sm deleteManufacture"><i class="far fa-trash-alt"></i></a>';
                 return $btn;
             })
             ->rawColumns(['action'])
@@ -185,15 +186,23 @@ class ManufactureController extends Controller
     public function destroy($id)
     {
         $manufactures = Manufacture::find($id);
+        $assets = Asset::with('manufactures')->where('manufacture_id', $manufactures->id)->exists();
         if($manufactures)
         {
-            $manufactures->deletedBy = Auth::user()->name;
-            $manufactures->deletedUtc = Carbon::now();
-            $manufactures->update();
-            return response()->json([
-                'status' => 200,
-                'messages' => 'Data berhasil dihapus.'
-            ]);
+            if($assets)
+            {
+                return response()->json(['status'=>400, 'messages'=>'Data Manufaktur masih digunakan di menu Asset']);
+            }
+            else
+            {
+                $manufactures->deletedBy = Auth::user()->name;
+                $manufactures->deletedUtc = Carbon::now();
+                $manufactures->update();
+                return response()->json([
+                    'status' => 200,
+                    'messages' => 'Data berhasil dihapus.'
+                ]);
+            }
         }
         else
         {

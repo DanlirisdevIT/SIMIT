@@ -116,28 +116,28 @@
                                 <input type="text" class="form-control" id="manufactureName" name="manufactureName" placeholder="Masukkan nama manufaktur..." value = "'.$manufactures->manufactureName.'"  maxlength="50" required>
                             </div>
                         </div>
-            
+
                         <div class="form-group">
                             <label name="url" class="col-sm-4 control-label"> Url </label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control" id="url" name="url" placeholder="Masukkan url..." value = "'.$manufactures->url.'" maxlength="50" required>
                             </div>
                         </div>
-            
+
                         <div class="form-group">
                             <label name="supportEmail" class="col-sm-4 control-label"> Email </label>
                             <div class="col-sm-12">
                                 <input type="email" class="form-control" id="supportEmail" name="supportEmail" placeholder="Masukkan email.." value = "'.$manufactures->supportEmail.'" maxlength="50" required>
                             </div>
                         </div>
-            
+
                         <div class="form-group">
                             <label name="supportPhone" class="col-sm-4 control-label"> Phone </label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control" id="supportPhone" name="supportPhone" placeholder="Masukkan no telp..." value = "'.$manufactures->supportPhone.'" maxlength="50" required>
                             </div>
                         </div>
-            
+
                         <div class="form-group mb-3">
                         <label name="Image" class="col-sm-4 control-label"> Pilih Gambar </label>
                         <div class="col-sm-12">
@@ -146,18 +146,18 @@
                         <br>
                         <div id="upload-update-img"></div>
                     </div>
-                    </div>
-                    {{-- <div class="deleteConfirm"></div> --}}
+                    <div class="col-md-12 col-sm-12 col-xs-12 deleteConfirm"></div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary reset-update">Reset</button>
                         <button type="button" class="btn btn-primary update">Perbaharui</button>
+                        <button type="button" class="btn btn-danger deleteManufacture"><i class="far fa-trash-alt"></i></button>
                     </div>
                 </form>
             </div>
             </div>
         </div>
 
-    <div class="modal fade" id="deleteManufacture" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="deleteManufacture" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -177,7 +177,7 @@
             </div>
           </div>
         </div>
-    </div>
+    </div> --}}
 
     <script type="text/javascript">
         $(function() {
@@ -265,7 +265,7 @@
                 $('#Image').change(function () {
                     readImage(this);
                 });
-                
+
         });
 
             //edit/update
@@ -384,17 +384,41 @@
 
                 $(document).on('click', '.deleteManufacture', function () {
                     id = $(this).attr('id');
-                    manufactureName = $(this).attr('name');
-                    url = $(this).attr('url');
-                    supportEmail = $(this).attr('email');
-                    supportPhone = $(this).attr('phone');
+                    // manufactureName = $(this).attr('name');
+                    // url = $(this).attr('url');
+                    // supportEmail = $(this).attr('email');
+                    // supportPhone = $(this).attr('phone');
+                    // console.log(id)
+                    // $('#deleteManufacture').modal('show');
+                    // $('#id').val(id);
+
+                    // show = "<h5> Nama Manufaktur: <b>" + manufactureName + "</b> <br></br> Url : <b>" +url+ "</b> <br></br> Support Email : <b>" +supportEmail+ "</b> <br></br> Support Phone : <b>" +supportPhone+ "</b><h5>" ;
+
+                    // $('.show-data').html(show);
+
+                    var id = $('#id').val();
                     console.log(id)
-                    $('#deleteManufacture').modal('show');
-                    $('#id').val(id);
 
-                    show = "<h5> Nama Manufaktur: <b>" + manufactureName + "</b> <br></br> Url : <b>" +url+ "</b> <br></br> Support Email : <b>" +supportEmail+ "</b> <br></br> Support Phone : <b>" +supportPhone+ "</b><h5>" ;
+                    show = '<div class="col-md-12">';
+                    show = show+'<div class="card mb-3 box-shadow"><div class="card-body"><h5>';
+                    show = show+'Ingin menghapus data ini?';
+                    show = show+'<button style="float: right; font-weight: 900;" type="button" class="btn btn-danger delete">Hapus Data?</button>';
+                    show = show+'</h5></div></div></div>';
 
-                    $('.show-data').html(show);
+                    var $this = $('.deleteConfirm').html(show);
+
+                    var clickCount = ($this.data("click-count")|| 0) + 1;
+
+                    var odd = clickCount % 2;
+
+                    $this.data("click-count", odd);
+
+                    if (odd == 0) {
+                        $this.hide();
+                    }
+                    else {
+                        $this.show();
+                    }
 
                     $('.delete').click(function () {
                         $.ajax({
@@ -402,9 +426,19 @@
                             type: "DELETE",
                             dataType: "json",
                             success:function (response) {
-                                $('#deleteManufacture').modal('hide');
-                                var table = $('.datatables').DataTable();
-                                table.ajax.reload();
+                                if(response.status == 400){
+                                    $('#updateForm_errList').html("");
+                                    $('#updateForm_errList').addClass('alert alert-danger');
+                                    // $.each(response.messages, function (key, err_value) {
+                                    $('#updateForm_errList').append('<li>'+response.messages+'</li>');
+                                    // });
+                                    // $('.update').text('update');
+                                }else{
+                                    $('#updateManufacture').modal('hide');
+                                    var table = $('.datatables').DataTable();
+                                    table.ajax.reload();
+                                    location.reload();
+                                }
                             }
                         })
                     })
