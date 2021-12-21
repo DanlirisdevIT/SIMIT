@@ -114,10 +114,10 @@ class PermintaanController extends Controller
     public function edit($id)
     {
         $permintaans = Permintaan::with(['categories', 'assets', 'divisions', 'companies'])->where('id', $id)->first();;
-        $categories = Category::all();
-        $assets = Asset::all();
+        $categories = Category::with('permintaans')->where('id', $permintaans->categoy_id)->first();
+        $assets = Asset::with('permintaans')->where('id', $permintaans->asset_id)->first();
         $divisions = Division::with('permintaans')->where('id', $permintaans->division_id)->first();
-        $companies = Company::all();
+        $companies = Company::with('permintaans')->where('id', $permintaans->company_id)->first();
         $getDate = Carbon::createFromFormat('Y-m-d', $permintaans->date)->format('m/d/Y');
         if($permintaans)
         {
@@ -150,9 +150,32 @@ class PermintaanController extends Controller
                     <option value="'.$divisions->id.'">'.$divisions->division_name.'</option>
                 </select>
             </div>
+
+            <div class="form-group">
+                <label name="company_id" class="col-sm-4 control-label"> Pilih Perusahaan </label>
+                <select class="form-control" id="company_id" name="company_id">
+                    <option value="'.$companies->id.'">'.$companies->company_name.'</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label name="category_id" class="col-sm-4 control-label"> Pilih Kategori </label>
+                <select class="form-control" id="category_id" name="category_id">
+                    <option value="'.$categories->id.'">'.$categories->category_name.'</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label name="asset_id" class="col-sm-4 control-label"> Pilih Barang </label>
+                <select class="form-control" id="asset_id" name="asset_id">
+                    <option value="'.$assets->id.'">'.$assets->asset_name.'</option>
+                </select>
+            </div>
+
+
             ';
 
-            return response()->json(['status' => 200, 'html'=> $html, 'permintaans' => $permintaans]);
+            return response()->json(['status' => 200, 'html'=> $html, 'permintaans' => $permintaans, 'categories' => $categories, 'companies' => $companies, 'divisions' => $divisions, 'assets' => $assets]);
         }
         else
         {

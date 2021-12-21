@@ -31,4 +31,9 @@ class Asset extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+
+    public function permintaans()
+    {
+        return $this->belongsTo(Permintaan::class, 'category_id', 'id');
+    }
 }

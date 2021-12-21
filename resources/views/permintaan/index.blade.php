@@ -185,7 +185,7 @@
                 method: 'GET',
                 columns: [
                     {data: 'DT_RowIndex', name: 'DT_RowIndex', width: '5%'},
-                    {data: 'date', name: 'date', width: '15%'},
+                    {data: 'date', name: 'date', width: '15%' },
                     {data: 'username', name: 'username', width: '15%'},
                     {data: 'divisions.division_name', name: 'divisions.division_name', width: '15%'},
                     {data: 'companies.companyName', name: 'companies.companyName', width: '15%'},
@@ -207,7 +207,8 @@
             })
 
             $('#date').datepicker({
-                format: 'MM/DD/YYYY',
+                format: 'dd-mm-yyyy',
+                autoclose: true,
                 locale: 'en'
             });
 
@@ -276,13 +277,16 @@
                         // $(".reset-update").click( function(){
                         //     $('.EditDivisionBody').find('#division_name').val("");
                         // });
-                        $('.EditDivisionBody').find('#date').datepicker({
-                            format: 'MM/DD/YYYY',
-                            locale: 'en'
-                        });
+                        // $('.EditDivisionBody').find('#date').datepicker({
+                        //     format: 'MM/DD/YYYY',
+                        //     locale: 'en'
+                        // });
                         $("#date").html(response.permintaans['date']);
                         $("#username").html(response.permintaans['username']);
-                        $("#division_id").html(response.permintaans['division_id']);
+                        $("#division_id").html(response.divisions['division_id']);
+                        $("#company_id").html(response.companies['company_id']);
+                        $("#category_id").html(response.categories['category_id']);
+                        $("#asset_id").html(response.assets['asset_id']);
                         console.log(response.permintaans['date'])
                         console.log(response.permintaans['username'])
                         $("#id").val(id);

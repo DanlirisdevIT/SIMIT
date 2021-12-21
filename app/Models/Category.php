@@ -19,4 +19,8 @@ class Category extends Model
     public function assets(){
         return $this->hasOne(Asset::class, 'category_id', 'id');
     }
+
+    public function permintaans(){
+        return $this->hasOne(Permintaan::class, 'category_id', 'id');
+    }
 }

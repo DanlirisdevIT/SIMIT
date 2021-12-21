@@ -18,4 +18,8 @@ class Company extends Model
     public function units(){
         return $this->hasOne(Unit::class, 'company_id', 'id');
     }
+
+    public function permintaans(){
+        return $this->hasOne(Permintaan::class, 'company_id', 'id');
+    }
 }
