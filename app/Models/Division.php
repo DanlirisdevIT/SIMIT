@@ -17,4 +17,8 @@ class Division extends Model
     public function units(){
         return $this->hasOne(Unit::class, 'division_id', 'id');
     }
+
+    public function permintaans(){
+        return $this->hasOne(Permintaan::class, 'division_id', 'id');
+    }
 }

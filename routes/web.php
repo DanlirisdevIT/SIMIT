@@ -14,6 +14,7 @@ use App\Http\Controllers\AssetController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UnitController;
 use App\Models\Location;
+use App\Http\Controllers\PermintaanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,4 +87,7 @@ Route::resource('unit', UnitController::class)->except(['show']);
 //supplier route
 Route::get('supplier/{id}/edit', [SupplierController::class, 'edit'])->name('supplier.edit');
 Route::resource('supplier', SupplierController::class)->except(['show']);
+//permintaan route
+Route::get('permintaan/{id}/edit', [PermintaanController::class, 'edit'])->name('permintaan.edit');
+Route::resource('permintaan', PermintaanController::class)->except(['show']);
 

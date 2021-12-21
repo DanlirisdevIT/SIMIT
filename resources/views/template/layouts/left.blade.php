@@ -31,79 +31,85 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
-            <li class="nav-item">
-                <a href="/" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                    <p>Dashboard</p>
-                </a>
-            </li>
-            @if(Auth::user()->level == 'superadmin')
-            <li class="nav-item">
-                <a href="{{ route('admin.index') }}" class="nav-link active">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Tambah Admin</p>
-                </a>
-            </li>
-            @endif
-            <li class="nav-item menu-close">
-                <a href="#" class="nav-link active">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Master
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{ route('company.index') }}" class="nav-link active">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Company</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('category.index') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Category</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('location.index') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Location</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('division.index') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Division</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('manufacture.index') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Manufacture</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('asset.index') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Asset</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('unit.index') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Unit</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('supplier.index') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Supplier</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+                <li class="nav-item">
+                    <a href="/" class="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                @if(Auth::user()->level == 'superadmin')
+                <li class="nav-item">
+                    <a href="{{ route('admin.index') }}" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Tambah Admin</p>
+                    </a>
+                </li>
+                @endif
+                <li class="nav-item menu-close">
+                    <a href="#" class="nav-link active">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        Master
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('company.index') }}" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Company</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('category.index') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Category</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('location.index') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Location</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('division.index') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Division</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('manufacture.index') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Manufacture</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('asset.index') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Asset</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('unit.index') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Unit</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('supplier.index') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Supplier</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('permintaan.index') }}" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Permintaan</p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
