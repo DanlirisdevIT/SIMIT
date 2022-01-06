@@ -34,6 +34,10 @@ class Asset extends Model
 
     public function permintaans()
     {
-        return $this->belongsTo(Permintaan::class, 'category_id', 'id');
+        return $this->hasOne(Permintaan::class, 'asset_id', 'id');
+    }
+
+    public function Budgets(){
+        return $this->hasOne(Budget::class, 'asset_id', 'id');
     }
 }

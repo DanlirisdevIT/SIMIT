@@ -21,4 +21,8 @@ class Division extends Model
     public function permintaans(){
         return $this->hasOne(Permintaan::class, 'division_id', 'id');
     }
+
+    public function budgets(){
+        return $this->hasOne(Budget::class, 'division_id', 'id');
+    }
 }

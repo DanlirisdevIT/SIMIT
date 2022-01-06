@@ -13,8 +13,8 @@ use App\Http\Controllers\ManufactureController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UnitController;
-use App\Models\Location;
 use App\Http\Controllers\PermintaanController;
+use App\Http\Controllers\BudgetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,4 +90,8 @@ Route::resource('supplier', SupplierController::class)->except(['show']);
 //permintaan route
 Route::get('permintaan/{id}/edit', [PermintaanController::class, 'edit'])->name('permintaan.edit');
 Route::resource('permintaan', PermintaanController::class)->except(['show']);
+
+//budget route
+Route::get('budget/{id}/edit', [BudgetController::class, 'edit'])->name('budget.edit');
+Route::resource('budget', BudgetController::class)->except(['show']);
 

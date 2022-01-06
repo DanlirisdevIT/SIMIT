@@ -23,4 +23,8 @@ class Category extends Model
     public function permintaans(){
         return $this->hasOne(Permintaan::class, 'category_id', 'id');
     }
+
+    public function budgets(){
+        return $this->hasOne(Budget::class, 'category_id', 'id');
+    }
 }
