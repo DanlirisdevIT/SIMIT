@@ -22,4 +22,8 @@ class Company extends Model
     public function permintaans(){
         return $this->hasOne(Permintaan::class, 'company_id', 'id');
     }
+
+    public function users(){
+        return $this->hasOne(User::class, 'company_id', 'id');
+    }
 }

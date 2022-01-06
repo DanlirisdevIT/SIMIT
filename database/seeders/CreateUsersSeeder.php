@@ -21,6 +21,7 @@ class CreateUsersSeeder extends Seeder
                 'username' => 'superadmin',
                 'password' => bcrypt('superadmin123'),
                 'level' => 'superadmin',
+                'company_id' => NULL,
                 'createdBy' => 'superadmin',
                 'createdUtc' => Carbon::now(),
                 'updatedBy' => '',

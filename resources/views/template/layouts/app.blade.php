@@ -17,6 +17,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Theme style -->
         <link rel="stylesheet" href="{{ asset('vendors/dist/css/adminlte.min.css') }}">
 
+        <link rel="stylesheet" href="{{ asset('../vendors/plugins/select2/css/select2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('../vendors/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+
         <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
         <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
@@ -49,6 +52,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet" /> --}}
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
+
+        {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
+
+        {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script> --}}
+
+        {{-- <link rel="stylesheet" href="{{ asset('vendors/plugins/select2/css/select2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendors/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}"> --}}
+
+        {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script> --}}
+
+        {{-- <link type="text/css" href="{{ asset('vendors/dist/css/select2.min.css') }}" rel="stylesheet">
+        <script src="{{ asset('vendors/dist/js/select2.min.js') }}"></script> --}}
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
     </head>
     <body class="hold-transition sidebar-mini">
@@ -84,6 +105,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script src="{{ asset('vendors/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <!-- AdminLTE App -->
         <script src="{{ asset('vendors/dist/js/adminlte.min.js') }}"></script>
+
+        <script src="{{ asset('../vendors/plugins/select2/js/select2.min.js') }}"></script>
     </body>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>

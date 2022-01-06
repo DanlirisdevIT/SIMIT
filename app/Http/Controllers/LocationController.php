@@ -169,7 +169,7 @@ class LocationController extends Controller
         {
             if($units)
             {
-                return response()->json(['status'=>400, 'messages'=>'Data Lokasi masih digunakan di menu Unit']);
+                return response()->json(['status'=>400, 'messages'=>'Data Lokasi masih digunakan.']);
             }
             else
             {

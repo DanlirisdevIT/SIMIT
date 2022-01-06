@@ -48,4 +48,9 @@ class User extends Authenticatable
         'updatedUtc' => 'datetime',
         'deletedUtc' => 'datetime',
     ];
+
+    public function companies()
+    {
+        return $this->belongsTo(Company::class, 'company_id', 'id');
+    }
 }

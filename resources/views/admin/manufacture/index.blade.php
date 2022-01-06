@@ -139,11 +139,12 @@
                         </div>
 
                         <div class="form-group mb-3">
-                        <label name="Image" class="col-sm-4 control-label"> Pilih Gambar </label>
-                        <div class="col-sm-12">
-                            <input type="file" class="form-control-file" id="update-Image" name="Image" >
+                            <label name="Image" class="col-sm-4 control-label"> Pilih Gambar </label>
+                            <div class="col-sm-12">
+                                <input type="file" class="form-control-file" id="update-Image" name="Image" >
+                            </div>
+                            <br>
                         </div>
-                        <br>
                         <div id="upload-update-img"></div>
                     </div>
                     <div class="col-md-12 col-sm-12 col-xs-12 deleteConfirm"></div>

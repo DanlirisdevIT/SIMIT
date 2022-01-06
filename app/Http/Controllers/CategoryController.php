@@ -186,7 +186,7 @@ class CategoryController extends Controller
         {
             if($assets)
             {
-                return response()->json(['status'=>400, 'messages'=>'Data Kategori masih digunakan di menu Asset']);
+                return response()->json(['status'=>400, 'messages'=>'Data Kategori masih digunakan.']);
             }
             else
             {

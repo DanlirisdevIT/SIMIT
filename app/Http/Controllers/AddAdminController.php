@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Company;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -14,7 +15,8 @@ class AddAdminController extends Controller
 {
     public function index(Request $request)
     {
-        $users = User::whereNull('deletedBy')->get();
+        $users = User::with('companies')->whereNull('deletedBy')->get();
+        $companies = Company::all();
         if($request->ajax()){
             return DataTables::of($users)
             ->addIndexColumn()
@@ -26,7 +28,7 @@ class AddAdminController extends Controller
             ->make(true);
         }
 
-        return view('admin.index');
+        return view('admin.index', compact('companies'));
     }
 
     public function create(){
@@ -56,6 +58,7 @@ class AddAdminController extends Controller
             $data -> username = $request->input('username');
             $data -> password = bcrypt($password);
             $data -> level = 'admin';
+            $data -> company_id = $request->company_id;
             $data -> createdBy = $createdBy;
             $data -> createdUtc = $createdUtc;
             $data -> save();

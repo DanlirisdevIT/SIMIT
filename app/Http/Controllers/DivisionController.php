@@ -167,11 +167,13 @@ class DivisionController extends Controller
         $units =  Unit::with('divisions')->where('division_id', $divisions->id)->exists();
         if($divisions)
         {
-            if($units)
-            {
-                return response()->json(['status'=>400, 'messages'=>'Data Divisi masih digunakan di menu Unit']);
-            }
-            else
+            // if($units)
+            // {
+            //     return response()->json(['status'=>400, 'messages'=>'Data Divisi masih digunakan.']);
+            // }
+            // else
+            // {
+            try
             {
                 $divisions->deletedBy = Auth::user()->name;
                 $divisions->deletedUtc = Carbon::now();
@@ -181,6 +183,14 @@ class DivisionController extends Controller
                     'messages' => 'Data berhasil dihapus.'
                 ]);
             }
+            catch (\Illuminate\Database\QueryException $e) {
+                if ($e->getCode() == 23000)
+                {
+                    //SQLSTATE[23000]: Integrity constraint violation
+                    abort('Resource cannot be deleted due to existence of related resources.');
+                }
+            }
+            // }
         }
         else
         {

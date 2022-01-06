@@ -513,27 +513,21 @@
                     type: "DELETE",
                     dataType: "json",
                     success:function (response) {
-                        if(response.status == 200){
+                        if(response.status == 400  || response.status == 404){
+                            $('#updateForm_errList').html("");
+                            $('#updateForm_errList').addClass('alert alert-danger');
+                            $.each(response.errors, function (key, err_value) {
+                                $('#updateForm_errList').append('<li>'+err_value+'</li>');
+                            });
+                        }
+                        else
+                        {
+                            $('.update').text('update');
                             $('#updateAsset').modal('hide');
                             var table = $('.datatables').DataTable();
                             table.ajax.reload();
                             location.reload();
                             // clickCount.reset();
-                        }
-                        else if(response.status == 400){
-                            $('#updateForm_errList').html("");
-                            $('#updateForm_errList').addClass('alert alert-danger');
-                            $.each(response.errors, function (key, err_value) {
-                                $('#updateForm_errList').append('<li>'+err_value+'</li>');
-                            });
-                            $('.update').text('update');
-                        }else if(response.status == 404){
-                            $('#updateForm_errList').html("");
-                            $('#updateForm_errList').addClass('alert alert-danger');
-                            $.each(response.errors, function (key, err_value) {
-                                $('#updateForm_errList').append('<li>'+err_value+'</li>');
-                            });
-                            $('.update').text('update');
                         }
                     }
                 })

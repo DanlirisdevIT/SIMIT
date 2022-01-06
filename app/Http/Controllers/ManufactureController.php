@@ -191,7 +191,7 @@ class ManufactureController extends Controller
         {
             if($assets)
             {
-                return response()->json(['status'=>400, 'messages'=>'Data Manufaktur masih digunakan di menu Asset']);
+                return response()->json(['status'=>400, 'messages'=>'Data Manufaktur masih digunakan.']);
             }
             else
             {

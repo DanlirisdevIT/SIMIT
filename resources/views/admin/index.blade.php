@@ -23,6 +23,7 @@
                                     <th>No</th>
                                     <th>Name</th>
                                     <th>User Name</th>
+                                    <th>Perusahaan</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -94,6 +95,18 @@
                     <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username..."  maxlength="50" required>
                 </div>
             </div>
+
+            <div class="form-group">
+                <label for="company_id" class="col-sm-4 control-label"> Perusahaan </label>
+                <select class="form-control" id="company_id" name="company_id">
+                    @foreach ($companies as $company)
+                        @if($company->deletedBy == '')
+                            <option value={{ $company->id }}>{{ $company->companyName }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
             <div class="form-group">
                 <label for="password" class="col-sm-4 control-label"> Password </label>
                 <div class="col-sm-12">
@@ -133,6 +146,18 @@
                     <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username..."  maxlength="50" required>
                 </div>
             </div>
+
+            <div class="form-group">
+                <label for="company_id" class="col-sm-4 control-label"> Perusahaan </label>
+                <select class="form-control" id="company_id" name="company_id">
+                    @foreach ($companies as $company)
+                        @if($company->deletedBy == '')
+                            <option value={{ $company->id }} selected>{{ $company->companyName }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
             <div class="form-group">
                 <label for="password" class="col-sm-4 control-label"> Update Password </label>
                 <div class="col-sm-12">
@@ -208,6 +233,7 @@
                 {data: 'DT_RowIndex', name: 'DT_RowIndex', width: '5%'},
                 {data: 'name', name: 'name'},
                 {data: 'username', name: 'username'},
+                {data: 'companies.companyName', name: 'companies.companyName'},
                 {data: 'action', name: 'action', width: '10%'},
             ],
             order: [
@@ -226,6 +252,7 @@
                 'name': $('#name').val(),
                 'username': $('#username').val(),
                 'password': $('#password').val(),
+                'company_id': $('#company_id').val(),
             };
             // console.log(data);
 
