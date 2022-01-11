@@ -15,6 +15,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\PermintaanController;
 use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\AntrianServiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,4 +95,8 @@ Route::resource('permintaan', PermintaanController::class)->except(['show']);
 //budget route
 Route::get('budget/{id}/edit', [BudgetController::class, 'edit'])->name('budget.edit');
 Route::resource('budget', BudgetController::class)->except(['show']);
+
+//antrianservice route
+Route::get('antrianservice/{id}/edit', [AntrianServiceController::class, 'edit'])->name('antranservice.edit');
+Route::resource('antrianservice', AntrianServiceController::class)->except(['show']);
 

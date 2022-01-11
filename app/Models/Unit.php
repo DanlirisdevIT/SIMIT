@@ -27,4 +27,9 @@ class Unit extends Model
     {
         return $this->belongsTo(Location::class, 'location_id', 'id');
     }
+
+    public function antrian_services()
+    {
+        return $this->hasOne(AntrianService::class, 'unit_id', 'id');
+    }
 }
