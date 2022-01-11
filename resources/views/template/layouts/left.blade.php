@@ -116,6 +116,23 @@
                     <p>Budget</p>
                     </a>
                 </li>
+
+                <li class="nav-item menu-close">
+                    <a href="#" class="nav-link active">
+                    <i class="nav-icon fas fa-wrench"></i>
+                    <p>
+                        Service
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('antrianservice.index') }}" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Antrian Service</p>
+                            </a>
+                        </li>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
