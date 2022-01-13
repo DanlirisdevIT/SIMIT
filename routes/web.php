@@ -16,6 +16,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\PermintaanController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\AntrianServiceController;
+use App\Http\Controllers\ServiceMasukAssetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -99,4 +100,8 @@ Route::resource('budget', BudgetController::class)->except(['show']);
 //antrianservice route
 Route::get('antrianservice/{id}/edit', [AntrianServiceController::class, 'edit'])->name('antranservice.edit');
 Route::resource('antrianservice', AntrianServiceController::class)->except(['show']);
+
+//servicemasukasset route
+Route::get('servicemasukasset/{id}/edit', [ServiceMasukAssetController::class, 'edit'])->name('servicemasukasset.edit');
+Route::resource('servicemasukasset', ServiceMasukAssetController::class)->except(['show']);
 
