@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AntrianService;
 use App\Models\Unit;
+use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -20,8 +21,9 @@ class AntrianServiceController extends Controller
      */
     public function index(Request $request)
     {
-        $antrian_services = AntrianService::with(['units'])->whereNull('deletedBy')->get();
+        $antrian_services = AntrianService::with(['units', 'categories'])->whereNull('deletedBy')->get();
         $units = Unit::all();
+        $categories = Category::all();
         if($request->ajax()){
             return DataTables::of($antrian_services)
             ->addIndexColumn()
@@ -37,7 +39,7 @@ class AntrianServiceController extends Controller
             ->make(true);
         }
 
-        return view('service.antrianservice.index', compact('units'));
+        return view('service.antrianservice.index', compact('units', 'categories'));
     }
 
     /**
@@ -82,6 +84,7 @@ class AntrianServiceController extends Controller
             $data -> name = $request->input('name');
             $data -> unit_id = $request->input('unit_id');
             $data -> nama_barang = $request->input('nama_barang');
+            $data -> category_id = $request->input('category_id');
             $data -> barcode = $request->input('barcode');
             $data -> no_seri = $request->input('no_seri');
             $data -> status = $request->input('status');
@@ -114,12 +117,13 @@ class AntrianServiceController extends Controller
      */
     public function edit($id)
     {
-        $antrian_services = AntrianService::with(['units'])->where('id', $id)->first();;
+        $antrian_services = AntrianService::with(['units', 'categories'])->where('id', $id)->first();;
         $units = Unit::with('antrian_services')->where('id', $antrian_services->unit_id)->first();
+        $categories = Category::with('antrian_services')->where('id', $antrian_services->category_id)->first();
         $getDate = Carbon::createFromFormat('Y-m-d', $antrian_services->date)->format('d-m-Y');
         if($antrian_services)
         {
-            return response()->json(['status' => 200, 'antrian_services' => $antrian_services, 'units' => $units, 'getDate' => $getDate]);
+            return response()->json(['status' => 200, 'antrian_services' => $antrian_services, 'units' => $units, 'categories' => $categories, 'getDate' => $getDate]);
         }
         else
         {
@@ -161,6 +165,7 @@ class AntrianServiceController extends Controller
                 $antrian_services -> name = $request->input('name');
                 $antrian_services -> unit_id = $request->input('unit_id');
                 $antrian_services -> nama_barang = $request->input('nama_barang');
+                $antrian_services -> category_id = $request->input('category_id');
                 $antrian_services -> barcode = $request->input('barcode');
                 $antrian_services -> no_seri = $request->input('no_seri');
                 $antrian_services -> status = $request->input('status');

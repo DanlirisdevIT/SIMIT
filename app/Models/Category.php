@@ -27,4 +27,14 @@ class Category extends Model
     public function budgets(){
         return $this->hasOne(Budget::class, 'category_id', 'id');
     }
+
+    public function antrian_services()
+    {
+        return $this->hasOne(AntrianService::class, 'category_id', 'id');
+    }
+
+    public function service_masuk_assets()
+    {
+        return $this->hasOne(ServiceMasukAsset::class, 'category_id', 'id');
+    }
 }
