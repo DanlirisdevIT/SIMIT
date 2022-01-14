@@ -27,4 +27,14 @@ class AntrianService extends Model
     {
         return $this->belongsTo(Unit::class, 'unit_id', 'id');
     }
+
+    public function categories()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    public function service_masuk_assets()
+    {
+        return $this->hasOne(ServiceMasukAsset::class, 'antrianservice_id', 'id');
+    }
 }

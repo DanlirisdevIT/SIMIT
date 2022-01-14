@@ -157,6 +157,15 @@
                     <i class="far fa-circle nav-icon"></i>
                     <p>Pemasukan</p>
                     </a>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('servicemasukasset.index') }}" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Service Dalam Asset</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>

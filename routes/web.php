@@ -17,6 +17,7 @@ use App\Http\Controllers\PermintaanController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\AntrianServiceController;
 use App\Http\Controllers\PemasukanController;
+use App\Http\Controllers\ServiceMasukAssetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -104,3 +105,8 @@ Route::resource('antrianservice', AntrianServiceController::class)->except(['sho
 Route::get('pemasukan/{id}/edit', [PemasukanController::class, 'edit'])->name('pemasukan.edit');
 Route::resource('pemasukan', PemasukanController::class)->except(['show']);
 Route::post('getBudgetCategory', [PemasukanController::class, 'getBudgetCategory'])->name('getBudgetCategory');
+
+//servicemasukasset route
+Route::get('servicemasukasset/{id}/edit', [ServiceMasukAssetController::class, 'edit'])->name('servicemasukasset.edit');
+Route::resource('servicemasukasset', ServiceMasukAssetController::class)->except(['show']);
+

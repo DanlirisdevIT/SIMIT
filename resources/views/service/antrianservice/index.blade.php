@@ -22,6 +22,7 @@
                                             <th>Nama</th>
                                             <th>Unit</th>
                                             <th>Nama Barang</th>
+                                            <th>Kategori</th>
                                             <th>Barcode</th>
                                             <th>IP/No Seri</th>
                                             <th>Status Service</th>
@@ -90,6 +91,20 @@
                         </div>
                     </div>
 
+                    <div class="modal-body1">
+                        <div class="form-group">
+                            <label name="category_id" class="col-sm-4 control-label"> Pilih Kategori </label>
+                            <select class="form-control" id="category_id" name="category_id">
+                                <option value="">Pilih  Kategori----</option>
+                                @foreach ($categories as $category)
+                                    @if($category->deletedBy == '')
+                                        <option value={{ $category->id }}>{{$category->category_name}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label name="barcode" class="col-sm-4 control-label"> Barcode </label>
                         <div class="col-sm-12">
@@ -116,7 +131,7 @@
                     <div class="form-group">
                         <label name="prioritas" class="col-sm-4 control-label"> Prioritas </label>
                         <select class="form-control" id="prioritas">
-                            <option value="" selected="selected"> --Prioritas-- </option>
+                            <option value="" selected="selected"> --Pilih-- </option>
                             <option value="Prioritas"> Prioritas </option>
                             <option value="Non-Prioritas"> Non-Prioritas </option>
                         </select>
@@ -181,6 +196,19 @@
                                 <label name="nama_barang" class="col-sm-4 control-label"> Nama Barang </label>
                                 <div class="col-sm-12">
                                     <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Masukkan nama barang..." maxlength="50" required>
+                                </div>
+                            </div>
+
+                            <div class="modal-body1">
+                                <div class="form-group">
+                                    <label name="category_id" class="col-sm-4 control-label"> Pilih Kategori </label>
+                                    <select class="form-control" id="category_id" name="category_id">
+                                        @foreach ($categories as $category)
+                                            @if($category->deletedBy == '')
+                                                <option value={{ $category->id }}>{{$category->category_name}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                 
@@ -248,6 +276,7 @@
                     {data: 'name', name: 'name', width: '15%'},
                     {data: 'units.unit_name', name: 'units.unit_name', width: '15%'},
                     {data: 'nama_barang', name: 'nama_barang', width: '15%'},
+                    {data: 'categories.category_name', name: 'categories.category_name', width: '15%'},
                     {data: 'barcode', name: 'barcode', width: '15%'},
                     {data: 'no_seri', name: 'no_seri', width: '15%'},
                     {data: 'status', name: 'status', width: '15%'},
@@ -278,6 +307,7 @@
                     'name': $('#name').val(),
                     'unit_id': $('#unit_id').val(),
                     'nama_barang': $('#nama_barang').val(),
+                    'category_id': $('#category_id').val(),
                     'barcode': $('#barcode').val(),
                     'no_seri': $('#no_seri').val(),
                     'status': $('#status').val(),
@@ -347,6 +377,11 @@
                                 $('#updateAntrianService').find('select[name="unit_id"]').append(option_unit);
 
                                 $('#updateAntrianService').find('#nama_barang').val(response.antrian_services.nama_barang);
+
+                                $('#updateAntrianService').find('#category_id').val(response.categories.category_name);
+                                var option_unit = '<option value = "'+response.categories.id+'" selected> --- '+response.categories.category_name+' --- </option>'
+                                $('#updateAntrianService').find('select[name="category_id"]').append(option_unit);
+
                                 $('#updateAntrianService').find('#barcode').val(response.antrian_services.barcode);
                                 $('#updateAntrianService').find('#no_seri').val(response.antrian_services.no_seri);
                                 $('#updateAntrianService').find('#status').val(response.antrian_services.status);
@@ -376,6 +411,7 @@
                         name: $('#updateAntrianServiceForm').find('#name').val(),
                         unit_id: $('#updateAntrianServiceForm').find('#unit_id').val(),
                         nama_barang: $('#updateAntrianServiceForm').find('#nama_barang').val(),
+                        category_id: $('#updateAntrianServiceForm').find('#category_id').val(),
                         barcode: $('#updateAntrianServiceForm').find('#barcode').val(),
                         no_seri: $('#updateAntrianServiceForm').find('#no_seri').val(),
                         status: $('#updateAntrianServiceForm').find('#status').val(),
