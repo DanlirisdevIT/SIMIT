@@ -122,6 +122,11 @@
                     <i class="nav-icon fas fa-wrench"></i>
                     <p>
                         Service
+                {{-- <li class="nav-item menu-close">
+                    <a href="#" class="nav-link active">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        Pemasukan
                         <i class="right fas fa-angle-left"></i>
                     </p>
                     </a>
@@ -132,6 +137,26 @@
                             <p>Antrian Service</p>
                             </a>
                         </li>
+                            <a href="#" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>From Budget</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>From Replacement</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li> --}}
+                <li class="nav-item">
+                    <a href="{{ route('pemasukan.index') }}" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Pemasukan</p>
+                    </a>
                 </li>
             </ul>
         </nav>

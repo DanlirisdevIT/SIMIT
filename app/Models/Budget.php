@@ -39,4 +39,9 @@ class Budget extends Model
     {
         return $this->belongsTo(Asset::class, 'asset_id', 'id');
     }
+
+    public function pemasukans()
+    {
+        return $this->hasOne(Pemasukan::class, 'budget_id', 'id');
+    }
 }

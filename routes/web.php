@@ -16,6 +16,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\PermintaanController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\AntrianServiceController;
+use App\Http\Controllers\PemasukanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -99,4 +100,7 @@ Route::resource('budget', BudgetController::class)->except(['show']);
 //antrianservice route
 Route::get('antrianservice/{id}/edit', [AntrianServiceController::class, 'edit'])->name('antranservice.edit');
 Route::resource('antrianservice', AntrianServiceController::class)->except(['show']);
-
+//pemasukan route
+Route::get('pemasukan/{id}/edit', [PemasukanController::class, 'edit'])->name('pemasukan.edit');
+Route::resource('pemasukan', PemasukanController::class)->except(['show']);
+Route::post('getBudgetCategory', [PemasukanController::class, 'getBudgetCategory'])->name('getBudgetCategory');

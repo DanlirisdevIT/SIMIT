@@ -46,22 +46,34 @@
 
                 <div class="modal-body1">
                     <div class="form-group">
-                        <label name="category_name" class="col-sm-4 control-label"> Nama </label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Masukkan nama category..."  maxlength="50" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
                         <label name="category_type" class="col-sm-4 control-label"> Tipe Kategori </label>
-                        <select class="form-control" id="category_type">
-                            <option value="Asset" selected="selected"> Asset </option>
+                        <select class="form-control" id="category_type" name="category_type">
+                            <option value=""> -- Pilih Tipe Kategori -- </option>
+                            <option value="Asset"> Asset </option>
                             <option value="Consumable"> Consumable </option>
                             <option value="Component"> Component </option>
                             <option value="License"> License </option>
                             <option value="Accesoris>"> Accesoris </option>
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <div class="addedForm"></div>
+                    </div>
+
+                    {{-- <div class="form-group">
+                        <label name="category_time" class="col-sm-4 control-label"> Item Kategori </label>
+                        <select class="form-control" id="category_item" name="category_item">
+                            <option value=""></option>
+                        </select>
+                    </div> --}}
+
+                    {{-- <div class="form-group">
+                        <label name="category_name" class="col-sm-4 control-label"> Nama </label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Masukkan nama category..."  maxlength="50" required>
+                        </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="modal-footer">
@@ -155,6 +167,88 @@
                 $('#category_name').val("");
                 $('#category_type').val($('#category_type').data("default-value"));
             });
+
+            $('#category_type').on('change', function() {
+                // var asset_item = ["Laptop", "PC", "Camera", "Scanner", "Printer"];
+                // var component_item = ["PowerSupply", "Processor", "Motherboard"];
+                // var consumable_item = ["RefillTinta", "CatridgeTinta"];
+
+                var category_type = $('#category_type').val();
+
+                console.log(category_type)
+
+                if(category_type === "Asset") {
+                    // $.each(asset_item, function(key, value){
+                        dropdown = '<label name="category_time" class="col-sm-4 control-label"> Item Kategori </label>';
+                        dropdown = dropdown + '<select class="form-control" id="category_item" name="category_item">';
+                        dropdown = dropdown + '</select>';
+
+                        var showForm = $('.addedForm').html(dropdown);
+
+                        var option_component =
+                        '<option value = "Laptop" selected> Laptop </option>'
+                        +'<option value = "PC"> PC </option>'
+                        +'<option value = "Camera"> Camera </option>'
+                        +'<option value = "Scanner"> Scanner </option>'
+                        +'<option value = "Printer"> Printer </option>'
+                        +'<option value = "LCD Proyektor"> LCD Proyektor </option>'
+                        +'<option value = "Monitor"> Monitor </option>'
+                        +'<option value = "Wacom"> Wacom </option>'
+                        +'<option value = "CCTV"> CCTV </option>'
+                        +'<option value = "Switch"> Switch </option>'
+                        +'<option value = "Speaker"> Speaker </option>'
+                        +'<option value = "WIFI"> WIFI </option>';
+                        $('select[name="category_item"]').append(option_component)
+                        showForm.show()
+                    // });
+                }
+                else if(category_type === "Component") {
+                    dropdown = '<label name="category_time" class="col-sm-4 control-label"> Item Kategori </label>'
+                    dropdown = dropdown + '<select class="form-control" id="category_item" name="category_item">';
+                    dropdown = dropdown + '</select>';
+
+                    var showForm = $('.addedForm').html(dropdown);
+
+                    var option_component =
+                    '<option value = "Power Supply" selected> Power Supply </option>'
+                    +'<option value = "Processor"> Processor </option>'
+                    +'<option value = "Motherboard"> Motherboard </option>'
+                    +'<option value = "Casing"> Casing </option>'
+                    +'<option value = "Harddisk"> Harddisk </option>'
+                    +'<option value = "RAM"> RAM </option>'
+                    +'<option value = "Fan Processor"> Fan Processor </option>'
+                    +'<option value = "DVD Internal"> DVD Internal </option>'
+                    +'<option value = "CPU"> CPU </option>'
+                    +'<option value = "Kabel"> Kabel </option>'
+                    +'<option value = "Mouse"> Mouse </option>'
+                    +'<option value = "Keyboard"> Keyboard </option>';
+                    $('select[name="category_item"]').append(option_component);
+                    showForm.show()
+                }
+                else if(category_type === "Consumable") {
+                    dropdown = '<label name="category_time" class="col-sm-4 control-label"> Item Kategori </label>'
+                    dropdown = dropdown + '<select class="form-control" id="category_item" name="category_item">';
+                    dropdown = dropdown + '</select>';
+
+                    var showForm = $('.addedForm').html(dropdown);
+
+                    var option_component =
+                    '<option value = "Refil Tinta" selected> Refil Tinta </option>'
+                    + '<option value = "Catridge Tinta"> Catridge Tinta </option>'
+                    + '<option value = "Catridge Toner"> Catridge Toner </option>'
+                    + '<option value = "Catridge"> Catridge </option>';
+                    $('select[name="category_item"]').append(option_component);
+                    showForm.show()
+                }
+                else if(category_type === "License" || category_type === "Accesoris"){
+                    var form = '<label name="category_name" class="col-sm-4 control-label"> Nama </label>';
+                        form = form +'<div class="col-sm-12">';
+                        form = form +'<input type="text" class="form-control" id="category_name" name="category_name" placeholder="Masukkan nama category..."  maxlength="50" required>';
+                        form = form +'</div>';
+                    var showForm = $(".addedForm").html(form);
+                    showForm.show();
+                }
+            })
 
             $(document).ready(function () {
                 $(document).on('click', '.create', function (e) {

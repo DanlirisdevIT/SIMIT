@@ -19,4 +19,9 @@ class Manufacture extends Model
     public function assets(){
         return $this->hasOne(Asset::class, 'manufacture_id', 'id');
     }
+
+    public function pemasukans()
+    {
+        return $this->hasOne(Pemasukan::class, 'manufacture_id', 'id');
+    }
 }

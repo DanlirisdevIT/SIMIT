@@ -12,4 +12,9 @@ class Supplier extends Model
     public $timestamps = false;
 
     protected $fillable = ['supplier_name', 'address', 'phone', 'agent_name', 'partner_type'];
+
+    public function pemasukans()
+    {
+        return $this->hasOne(Pemasukan::class, 'supplier_id', 'id');
+    }
 }

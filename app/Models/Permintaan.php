@@ -39,9 +39,14 @@ class Permintaan extends Model
     {
         return $this->belongsTo(Asset::class, 'asset_id', 'id');
     }
-    
+
     public function budgets()
     {
         return $this->hasOne(Budget::class, 'permintaan_id', 'id');
+    }
+
+    public function pemasukans()
+    {
+        return $this->hasOne(Pemasukan::class, 'permintaan_id', 'id');
     }
 }
