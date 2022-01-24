@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Permintaan extends Model
+class Efrata_Permintaan extends Model
 {
     use HasFactory;
 
@@ -18,7 +18,7 @@ class Permintaan extends Model
         'description'
     ];
 
-    protected $table = "permintaans";
+    protected $table = "efrata_permintaans";
 
     public function divisions()
     {

@@ -63,7 +63,7 @@
 
                     {{-- <div class="form-group">
                         <label name="category_time" class="col-sm-4 control-label"> Item Kategori </label>
-                        <select class="form-control" id="category_item" name="category_item">
+                        <select class="form-control" id="category_name" name="category_name">
                             <option value=""></option>
                         </select>
                     </div> --}}
@@ -177,70 +177,90 @@
 
                 console.log(category_type)
 
+                dropdown = '<label name="category_time" class="col-sm-4 control-label"> Item Kategori </label>';
+                dropdown = dropdown + '<select class="form-control" id="category_name" name="category_name">';
+                dropdown = dropdown + '</select>';
+
+                var showForm = $('.addedForm').html(dropdown);
+
+                var asset_item = ["Laptop", "PC", "Camera", "Scanner", "Printer", "LCD Proyektor", "Monitor", "Wacom", "CCTV", "Switch", "Speaker", "WIFI"];
+                var component_item = ["Power Supply", "Processor", "Motherboard", "Casing", "Harddisk", "RAM", "Fan Processor", "DVD Internal", "CPU", "Kabel", "Mouse", "Keyboard"];
+                var consumable_item = ["Refill Tinta", "Catridge Tinta", "Catridge Toner", "Catridge"];
+
                 if(category_type === "Asset") {
                     // $.each(asset_item, function(key, value){
-                        dropdown = '<label name="category_time" class="col-sm-4 control-label"> Item Kategori </label>';
-                        dropdown = dropdown + '<select class="form-control" id="category_item" name="category_item">';
-                        dropdown = dropdown + '</select>';
-
-                        var showForm = $('.addedForm').html(dropdown);
-
-                        var option_component =
-                        '<option value = "Laptop" selected> Laptop </option>'
-                        +'<option value = "PC"> PC </option>'
-                        +'<option value = "Camera"> Camera </option>'
-                        +'<option value = "Scanner"> Scanner </option>'
-                        +'<option value = "Printer"> Printer </option>'
-                        +'<option value = "LCD Proyektor"> LCD Proyektor </option>'
-                        +'<option value = "Monitor"> Monitor </option>'
-                        +'<option value = "Wacom"> Wacom </option>'
-                        +'<option value = "CCTV"> CCTV </option>'
-                        +'<option value = "Switch"> Switch </option>'
-                        +'<option value = "Speaker"> Speaker </option>'
-                        +'<option value = "WIFI"> WIFI </option>';
-                        $('select[name="category_item"]').append(option_component)
-                        showForm.show()
+                        // var option_component =
+                        // '<option value = "Laptop" selected> Laptop </option>'
+                        // +'<option value = "PC"> PC </option>'
+                        // +'<option value = "Camera"> Camera </option>'
+                        // +'<option value = "Scanner"> Scanner </option>'
+                        // +'<option value = "Printer"> Printer </option>'
+                        // +'<option value = "LCD Proyektor"> LCD Proyektor </option>'
+                        // +'<option value = "Monitor"> Monitor </option>'
+                        // +'<option value = "Wacom"> Wacom </option>'
+                        // +'<option value = "CCTV"> CCTV </option>'
+                        // +'<option value = "Switch"> Switch </option>'
+                        // +'<option value = "Speaker"> Speaker </option>'
+                        // +'<option value = "WIFI"> WIFI </option>';
+                        // $('select[name="category_name"]').append(option_component)
+                        // showForm.show()
                     // });
+
+                    $.each(asset_item, function(index, categories) {
+                        $('select[name="category_name"]').append('<option value="'+categories+'">'+categories+'</option>')
+                    })
+                    showForm.show();
                 }
                 else if(category_type === "Component") {
-                    dropdown = '<label name="category_time" class="col-sm-4 control-label"> Item Kategori </label>'
-                    dropdown = dropdown + '<select class="form-control" id="category_item" name="category_item">';
-                    dropdown = dropdown + '</select>';
+                    // dropdown = '<label name="category_time" class="col-sm-4 control-label"> Item Kategori </label>'
+                    // dropdown = dropdown + '<select class="form-control" id="category_name" name="category_name">';
+                    // dropdown = dropdown + '</select>';
 
                     var showForm = $('.addedForm').html(dropdown);
 
-                    var option_component =
-                    '<option value = "Power Supply" selected> Power Supply </option>'
-                    +'<option value = "Processor"> Processor </option>'
-                    +'<option value = "Motherboard"> Motherboard </option>'
-                    +'<option value = "Casing"> Casing </option>'
-                    +'<option value = "Harddisk"> Harddisk </option>'
-                    +'<option value = "RAM"> RAM </option>'
-                    +'<option value = "Fan Processor"> Fan Processor </option>'
-                    +'<option value = "DVD Internal"> DVD Internal </option>'
-                    +'<option value = "CPU"> CPU </option>'
-                    +'<option value = "Kabel"> Kabel </option>'
-                    +'<option value = "Mouse"> Mouse </option>'
-                    +'<option value = "Keyboard"> Keyboard </option>';
-                    $('select[name="category_item"]').append(option_component);
-                    showForm.show()
+                    // var option_component =
+                    // '<option value = "Power Supply" selected> Power Supply </option>'
+                    // +'<option value = "Processor"> Processor </option>'
+                    // +'<option value = "Motherboard"> Motherboard </option>'
+                    // +'<option value = "Casing"> Casing </option>'
+                    // +'<option value = "Harddisk"> Harddisk </option>'
+                    // +'<option value = "RAM"> RAM </option>'
+                    // +'<option value = "Fan Processor"> Fan Processor </option>'
+                    // +'<option value = "DVD Internal"> DVD Internal </option>'
+                    // +'<option value = "CPU"> CPU </option>'
+                    // +'<option value = "Kabel"> Kabel </option>'
+                    // +'<option value = "Mouse"> Mouse </option>'
+                    // +'<option value = "Keyboard"> Keyboard </option>';
+                    // $('select[name="category_name"]').append(option_component);
+                    // showForm.show()
+
+                    $.each(component_item, function(index, categories) {
+                        $('select[name="category_name"]').append('<option value="'+categories+'">'+categories+'</option>')
+                    })
+                    showForm.show();
                 }
                 else if(category_type === "Consumable") {
-                    dropdown = '<label name="category_time" class="col-sm-4 control-label"> Item Kategori </label>'
-                    dropdown = dropdown + '<select class="form-control" id="category_item" name="category_item">';
-                    dropdown = dropdown + '</select>';
+                    // dropdown = '<label name="category_time" class="col-sm-4 control-label"> Item Kategori </label>'
+                    // dropdown = dropdown + '<select class="form-control" id="category_name" name="category_name">';
+                    // dropdown = dropdown + '</select>';
 
                     var showForm = $('.addedForm').html(dropdown);
 
-                    var option_component =
-                    '<option value = "Refil Tinta" selected> Refil Tinta </option>'
-                    + '<option value = "Catridge Tinta"> Catridge Tinta </option>'
-                    + '<option value = "Catridge Toner"> Catridge Toner </option>'
-                    + '<option value = "Catridge"> Catridge </option>';
-                    $('select[name="category_item"]').append(option_component);
-                    showForm.show()
+                    // var option_component =
+                    // '<option value = "Refil Tinta" selected> Refil Tinta </option>'
+                    // + '<option value = "Catridge Tinta"> Catridge Tinta </option>'
+                    // + '<option value = "Catridge Toner"> Catridge Toner </option>'
+                    // + '<option value = "Catridge"> Catridge </option>';
+                    // $('select[name="category_name"]').append(option_component);
+                    // showForm.show()
+
+                    $.each(consumable_item, function(index, categories) {
+                        $('select[name="category_name"]').append('<option value="'+categories+'">'+categories+'</option>')
+                    })
+                    showForm.show();
                 }
-                else if(category_type === "License" || category_type === "Accesoris"){
+                else
+                {
                     var form = '<label name="category_name" class="col-sm-4 control-label"> Nama </label>';
                         form = form +'<div class="col-sm-12">';
                         form = form +'<input type="text" class="form-control" id="category_name" name="category_name" placeholder="Masukkan nama category..."  maxlength="50" required>';
@@ -315,9 +335,89 @@
                                 });
                                 $("#category_name").html(response.categories['category_name']);
                                 $("#category_type").html(response.categories['category_type']);
-                                console.log(response.categories['category_name'])
-                                console.log(response.categories['category_type'])
+                                // console.log(response.categories['category_name'])
+                                // console.log(response.categories['category_type'])
                                 $("#id").val(id);
+
+                                dropdown = '<label name="category_name" class="col-sm-4 control-label"> Kategori Item </label>';
+                                dropdown = dropdown + '<select class="form-control" id="category_name" name="category_name">';
+                                dropdown = dropdown + '</select>';
+
+                                var showForm = $('.addedForm').html(dropdown);
+
+                                var asset_item = ["Laptop", "PC", "Camera", "Scanner", "Printer", "LCD Proyektor", "Monitor", "Wacom", "CCTV", "Switch", "Speaker", "WIFI"];
+                                var component_item = ["Power Supply", "Processor", "Motherboard", "Casing", "Harddisk", "RAM", "Fan Processor", "DVD Internal", "CPU", "Kabel", "Mouse", "Keyboard"];
+                                var consumable_item = ["Refill Tinta", "Catridge Tinta", "Catridge Toner", "Catridge"];
+
+                                if(response.categories.category_type === 'Asset')
+                                {
+                                    $.each(asset_item, function(index, categories) {
+                                        $('select[name="category_name"]').append('<option value="'+categories+'">'+categories+'</option>')
+                                    })
+                                    showForm.show();
+                                }
+                                else if(response.categories.category_type === "Component")
+                                {
+                                    $.each(component_item, function(index, categories) {
+                                        $('select[name="category_name"]').append('<option value="'+categories+'">'+categories+'</option>')
+                                    })
+                                    showForm.show();
+                                }
+                                else if(response.categories.category_type === "Consumable")
+                                {
+                                    $.each(consumable_item, function(index, categories) {
+                                        $('select[name="category_name"]').append('<option value="'+categories+'">'+categories+'</option>')
+                                    })
+                                    showForm.show();
+                                }
+                                else
+                                {
+                                    var form = '<label name="category_name" class="col-sm-4 control-label"> Nama </label>';
+                                        form = form +'<div class="col-sm-12">';
+                                        form = form +'<input type="text" class="form-control" id="category_name" name="category_name" value = "'+response.categories.category_name+'"  maxlength="50" required>';
+                                        form = form +'</div>';
+                                    var showForm = $(".addedForm").html(form);
+                                    showForm.show();
+                                }
+
+                                $('.EditCategoryBody').find('#category_type').on('change', function() {
+                                    var category_type =  $('.EditCategoryBody').find('#category_type').val();
+
+                                    console.log(category_type)
+
+                                    if(category_type === "Asset") {
+                                        var showForm = $('.addedForm').html(dropdown);
+
+                                        $.each(asset_item, function(index, categories) {
+                                            $('select[name="category_name"]').append('<option value="'+categories+'">'+categories+'</option>')
+                                        })
+                                        showForm.show();
+                                    }
+                                    else if(category_type === "Component") {
+                                        var showForm = $('.addedForm').html(dropdown);
+
+                                        $.each(component_item, function(index, categories) {
+                                            $('select[name="category_name"]').append('<option value="'+categories+'">'+categories+'</option>')
+                                        })
+                                        showForm.show();
+                                    }
+                                    else if(category_type === "Consumable") {
+                                        var showForm = $('.addedForm').html(dropdown);
+
+                                        $.each(consumable_item, function(index, categories) {
+                                            $('select[name="category_name"]').append('<option value="'+categories+'">'+categories+'</option>')
+                                        })
+                                        showForm.show();
+                                    }
+                                    else if(category_type === "License" || category_type === "Accesories"){
+                                        var form = '<label name="category_name" class="col-sm-4 control-label"> Nama </label>';
+                                            form = form +'<div class="col-sm-12">';
+                                            form = form +'<input type="text" class="form-control" id="category_name" name="category_name" placeholder="Masukkan nama category..."  maxlength="50" required>';
+                                            form = form +'</div>';
+                                        var showForm = $(".addedForm").html(form);
+                                        showForm.show();
+                                    }
+                                })
                             }
                         }
                     });

@@ -18,8 +18,23 @@ class Division extends Model
         return $this->hasOne(Unit::class, 'division_id', 'id');
     }
 
-    public function permintaans(){
-        return $this->hasOne(Permintaan::class, 'division_id', 'id');
+    // public function permintaans(){
+    //     return $this->hasOne(Permintaan::class, 'division_id', 'id');
+    // }
+
+    public function danliris_permintaans()
+    {
+        return $this->hasOne(Danliris_Permintaan::class, 'division_id', 'id');
+    }
+
+    public function efrata_permintaans()
+    {
+        return $this->hasOne(Efrata_Permintaan::class, 'division_id', 'id');
+    }
+
+    public function ag_permintaans()
+    {
+        return $this->hasOne(AG_Permintaan::class, 'division_id', 'id');
     }
 
     public function budgets(){

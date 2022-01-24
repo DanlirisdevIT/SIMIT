@@ -33,6 +33,26 @@ class Unit extends Model
         return $this->hasOne(AntrianService::class, 'unit_id', 'id');
     }
 
+    // public function permintaans()
+    // {
+    //     return $this->hasOne(Permintaan::class, 'unit_id', 'id');
+    // }
+
+    public function danliris_permintaans()
+    {
+        return $this->hasOne(Danliris_Permintaan::class, 'unit_id', 'id');
+    }
+
+    public function efrata_permintaans()
+    {
+        return $this->hasOne(Efrata_Permintaan::class, 'unit_id', 'id');
+    }
+
+    public function ag_permintaans()
+    {
+        return $this->hasOne(AG_Permintaan::class, 'unit_id', 'id');
+    }
+
     public function pemasukans()
     {
         return $this->hasOne(Pemasukan::class, 'unit_id', 'id');

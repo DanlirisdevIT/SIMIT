@@ -7,7 +7,7 @@
                 <div class="col-lg-12">
                     <div class="card card-primary card-outline">
                         <div class="card-body">
-                            <h2 class="mb-4">List Asset</h2>
+                            <h2 class="mb-4">List Barang</h2>
 
                             <button style="float: right; font-weight: 900;" class="btn btn-info" type="button"  data-toggle="modal" data-target="#addAsset">
                                 Tambah
@@ -40,7 +40,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title">Tambah Asset</h5>
+                <h5 class="modal-title">Tambah Barang</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -69,7 +69,7 @@
                                 <select class="form-control" id="category_id" name="category_id">
                                     @foreach ($categories as $category)
                                         @if ($category->deletedBy == '')
-                                            <option value={{ $category->id }}>{{$category->category_name}}</option>
+                                            <option value={{ $category->id }}>{{$category->category_type}} - {{$category->category_name}}</option>
                                         @endif
                                     @endforeach
                                 </select>

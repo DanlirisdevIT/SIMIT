@@ -41,7 +41,7 @@
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="fas fa-user mr-2"></i>
-                {{ Auth::user()->level }}
+                {{ Auth::user()->username }}
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             {{-- <span class="dropdown-header">15 Notifications</span> --}}

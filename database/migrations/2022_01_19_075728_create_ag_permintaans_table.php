@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePermintaansTable extends Migration
+class CreateAgPermintaansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePermintaansTable extends Migration
      */
     public function up()
     {
-        Schema::create('permintaans', function (Blueprint $table) {
+        Schema::create('ag_permintaans', function (Blueprint $table) {
             $table->id();
             $table->date('date');
             $table->string('username', 255);
@@ -46,6 +46,6 @@ class CreatePermintaansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('permintaans');
+        Schema::dropIfExists('ag_permintaans');
     }
 }

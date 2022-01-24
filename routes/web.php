@@ -18,6 +18,9 @@ use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\AntrianServiceController;
 use App\Http\Controllers\PemasukanController;
 use App\Http\Controllers\ServiceMasukAssetController;
+use App\Http\Controllers\Danliris_Permintaan_Controller;
+use App\Http\Controllers\Efrata_Permintaan_Controller;
+use App\Http\Controllers\AG_Permintaan_Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,9 +93,18 @@ Route::resource('unit', UnitController::class)->except(['show']);
 //supplier route
 Route::get('supplier/{id}/edit', [SupplierController::class, 'edit'])->name('supplier.edit');
 Route::resource('supplier', SupplierController::class)->except(['show']);
+
 //permintaan route
 Route::get('permintaan/{id}/edit', [PermintaanController::class, 'edit'])->name('permintaan.edit');
 Route::resource('permintaan', PermintaanController::class)->except(['show']);
+Route::get('getDanliris', [PermintaanController::class, 'getDanliris'])->name('permintaan.getDanliris');
+Route::get('getEfrata', [PermintaanController::class, 'getEfrata'])->name('permintaan.getEfrata');
+Route::get('permintaan/{id}/edit', [Danliris_Permintaan_Controller::class, 'edit'])->name('permintaan.edit');
+Route::resource('danliris_permintaan', Danliris_Permintaan_Controller::class)->except(['show']);
+Route::get('permintaan/{id}/edit', [Efrata_Permintaan_Controller::class, 'edit'])->name('permintaan.edit');
+Route::resource('efrata_permintaan', Efrata_Permintaan_Controller::class)->except(['show']);
+Route::get('permintaan/{id}/edit', [AG_Permintaan_Controller::class, 'edit'])->name('permintaan.edit');
+Route::resource('ag_permintaan', AG_Permintaan_Controller::class)->except(['show']);
 
 //budget route
 Route::get('budget/{id}/edit', [BudgetController::class, 'edit'])->name('budget.edit');
@@ -104,7 +116,6 @@ Route::resource('antrianservice', AntrianServiceController::class)->except(['sho
 //pemasukan route
 Route::get('pemasukan/{id}/edit', [PemasukanController::class, 'edit'])->name('pemasukan.edit');
 Route::resource('pemasukan', PemasukanController::class)->except(['show']);
-Route::post('getBudgetCategory', [PemasukanController::class, 'getBudgetCategory'])->name('getBudgetCategory');
 
 //servicemasukasset route
 Route::get('servicemasukasset/{id}/edit', [ServiceMasukAssetController::class, 'edit'])->name('servicemasukasset.edit');

@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Division;
-use App\Models\Permintaan;
+use App\Models\Danliris_Permintaan;
+use App\Models\Efrata_Permintaan;
+use App\Models\AG_Permintaan;
 use App\Models\Asset;
 use App\Models\Company;
 use App\Models\Category;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
@@ -23,13 +26,26 @@ class PermintaanController extends Controller
      */
     public function index(Request $request)
     {
-        $permintaans = Permintaan::with(['categories', 'assets', 'divisions', 'companies'])->whereNull('deletedBy')->get();
+        // $permintaans = Danliris_Permintaan::with(['categories', 'assets', 'divisions', 'companies', 'units'])->whereNull('deletedBy')->get();
         $categories = Category::all();
         $assets = Asset::all();
         $divisions = Division::all();
         $companies = Company::all();
+        $units = Unit::all();
+
+        return view('permintaan.index', compact('units', 'categories', 'assets', 'divisions', 'companies'));
+    }
+
+    public function getDanliris(Request $request)
+    {
+        $danliris_permintaans = Danliris_Permintaan::with(['categories', 'assets', 'divisions', 'companies', 'units'])->whereNull('deletedBy')->get();
+        $categories = Category::all();
+        $assets = Asset::all();
+        $divisions = Division::all();
+        $companies = Company::all();
+        $units = Unit::all();
         if($request->ajax()){
-            return DataTables::of($permintaans)
+            return DataTables::of($danliris_permintaans)
             ->addIndexColumn()
             ->addColumn('date', function($data) {
                 $date = Carbon::createFromFormat('Y-m-d', $data->date)->format('d F Y');
@@ -43,7 +59,59 @@ class PermintaanController extends Controller
             ->make(true);
         }
 
-        return view('permintaan.index', compact('categories', 'assets', 'divisions', 'companies'));
+        return view('permintaan.index', compact('units', 'categories', 'assets', 'divisions', 'companies'));
+    }
+
+    public function getEfrata(Request $request)
+    {
+        $efrata_permintaans = Efrata_Permintaan::with(['categories', 'assets', 'divisions', 'companies', 'units'])->whereNull('deletedBy')->get();
+        $categories = Category::all();
+        $assets = Asset::all();
+        $divisions = Division::all();
+        $companies = Company::all();
+        $units = Unit::all();
+        if($request->ajax()){
+            return DataTables::of($efrata_permintaans)
+            ->addIndexColumn()
+            ->addColumn('date', function($data) {
+                $date = Carbon::createFromFormat('Y-m-d', $data->date)->format('d F Y');
+                return $date;
+            })
+            ->addColumn('action', function($data){
+                $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-primary btn-sm editPermintaan"><i class="far fa-edit"></i></a>';
+                return $btn;
+            })
+            ->rawColumns(['action', 'date'])
+            ->make(true);
+        }
+
+        return view('permintaan.index', compact('units', 'categories', 'assets', 'divisions', 'companies'));
+    }
+
+    public function getAG(Request $request)
+    {
+        $ag_permintaans = AG_Permintaan::with(['categories', 'assets', 'divisions', 'companies', 'units'])->whereNull('deletedBy')->get();
+        $categories = Category::all();
+        $assets = Asset::all();
+        $divisions = Division::all();
+        $companies = Company::all();
+        $units = Unit::all();
+        if($request->ajax()){
+            return DataTables::of($ag_permintaans)
+            ->addIndexColumn()
+            ->addColumn('date', function($data) {
+                $date = Carbon::createFromFormat('Y-m-d', $data->date)->format('d F Y');
+                return $date;
+            })
+            ->addColumn('action', function($data){
+                $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-primary btn-sm editPermintaan"><i class="far fa-edit"></i></a>';
+                return $btn;
+            })
+            ->rawColumns(['action', 'date'])
+            ->make(true);
+        }
+
+        return view('permintaan.index', compact('units', 'categories', 'assets', 'divisions', 'companies'));
     }
 
     /**
@@ -80,21 +148,59 @@ class PermintaanController extends Controller
             $getUtc = Carbon::now();
             $getDate = Carbon::parse($request->input('date'))->format('Y-m-d');
 
-            $data = new Permintaan();
-            $data -> date = $getDate;
-            $data -> username = $request->input('username');
-            $data -> division_id = $request->input('division_id');
-            $data -> company_id = $request->input('company_id');
-            $data -> category_id = $request->input('category_id');
-            $data -> asset_id = $request->input('asset_id');
-            $data -> quantity = $request->input('quantity');
-            $data -> description = $request->input('description');
-            $data -> createdBy = $getBy;
-            $data -> createdUtc = $getUtc;
-            $data -> save();
+            if(Auth::user()->company_id == 1){
+                $data = new Efrata_Permintaan();
+                $data -> date = $getDate;
+                $data -> username = $request->input('username');
+                $data -> division_id = $request->input('division_id');
+                $data -> company_id = $request->input('company_id');
+                $data -> category_id = $request->input('category_id');
+                $data -> asset_id = $request->input('asset_id');
+                $data -> unit_id = $request->input('unit_id');
+                $data -> quantity = $request->input('quantity');
+                $data -> description = $request->input('description');
+                $data -> createdBy = $getBy;
+                $data -> createdUtc = $getUtc;
+                $data -> save();
 
-            return response()->json(['status' => 200, 'messages' => 'Data telah ditambahkan']);
+                return response()->json(['status' => 200, 'messages' => 'Data telah ditambahkan']);
+            }
+            else if(Auth::user()->company_id == 2)
+            {
+                $data = new Danliris_Permintaan();
+                $data -> date = $getDate;
+                $data -> username = $request->input('username');
+                $data -> division_id = $request->input('division_id');
+                $data -> company_id = $request->input('company_id');
+                $data -> category_id = $request->input('category_id');
+                $data -> asset_id = $request->input('asset_id');
+                $data -> unit_id = $request->input('unit_id');
+                $data -> quantity = $request->input('quantity');
+                $data -> description = $request->input('description');
+                $data -> createdBy = $getBy;
+                $data -> createdUtc = $getUtc;
+                $data -> save();
 
+                return response()->json(['status' => 200, 'messages' => 'Data telah ditambahkan']);
+            }
+            else if(Auth::user()->company_id == 3)
+            {
+                $data = new AG_Permintaan();
+                $data -> date = $getDate;
+                $data -> username = $request->input('username');
+                $data -> division_id = $request->input('division_id');
+                $data -> company_id = $request->input('company_id');
+                $data -> category_id = $request->input('category_id');
+                $data -> asset_id = $request->input('asset_id');
+                $data -> unit_id = $request->input('unit_id');
+                $data -> quantity = $request->input('quantity');
+                $data -> description = $request->input('description');
+                $data -> createdBy = $getBy;
+                $data -> createdUtc = $getUtc;
+                $data -> save();
+
+                return response()->json(['status' => 200, 'messages' => 'Data telah ditambahkan']);
+            }
         }
     }
 
@@ -117,96 +223,92 @@ class PermintaanController extends Controller
      */
     public function edit($id)
     {
-        $permintaans = Permintaan::with(['categories', 'assets', 'divisions', 'companies'])->where('id', $id)->first();
-        $categories = Category::with('permintaans')->where('id', $permintaans->category_id)->first();
-        $assets = Asset::with('permintaans')->where('id', $permintaans->asset_id)->first();
-        $divisions = Division::with('permintaans')->where('id', $permintaans->division_id)->first();
-        $companies = Company::with('permintaans')->where('id', $permintaans->company_id)->first();
-        $getDate = Carbon::createFromFormat('Y-m-d', $permintaans->date)->format('d-m-Y');
-        if($permintaans)
+        // $danliris_permintaans = Danliris_Permintaan::with(['categories', 'assets', 'divisions', 'companies', 'units'])->where('id', $id)->first();
+        // $categories = Category::with('permintaans')->where('id', $danliris_permintaans->category_id)->first();
+        // $assets = Asset::with('permintaans')->where('id', $danliris_permintaans->asset_id)->first();
+        // $divisions = Division::with('permintaans')->where('id', $danliris_permintaans->division_id)->first();
+        // $companies = Company::with('permintaans')->where('id', $danliris_permintaans->company_id)->first();
+        // $units = Unit::with('permintaans')->where('id', $danliris_permintaans->unit_id)->first();
+        // $getDate = Carbon::createFromFormat('Y-m-d', $danliris_permintaans->date)->format('d-m-Y');
+
+        // $efrata_permintaans = Efrata_Permintaan::with(['categories', 'assets', 'divisions', 'companies', 'units'])->where('id', $id)->first();
+        // $categories = Category::with('permintaans')->where('id', $efrata_permintaans->category_id)->first();
+        // $assets = Asset::with('permintaans')->where('id', $efrata_permintaans->asset_id)->first();
+        // $divisions = Division::with('permintaans')->where('id', $efrata_permintaans->division_id)->first();
+        // $companies = Company::with('permintaans')->where('id', $efrata_permintaans->company_id)->first();
+        // $units = Unit::with('permintaans')->where('id', $efrata_permintaans->unit_id)->first();
+        // $getDate = Carbon::createFromFormat('Y-m-d', $efrata_permintaans->date)->format('d-m-Y');
+
+        // $ag_permintaans = AG_Permintaan::with(['categories', 'assets', 'divisions', 'companies', 'units'])->where('id', $id)->first();
+        // $categories = Category::with('permintaans')->where('id', $ag_permintaans->category_id)->first();
+        // $assets = Asset::with('permintaans')->where('id', $ag_permintaans->asset_id)->first();
+        // $divisions = Division::with('permintaans')->where('id', $ag_permintaans->division_id)->first();
+        // $companies = Company::with('permintaans')->where('id', $ag_permintaans->company_id)->first();
+        // $units = Unit::with('permintaans')->where('id', $ag_permintaans->unit_id)->first();
+        // $getDate = Carbon::createFromFormat('Y-m-d', $ag_permintaans->date)->format('d-m-Y');
+
+        if(Auth::user()->company_id == 1)
         {
-            // $html =
-            // '
-            // <div class="modal-body1">
-            //     <div class="form-group">
-            //         <label name="date" class="col-sm-4 control-label"> Tanggal </label>
-            //         <div class="input-group mb-2">
-            //             <input type="text" class="form-control" id="date" name="date" value="'.$getDate.'" aria-label="date" aria-describedby="basic-addon1">
-            //             <div class="input-group-prepend">
-            //                 <span class="input-group-text" id="date"><i class="fa fa-calendar-alt" id="date"></i></span>
-            //             </div>
-            //         </div>
-            //     </div>
-            // </div>
+            $permintaans = Efrata_Permintaan::with(['categories', 'assets', 'divisions', 'companies', 'units'])->where('id', $id)->first();
+            $categories = Category::with('permintaans')->where('id', $permintaans->category_id)->first();
+            $assets = Asset::with('permintaans')->where('id', $permintaans->asset_id)->first();
+            $divisions = Division::with('permintaans')->where('id', $permintaans->division_id)->first();
+            $companies = Company::with('permintaans')->where('id', $permintaans->company_id)->first();
+            $units = Unit::with('permintaans')->where('id', $permintaans->unit_id)->first();
+            $getDate = Carbon::createFromFormat('Y-m-d', $permintaans->date)->format('d-m-Y');
 
-            // <div class="modal-body1" style="overflow:hidden;">
-            //     <div class="form-group">
-            //         <label name="username" class="col-sm-4 control-label"> User </label>
-            //         <div class="col-sm-12">
-            //             <input type="text" class="form-control" id="username" name="username" value="'.Auth::user()->name.'" readonly>
-            //         </div>
-            //     </div>
-            // </div>
-
-            // <div class="form-group">
-            //     <label name="division_id" class="col-sm-4 control-label"> Pilih Divisi </label>
-            //     <select class="form-control" id="division_id" name="division_id">
-            //         <option value="'.$divisions->id.'" selected="selected">'.$divisions->division_name.'</option>
-            //         <option value=""></option>';
-            //         foreach($divisions2 as $division):
-            //             $html .= '<option value="'.$division->id.'">'.$division->division_name.'</option>';
-            //         endforeach;
-            //     $html .= '</select>
-            // </div>
-
-            // <div class="form-group">
-            //     <label name="company_id" class="col-sm-4 control-label"> Pilih Perusahaan </label>
-            //     <select class="form-control" id="company_id" name="company_id">
-            //         <option value="'.$companies->id.'">'.$companies->companyName.'</option>
-            //         <option value=""></option>';
-            //         foreach($companies2 as $company):
-            //             $html .= '<option value="'.$company->id.'">'.$company->companyName.'</option>';
-            //         endforeach;
-            //     $html .= '</select>
-            // </div>
-
-            // <div class="form-group">
-            //     <label name="category_id" class="col-sm-4 control-label"> Pilih Kategori </label>
-            //     <select class="form-control" id="category_id" name="category_id">
-            //         <option value="'.$categories->id.'">'.$categories->category_name.'</option>
-            //         <option value=""></option>';
-            //         foreach($categories2 as $category):
-            //             $html .= '<option value="'.$category->id.'">'.$category->category_name.'</option>';
-            //         endforeach;
-            //     $html .= '</select>
-            // </div>
-
-            // <div class="form-group">
-            //     <label name="asset_id" class="col-sm-4 control-label"> Pilih Barang </label>
-            //     <select class="form-control select2" id="asset_id" name="asset_id">
-            //         <option value="'.$assets->id.'">--- '.$assets->asset_name.' ---</option>
-            //         <option value=""></option>';
-            //         foreach($assets2 as $asset):
-            //             $html .= '<option value="'.$asset->id.'">'.$asset->asset_name.'</option>';
-            //         endforeach;
-            //     $html .= '</select>
-            // </div>
-
-            // <div class="form-group">
-            //     <label name="quantity" class="col-sm-4 control-label"> Jumlah </label>
-            //     <input type="number" class="form-control" id="quantity" name="quantity" value="'.$permintaans->quantity.'" maxlength="50">
-            // </div>
-
-            // <div class="form-group">
-            //     <label name="description" class="col-sm-4 control-label"> Deskripsi </label>
-            //     <textarea type="text" class="form-control" id="description" name="description"> '.$permintaans->description.' </textarea>
-            // </div>
-
-            // ';
-
-            return response()->json(['status' => 200, /**'html'=> $html,**/ 'permintaans' => $permintaans, 'getDate' => $getDate, 'divisions'=>$divisions,
-                                        'companies' => $companies, 'assets' => $assets, 'categories' => $categories
+            if($permintaans)
+            {
+                return response()->json(['status' => 200, /**'html'=> $html,**/ 'permintaans' => $permintaans, 'getDate' => $getDate, 'divisions'=>$divisions,
+                                        'companies' => $companies, 'assets' => $assets, 'categories' => $categories, 'units' => $units
                                     ]);
+            }
+            else
+            {
+                return response()->json(['status' => 404, 'messages' => 'Tidak ada data ditemukan.']);
+            }
+        }
+        else if(Auth::user()->company_id == 2)
+        {
+            $permintaans = Danliris_Permintaan::with(['categories', 'assets', 'divisions', 'companies', 'units'])->where('id', $id)->first();
+            $categories = Category::with('permintaans')->where('id', $permintaans->category_id)->first();
+            $assets = Asset::with('permintaans')->where('id', $permintaans->asset_id)->first();
+            $divisions = Division::with('permintaans')->where('id', $permintaans->division_id)->first();
+            $companies = Company::with('permintaans')->where('id', $permintaans->company_id)->first();
+            $units = Unit::with('permintaans')->where('id', $permintaans->unit_id)->first();
+            $getDate = Carbon::createFromFormat('Y-m-d', $permintaans->date)->format('d-m-Y');
+
+            if($permintaans)
+            {
+                return response()->json(['status' => 200, /**'html'=> $html,**/ 'permintaans' => $permintaans, 'getDate' => $getDate, 'divisions'=>$divisions,
+                                        'companies' => $companies, 'assets' => $assets, 'categories' => $categories, 'units' => $units
+                                    ]);
+            }
+            else
+            {
+                return response()->json(['status' => 404, 'messages' => 'Tidak ada data ditemukan.']);
+            }
+        }
+        else if(Auth::user()->company_id == 3)
+        {
+            $permintaans = Ag_Permintaan::with(['categories', 'assets', 'divisions', 'companies', 'units'])->where('id', $id)->first();
+            $categories = Category::with('permintaans')->where('id', $permintaans->category_id)->first();
+            $assets = Asset::with('permintaans')->where('id', $permintaans->asset_id)->first();
+            $divisions = Division::with('permintaans')->where('id', $permintaans->division_id)->first();
+            $companies = Company::with('permintaans')->where('id', $permintaans->company_id)->first();
+            $units = Unit::with('permintaans')->where('id', $permintaans->unit_id)->first();
+            $getDate = Carbon::createFromFormat('Y-m-d', $permintaans->date)->format('d-m-Y');
+
+            if($permintaans)
+            {
+                return response()->json(['status' => 200, /**'html'=> $html,**/ 'permintaans' => $permintaans, 'getDate' => $getDate, 'divisions'=>$divisions,
+                                        'companies' => $companies, 'assets' => $assets, 'categories' => $categories, 'units' => $units
+                                    ]);
+            }
+            else
+            {
+                return response()->json(['status' => 404, 'messages' => 'Tidak ada data ditemukan.']);
+            }
         }
         else
         {
@@ -235,30 +337,84 @@ class PermintaanController extends Controller
         }
         else
         {
-            $permintaans=Permintaan::find($id);
+            $danliris_permintaans= Danliris_Permintaan::find($id);
+            $efrata_permintaans= Efrata_Permintaan::find($id);
+            $ag_permintaans= AG_Permintaan::find($id);
             $getBy = Auth::user()->name;
             $getUtc = Carbon::now();
             $getDate = Carbon::parse($request->input('date'))->format('Y-m-d');
 
-            if($permintaans)
+            if(Auth::user()->company_id == 1)
             {
-                $permintaans->date= $getDate;
-                $permintaans->username= $request->input('username');
-                $permintaans->company_id= $request->company_id;
-                $permintaans->division_id= $request->division_id;
-                $permintaans->category_id= $request->category_id;
-                $permintaans->asset_id= $request->asset_id;
-                $permintaans->quantity= $request->input('quantity');
-                $permintaans->description= $request->input('description');
-                $permintaans->updatedBy=$getBy;
-                $permintaans->updatedUtc=$getUtc;
-                $permintaans->update();
+                if($efrata_permintaans)
+                {
+                    $efrata_permintaans->date= $getDate;
+                    $efrata_permintaans->username= $request->input('username');
+                    $efrata_permintaans->company_id= $request->company_id;
+                    $efrata_permintaans->division_id= $request->division_id;
+                    $efrata_permintaans->category_id= $request->category_id;
+                    $efrata_permintaans->asset_id= $request->asset_id;
+                    $efrata_permintaans->unit_id = $request->unit_id;
+                    $efrata_permintaans->quantity= $request->input('quantity');
+                    $efrata_permintaans->description= $request->input('description');
+                    $efrata_permintaans->updatedBy=$getBy;
+                    $efrata_permintaans->updatedUtc=$getUtc;
+                    $efrata_permintaans->update();
 
-                return response()->json(['status' => 200, 'messages'=>'data berhasil diperbaharui']);
+                    return response()->json(['status' => 200, 'messages'=>'data berhasil diperbaharui']);
+                }
+                else
+                {
+                    return response()->json(['status' => 404, 'messages' => 'data tidak ditemukan']);
+                }
             }
-            else
+            else if(Auth::user()->company_id == 2)
             {
-                return response()->json(['status' => 404, 'messages' => 'data tidak ditemukan']);
+                if($danliris_permintaans)
+                {
+                    $danliris_permintaans->date= $getDate;
+                    $danliris_permintaans->username= $request->input('username');
+                    $danliris_permintaans->company_id= $request->company_id;
+                    $danliris_permintaans->division_id= $request->division_id;
+                    $danliris_permintaans->category_id= $request->category_id;
+                    $danliris_permintaans->asset_id= $request->asset_id;
+                    $danliris_permintaans->unit_id = $request->unit_id;
+                    $danliris_permintaans->quantity= $request->input('quantity');
+                    $danliris_permintaans->description= $request->input('description');
+                    $danliris_permintaans->updatedBy=$getBy;
+                    $danliris_permintaans->updatedUtc=$getUtc;
+                    $danliris_permintaans->update();
+
+                    return response()->json(['status' => 200, 'messages'=>'data berhasil diperbaharui']);
+                }
+                else
+                {
+                    return response()->json(['status' => 404, 'messages' => 'data tidak ditemukan']);
+                }
+            }
+            else if(Auth::user()->company_id == 3)
+            {
+                if($ag_permintaans)
+                {
+                    $ag_permintaans->date= $getDate;
+                    $ag_permintaans->username= $request->input('username');
+                    $ag_permintaans->company_id= $request->company_id;
+                    $ag_permintaans->division_id= $request->division_id;
+                    $ag_permintaans->category_id= $request->category_id;
+                    $ag_permintaans->asset_id= $request->asset_id;
+                    $ag_permintaans->unit_id = $request->unit_id;
+                    $ag_permintaans->quantity= $request->input('quantity');
+                    $ag_permintaans->description= $request->input('description');
+                    $ag_permintaans->updatedBy=$getBy;
+                    $ag_permintaans->updatedUtc=$getUtc;
+                    $ag_permintaans->update();
+
+                    return response()->json(['status' => 200, 'messages'=>'data berhasil diperbaharui']);
+                }
+                else
+                {
+                    return response()->json(['status' => 404, 'messages' => 'data tidak ditemukan']);
+                }
             }
         }
     }
@@ -271,7 +427,7 @@ class PermintaanController extends Controller
      */
     public function destroy($id)
     {
-        $permintaans = Permintaan::find($id);
+        $permintaans = Danliris_Permintaan::find($id);
         $getBy = Auth::user()->name;
         $getUtc = Carbon::now();
         if($permintaans)

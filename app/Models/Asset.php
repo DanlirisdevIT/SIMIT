@@ -32,9 +32,19 @@ class Asset extends Model
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
-    public function permintaans()
+    public function danliris_permintaans()
     {
-        return $this->hasOne(Permintaan::class, 'asset_id', 'id');
+        return $this->hasOne(Danliris_Permintaan::class, 'asset_id', 'id');
+    }
+
+    public function efrata_permintaans()
+    {
+        return $this->hasOne(Efrata_Permintaan::class, 'asset_id', 'id');
+    }
+
+    public function ag_permintaans()
+    {
+        return $this->hasOne(AG_Permintaan::class, 'asset_id', 'id');
     }
 
     public function Budgets(){

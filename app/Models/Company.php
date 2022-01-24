@@ -19,8 +19,23 @@ class Company extends Model
         return $this->hasOne(Unit::class, 'company_id', 'id');
     }
 
-    public function permintaans(){
-        return $this->hasOne(Permintaan::class, 'company_id', 'id');
+    // public function permintaans(){
+    //     return $this->hasOne(Permintaan::class, 'company_id', 'id');
+    // }
+
+    public function danliris_permintaans()
+    {
+        return $this->hasOne(Danliris_Permintaan::class, 'company_id', 'id');
+    }
+
+    public function efrata_permintaans()
+    {
+        return $this->hasOne(Efrata_Permintaan::class, 'company_id', 'id');
+    }
+
+    public function ag_permintaans()
+    {
+        return $this->hasOne(AG_Permintaan::class, 'company_id', 'id');
     }
 
     public function users(){

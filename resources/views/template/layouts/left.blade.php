@@ -87,7 +87,7 @@
                         <li class="nav-item">
                             <a href="{{ route('asset.index') }}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Asset</p>
+                            <p>Barang</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -104,12 +104,34 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('permintaan.index') }}" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Permintaan</p>
                     </a>
+                </li> --}}
+                @if(Auth::user()->company_id == 1)
+                <li class="nav-item">
+                    <a href="{{ route('efrata_permintaan.index') }}" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Permintaan</p>
+                    </a>
                 </li>
+                @elseif(Auth::user()->company_id == 2)
+                <li class="nav-item">
+                    <a href="{{ route('danliris_permintaan.index') }}" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Permintaan</p>
+                    </a>
+                </li>
+                @elseif(Auth::user()->company_id == 3)
+                <li class="nav-item">
+                    <a href="{{ route('ag_permintaan.index') }}" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Permintaan</p>
+                    </a>
+                </li>
+                @endif
                 <li class="nav-item">
                     <a href="{{ route('budget.index') }}" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
@@ -122,11 +144,6 @@
                     <i class="nav-icon fas fa-wrench"></i>
                     <p>
                         Service
-                {{-- <li class="nav-item menu-close">
-                    <a href="#" class="nav-link active">
-                    <i class="nav-icon fas fa-th"></i>
-                    <p>
-                        Pemasukan
                         <i class="right fas fa-angle-left"></i>
                     </p>
                     </a>
@@ -137,34 +154,13 @@
                             <p>Antrian Service</p>
                             </a>
                         </li>
-                            <a href="#" class="nav-link active">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>From Budget</p>
-                            </a>
-                        </li>
                     </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link active">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>From Replacement</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li> --}}
+                </li>
                 <li class="nav-item">
                     <a href="{{ route('pemasukan.index') }}" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Pemasukan</p>
                     </a>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('servicemasukasset.index') }}" class="nav-link active">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Service Dalam Asset</p>
-                            </a>
-                        </li>
                     </ul>
                 </li>
             </ul>

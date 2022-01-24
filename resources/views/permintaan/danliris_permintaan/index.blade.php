@@ -7,16 +7,10 @@
                 <div class="col-lg-12">
                     <div class="card card-primary card-outline">
                         <div class="card-body">
-                            <h2 class="mb-4">List Permintaan</h2>
+                            <h2 class="mb-4">Permintaan</h2>
                             <button style="float: right; font-weight: 900;" class="btn btn-info" type="button"  data-toggle="modal" data-target="#addPermintaan">
                                 Tambah
                             </button>
-
-                            <select class="form-control" id="select_company" name="select_company" style="float: left; font-weight: 900; width: 200px">
-                                <option value="danliris"> Dan Liris </option>
-                                <option value="efrata"> Efrata </option>
-                                <option value="ag"> AG </option>
-                            </select>
 
                             <br><br>
                             @csrf
@@ -78,7 +72,7 @@
 
                 <div class="form-group">
                     <label name="unit_id" class="col-sm-4 control-label"> Pilih Unit </label>
-                    <select class="form-control" id="unit_id" name="unit_id">
+                    <select class="form-control select2" id="unit_id" name="unit_id" style="width: 100%;">
                         @foreach ($units as $unit)
                             @if($unit->deletedBy == '')
                                 <option value={{ $unit->id }}>{{$unit->unit_name}}</option>
@@ -199,7 +193,7 @@
 
                                 <div class="form-group">
                                     <label name="unit_id" class="col-sm-4 control-label"> Pilih Unit </label>
-                                    <select class="form-control select2" id="unit_id" name="unit_id">
+                                    <select class="form-control select2" id="unit_id" name="unit_id" style="width: 100%;">
                                         @foreach ($units as $unit)
                                             @if($unit->deletedBy == '')
                                                 <option value={{ $unit->id }}>{{$unit->unit_name}}</option>
@@ -289,69 +283,31 @@
                 }
             });
 
-            $('#select_company').on("change", function() {
-                var company = $('#select_company').val();
-                console.log(company)
-
-                if(company == "danliris")
-                {
-                    var table = $('.datatables').DataTable({
-                        autoWidth: false,
-                        processing: true,
-                        serverSide: true,
-                        ajax: "{{ route('permintaan.getDanliris') }}",
-                        method: 'GET',
-                        // type: "GET",
-                        // url: "{{ route('permintaan.index') }}" + '/' + 'getDanliris',
-                        destroy: true,
-                        columns: [
-                                {data: 'DT_RowIndex', name: 'DT_RowIndex', width: '5%'},
-                                {data: 'date', name: 'date', width: '15%' },
-                                {data: 'username', name: 'username', width: '15%'},
-                                {data: 'divisions.division_name', name: 'divisions.division_name', width: '15%'},
-                                {data: 'companies.companyName', name: 'companies.companyName', width: '15%'},
-                                {data: 'categories.category_name', name: 'categories.categories_name', width: '15%'},
-                                {data: 'assets.asset_name', name: 'assets.asset_name', width: '15%'},
-                                {data: 'quantity', name: 'quantity', width: '15%'},
-                                // {data: 'description', name: 'description', width: '15%'},
-                                {data: 'action', name: 'action', width: '5%'},
-                            ],
-                            order: [
-                                [0, 'desc'],
-                            ],
-                    });
-                    // $('.datatables').DataTable().ajax.url('permintaan/getDanliris').load();
-                }
-                else if(company == "efrata")
-                {
-                    var table = $('.datatables').DataTable({
-                        autoWidth: false,
-                        processing: true,
-                        serverSide: true,
-                        ajax: "{{ route('permintaan.getEfrata') }}",
-                        method: 'GET',
-                        // type: "GET",
-                        // url: "{{ route('permintaan.index') }}" + '/' + 'getDanliris',
-                        destroy: true,
-                        columns: [
-                                {data: 'DT_RowIndex', name: 'DT_RowIndex', width: '5%'},
-                                {data: 'date', name: 'date', width: '15%' },
-                                {data: 'username', name: 'username', width: '15%'},
-                                {data: 'divisions.division_name', name: 'divisions.division_name', width: '15%'},
-                                {data: 'companies.companyName', name: 'companies.companyName', width: '15%'},
-                                {data: 'categories.category_name', name: 'categories.categories_name', width: '15%'},
-                                {data: 'assets.asset_name', name: 'assets.asset_name', width: '15%'},
-                                {data: 'quantity', name: 'quantity', width: '15%'},
-                                // {data: 'description', name: 'description', width: '15%'},
-                                {data: 'action', name: 'action', width: '5%'},
-                            ],
-                            order: [
-                                [0, 'desc'],
-                            ],
-                    });
-                    // $('.datatables').DataTable().ajax.url('permintaan/getEfrata').load();
-                }
-            })
+            var table = $('.datatables').DataTable({
+                autoWidth: false,
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('danliris_permintaan.index') }}",
+                method: 'GET',
+                // type: "GET",
+                // url: "{{ route('permintaan.index') }}" + '/' + 'getDanliris',
+                destroy: true,
+                columns: [
+                        {data: 'DT_RowIndex', name: 'DT_RowIndex', width: '5%'},
+                        {data: 'date', name: 'date', width: '15%' },
+                        {data: 'username', name: 'username', width: '15%'},
+                        {data: 'divisions.division_name', name: 'divisions.division_name', width: '15%'},
+                        {data: 'companies.companyName', name: 'companies.companyName', width: '15%'},
+                        {data: 'categories.category_name', name: 'categories.categories_name', width: '15%'},
+                        {data: 'assets.asset_name', name: 'assets.asset_name', width: '15%'},
+                        {data: 'quantity', name: 'quantity', width: '15%'},
+                        // {data: 'description', name: 'description', width: '15%'},
+                        {data: 'action', name: 'action', width: '5%'},
+                    ],
+                    order: [
+                        [0, 'desc'],
+                    ],
+            });
         })
 
         $('#asset_id').select2({
@@ -398,7 +354,7 @@
                 $.ajax({
                     method: "POST",
                     data: data,
-                    url: "{{ route('permintaan.store') }}",
+                    url: "{{ route('danliris_permintaan.store') }}",
                     dataType: "json",
                     success: function(response){
                         if(response.status == 400){
@@ -426,6 +382,10 @@
             theme: 'bootstrap4',
         });
 
+        $('#updatePermintaan').find('#unit_id').select2({
+            theme: 'bootstrap4',
+        });
+
         $(document).on('click', '.editPermintaan', function(e) {
             e.preventDefault();
 
@@ -439,7 +399,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "{{ route('permintaan.index') }}" + '/' + id + '/edit',
+                url: "{{ route('danliris_permintaan.index') }}" + '/' + id + '/edit',
                 success: function (response) {
                     if (response.status == 404) {
                         $('#updateForm_errList').addClass('alert alert-success');
@@ -450,15 +410,15 @@
                     {
                         // $('.EditPermintaanBody').html(response.html)
                         $(".reset-update").click( function(){
-                            // $('#PermintaanForm').find('#date').val("")
-                            $('#PermintaanForm').find('#username').val("")
-                            $('#PermintaanForm').find('#unit').val("selectedIndex", 0);
-                            $('#PermintaanForm').find('#division_id').val("selectedIndex", 0);
-                            $('#PermintaanForm').find('#company_id').val("selectedIndex", 0);
-                            $('#PermintaanForm').find('#category_id').val("selectedIndex", 0);
-                            $('#PermintaanForm').find('#asset_id').val("selectedIndex", 0);
-                            $('#PermintaanForm').find('#quantity').val("");
-                            $('#PermintaanForm').find('#description').val("");
+                            // $('#updatePermintaanForm').find('#date').val("")
+                            $('#updatePermintaanForm').find('#username').val("")
+                            $('#updatePermintaanForm').find('#unit_id').val("selectedIndex", 0);
+                            $('#updatePermintaanForm').find('#division_id').val("selectedIndex", 0);
+                            $('#updatePermintaanForm').find('#company_id').val("selectedIndex", 0);
+                            $('#updatePermintaanForm').find('#category_id').val("selectedIndex", 0);
+                            // $('#updatePermintaanForm').find('#asset_id').val("selectedIndex", 0);
+                            $('#updatePermintaanForm').find('#quantity').val("");
+                            $('#updatePermintaanForm').find('#description').val("");
 
                         });
                         $('#updatePermintaan').find('#date').datepicker({
@@ -482,7 +442,7 @@
                         $("#id").val(id);
 
                         $('#updatePermintaan').find('#date').val(response.getDate);
-                        $('#updatePermintaan').find('#username').val(response.permintaans.username);
+                        $('#updatePermintaan').find('#username').val(response.danliris_permintaans.username);
 
                         $('#updatePermintaan').find('#unit_id').val(response.units.unit_name);
                         var option_unit = '<option value = "'+response.units.id+'" selected> --- '+response.units.unit_name+' --- </option>'
@@ -504,8 +464,8 @@
                         var option_asset = '<option value = "'+response.assets.id+'" selected> --- '+response.assets.asset_name+' --- </option>'
                         $('#updatePermintaan').find('select[name="asset_id"]').append(option_asset);
 
-                        $('#updatePermintaan').find('#quantity').val(response.permintaans.quantity);
-                        $('#updatePermintaan').find('#description').val(response.permintaans.description);
+                        $('#updatePermintaan').find('#quantity').val(response.danliris_permintaans.quantity);
+                        $('#updatePermintaan').find('#description').val(response.danliris_permintaans.description);
                     }
                 }
             })
@@ -544,7 +504,7 @@
             console.log(formData)
 
             $.ajax({
-                url: "/permintaan/" + id,
+                url: "/danliris_permintaan/" + id,
                 method: 'PUT',
                 data: formData,
                 dataType: "json",
@@ -600,7 +560,7 @@
 
             $('.delete').click(function () {
                 $.ajax({
-                    url: "permintaan/" + id,
+                    url: "danliris_permintaan/" + id,
                     type: "DELETE",
                     dataType: "json",
                     success:function (response) {

@@ -103,13 +103,6 @@ class CategoryController extends Controller
             $html =
             '
             <div class="form-group">
-                <label name="category_name" class="col-sm-4 control-label"> Nama </label>
-                <div class="col-sm-12">
-                    <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Masukkan nama category..." value = "'.$categories->category_name.'" maxlength="50" required>
-                </div>
-            </div>
-
-            <div class="form-group">
                 <label name="category_type" class="col-sm-4 control-label"> Tipe Kategori </label>
                 <select class="form-control" id="category_type" name="category_type">
                     <option value='.$categories->category_type.' selected="selected"> --- '.$categories->category_type.' --- </option>
@@ -121,6 +114,10 @@ class CategoryController extends Controller
                     <option value="Accesories">Accesories</option>
 
                 </select>
+            </div>
+
+            <div class="form-group">
+                <div class="addedForm"></div>
             </div>
             ';
             return response()->json(['status' => 200, 'html'=>$html, 'categories'=>$categories]);
