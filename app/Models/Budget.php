@@ -12,11 +12,15 @@ class Budget extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'date',
         'group',
         'quantity',
         'unitPrice',
+        'totalPrice',
         'description'
     ];
+
+    protected $primarykey = 'id';
 
     protected $table = "budgets";
 

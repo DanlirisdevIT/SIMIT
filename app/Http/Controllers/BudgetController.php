@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Budget;
 use App\Models\Division;
 use App\Models\Permintaan;
+use App\Helpers\Helper;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -31,9 +32,12 @@ class BudgetController extends Controller
         if($request->ajax()){
             return DataTables::of($budgets)
             ->addIndexColumn()
+            ->addColumn('date', function($data) {
+                $date = Carbon::createFromFormat('Y-m-d', $data->date)->format('d F Y');
+                return $date;
+            })
             ->addColumn('action', function($data) {
                 $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-primary btn-sm editBudget"><i class="far fa-edit"></i></a>';
-                // $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->id.'" unit_name="'.$data->unit_name.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteUnit"><i class="far fa-trash-alt"></i></a>';
                 return $btn;
             })
             ->rawColumns(['action'])
@@ -47,9 +51,16 @@ class BudgetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $getPermintaan = $request->permintaan_id;
+        $permintaans = Permintaan::with(['categories', 'assets', 'divisions'])->where('id', $getPermintaan)->first();
+        $categories = Category::with('permintaans')->where('id', $permintaans->category_id)->first();
+        $assets = Asset::with('permintaans')->where('id', $permintaans->asset_id)->first();
+        $divisions = Division::with('permintaans')->where('id', $permintaans->division_id)->first();
+        // $companies = Company::with('permintaans')->where('id', $permintaans->company_id)->first();
+
+        return response()->json(['status' => 200, /**'html'=> $html,**/ 'getPermintaan' => $getPermintaan,'permintaans' => $permintaans,  'divisions'=>$divisions, 'assets' => $assets, 'categories' => $categories ]);
     }
 
     /**
@@ -58,12 +69,12 @@ class BudgetController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Budget $budgets)
     {
         $validator = Validator::make($request->all(), [
-            'group' => 'required',
+            'date' => 'required',
             'quantity' => 'required',
-            'unitPrice' => 'required'
+            'unitPrice' => 'required',
         ]);
 
         if($validator->fails())
@@ -74,15 +85,20 @@ class BudgetController extends Controller
         {
             $createdBy = Auth::user()->level;
             $createdUtc = Carbon::now();
+            $getDate = Carbon::parse($request->input('date'))->format('Y-m-d');
+            $budget_uniqueid = Helper::IDGenerator(new Budget, 'budget_id', 'BUDGET', 5);
 
             $data = new Budget();
-            $data->permintaan_id = $request->permintaan_id;
+            $data -> date = $getDate;
+            $data -> budget_id = $budget_uniqueid;
+            $data -> permintaan_id = $request->input('permintaan_id');
             $data -> group = $request->input('group');
-            $data->division_id = $request->division_id;
-            $data->category_id = $request->category_id;
-            $data->asset_id = $request->asset_id;
+            $data -> division_id = $request->input('division_id');
+            $data -> category_id = $request->input('category_id');
+            $data -> asset_id = $request->input('asset_id');
             $data -> quantity = $request->input('quantity');
             $data -> unitPrice = $request->input('unitPrice');
+            $data -> totalPrice = $request->totalPrice;
             $data -> description = $request->input('description');
             $data -> createdBy = $createdBy;
             $data -> createdUtc = $createdUtc;
@@ -114,11 +130,12 @@ class BudgetController extends Controller
         $budgets = Budget::with(['permintaans' ,'divisions', 'categories', 'assets'])->where('id', $id)->first();
         $permintaans = Permintaan::with('budgets')->where('id', $budgets->permintaan_id)->first();
         $divisions = Division::with('budgets')->where('id', $budgets->division_id)->first();
-        $categories = Category::with('budgets')->where('id', $budgets->company_id)->first();
+        $categories = Category::with('budgets')->where('id', $budgets->category_id)->first();
         $assets = Asset::with('budgets')->where('id', $budgets->asset_id)->first();
+        $getDate = Carbon::createFromFormat('Y-m-d', $permintaans->date)->format('d-m-Y');
         if($budgets)
         {
-            return response()->json(['status' => 200, 'budgets' => $budgets, 'permintaans' => $permintaans, 'divisions' => $divisions, 'categories' => $categories, 'assets' => $assets]);
+            return response()->json(['status' => 200, 'budgets' => $budgets, 'permintaans' => $permintaans, 'divisions' => $divisions, 'categories' => $categories, 'assets' => $assets, 'getDate' => $getDate]);
         }
         else
         {
@@ -136,9 +153,8 @@ class BudgetController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'group'=>'required',
-            'unitPrice'=>'required',
-            'description'=>'required'
+            // 'quantity' => 'required',
+            // 'unitPrice' => 'required',
         ]);
 
         if($validator->fails())
@@ -150,19 +166,23 @@ class BudgetController extends Controller
             $getBy = Auth::user()->name;
             $getUtc = Carbon::now();
             $budgets = Budget::find($id);
+            $getDate = Carbon::parse($request->input('date'))->format('Y-m-d');
+
             if($budgets)
             {
-                $budgets->permintaan_id=$request->permintaan_id;
-                $budgets->group=$request->input('group');
-                $budgets->division_id=$request->division_id;
-                $budgets->category_id=$request->category_id;
-                $budgets->asset_id=$request->asset_id;
-                $budgets->quantity=$request->input('quantity');
-                $budgets->unitPrice=$request->input('unitPrice');
-                $budgets->description=$request->input('description');
-                $budgets->updatedBy=$getBy;
-                $budgets->updatedUtc=$getUtc;
-                $budgets->update();
+                $budgets -> date = $getDate;
+                $budgets -> permintaan_id = $request->permintaan_id;
+                $budgets -> group = $request->input('group');
+                $budgets -> division_id = $request->division_id;
+                $budgets -> category_id = $request->category_id;
+                $budgets -> asset_id = $request->asset_id;
+                $budgets -> quantity = $request->input('quantity');
+                $budgets -> unitPrice = $request->input('unitPrice');
+                $budgets -> totalPrice = $request->totalPrice;
+                $budgets -> description = $request->input('description');
+                $budgets -> updatedBy = $getBy;
+                $budgets -> updatedUtc = $getUtc;
+                $budgets -> update();
                 return response()->json(['status' => 200, 'messages' => 'Data berhasil diperbaharui.']);
             }
             else

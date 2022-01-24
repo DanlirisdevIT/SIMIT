@@ -15,6 +15,8 @@ class CreateBudgetsTable extends Migration
     {
         Schema::create('budgets', function (Blueprint $table) {
             $table->id();
+            $table->date('date');
+            $table->uuid('budget_id')->nullable();
             $table->unsignedBigInteger('permintaan_id');
             $table->foreign('permintaan_id')->references('id')->on('permintaans')->onDelete('cascade')->onUpdate('cascade');
             $table->string('group', 255)->nullable();
@@ -25,8 +27,9 @@ class CreateBudgetsTable extends Migration
             $table->unsignedBigInteger('asset_id');
             $table->foreign('asset_id')->references('id')->on('assets')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('quantity');
-            $table->string('unitPrice', 255);
-            $table->string('description', 255);
+            $table->integer('unitPrice');
+            $table->integer('totalPrice')->nullable();
+            $table->string('description', 255)->nullable();
             $table->string('createdBy', 255)->nullable();
             $table->dateTime('createdUtc')->nullable();
             $table->string('updatedBy', 255)->nullable();
