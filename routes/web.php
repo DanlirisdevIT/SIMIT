@@ -21,6 +21,9 @@ use App\Http\Controllers\ServiceMasukAssetController;
 use App\Http\Controllers\Danliris_Permintaan_Controller;
 use App\Http\Controllers\Efrata_Permintaan_Controller;
 use App\Http\Controllers\AG_Permintaan_Controller;
+use App\Http\Controllers\DanlirisBudgetController;
+use App\Http\Controllers\EfrataBudgetController;
+use App\Http\Controllers\AGBudgetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -109,6 +112,15 @@ Route::resource('ag_permintaan', AG_Permintaan_Controller::class)->except(['show
 //budget route
 Route::get('budget/{id}/edit', [BudgetController::class, 'edit'])->name('budget.edit');
 Route::resource('budget', BudgetController::class)->except(['show']);
+
+Route::get('danliris_budget/{id}/edit', [DanlirisBudgetController::class, 'edit'])->name('budget.edit');
+route::resource('danliris_budget', DanlirisBudgetController::class)->except(['show']);
+
+Route::get('efrata_budget/{id}/edit', [EfrataBudgetController::class, 'edit'])->name('efrata.edit');
+route::resource('efrata_budget', EfrataBudgetController::class)->except(['show']);
+
+Route::get('ag_budget/{id}/edit', [AGBudgetController::class, 'edit'])->name('budget.edit');
+route::resource('ag_budget', AGBudgetController::class)->except(['show']);
 
 //antrianservice route
 Route::get('antrianservice/{id}/edit', [AntrianServiceController::class, 'edit'])->name('antranservice.edit');

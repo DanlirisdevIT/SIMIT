@@ -40,9 +40,13 @@ class Efrata_Permintaan extends Model
         return $this->belongsTo(Asset::class, 'asset_id', 'id');
     }
 
-    public function budgets()
+    // public function budgets()
+    // {
+    //     return $this->hasOne(Budget::class, 'permintaan_id', 'id');
+    // }
+    public function efrata_budgets()
     {
-        return $this->hasOne(Budget::class, 'permintaan_id', 'id');
+        return $this->hasOne(Efrata_budget::class, 'efrata_permintaan_id', 'id');
     }
 
     public function pemasukans()

@@ -132,12 +132,34 @@
                     </a>
                 </li>
                 @endif
-                <li class="nav-item">
+                 {{-- <li class="nav-item">
                     <a href="{{ route('budget.index') }}" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Budget</p>
                     </a>
+                </li> --}}
+                @if (Auth::user()->company_id == 1)
+                <li class="nav-item">
+                    <a href="{{ route('efrata_budget.index') }}" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Budget</p>
+                    </a>
                 </li>
+                @elseif(Auth::user()->company_id == 2)
+                <li class="nav-item">
+                    <a href="{{ route('danliris_budget.index') }}" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Budget</p>
+                    </a>
+                </li>
+                @elseif(Auth::user()->company_id == 3)
+                <li class="nav-item">
+                    <a href="{{ route('ag_budget.index') }}" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Budget</p>
+                    </a>
+                </li>
+                @endif
 
                 <li class="nav-item menu-close">
                     <a href="#" class="nav-link active">

@@ -39,8 +39,17 @@ class Category extends Model
         return $this->hasOne(AG_Permintaan::class, 'category_id', 'id');
     }
 
-    public function budgets(){
-        return $this->hasOne(Budget::class, 'category_id', 'id');
+    // public function budgets(){
+    //     return $this->hasOne(Budget::class, 'category_id', 'id');
+    // }
+    public function ag_budgets(){
+        return $this->hasOne(AG_budget::class, 'category_id', 'id');
+    }
+    public function danliris_budgets(){
+        return $this->hasOne(Danliris_budget::class, 'category_id', 'id');
+    }
+    public function efrata_budgets(){
+        return $this->hasOne(Efrata_budget::class, 'category_id', 'id');
     }
 
     public function antrian_services()

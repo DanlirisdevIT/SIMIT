@@ -40,9 +40,13 @@ class AG_Permintaan extends Model
         return $this->belongsTo(Asset::class, 'asset_id', 'id');
     }
 
-    public function budgets()
+    // public function budgets()
+    // {
+    //     return $this->hasOne(Budget::class, 'permintaan_id', 'id');
+    // }
+    public function ag_budgets()
     {
-        return $this->hasOne(Budget::class, 'permintaan_id', 'id');
+        return $this->hasOne(AG_budget::class, 'ag_permintaan_id', 'id');
     }
 
     public function pemasukans()
