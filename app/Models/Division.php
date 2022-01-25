@@ -37,7 +37,16 @@ class Division extends Model
         return $this->hasOne(AG_Permintaan::class, 'division_id', 'id');
     }
 
-    public function budgets(){
-        return $this->hasOne(Budget::class, 'division_id', 'id');
+    // public function budgets(){
+    //     return $this->hasOne(Budget::class, 'division_id', 'id');
+    // }
+    public function ag_budgets(){
+        return $this->hasOne(AG_budget::class, 'division_id', 'id');
+    }
+    public function danliris_budgets(){
+        return $this->hasOne(Danliris_budget::class, 'division_id', 'id');
+    }
+    public function efrata_budgets(){
+        return $this->hasOne(Efrata_budget::class, 'division_id', 'id');
     }
 }

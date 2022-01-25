@@ -40,9 +40,13 @@ class Danliris_Permintaan extends Model
         return $this->belongsTo(Asset::class, 'asset_id', 'id');
     }
 
-    public function budgets()
+    // public function budgets()
+    // {
+    //     return $this->hasOne(Budget::class, 'permintaan_id', 'id');
+    // }
+    public function danliris_budgets()
     {
-        return $this->hasOne(Budget::class, 'permintaan_id', 'id');
+        return $this->hasOne(Danliris_budget::class, 'danliris_permintaan_id', 'id');
     }
 
     public function pemasukans()
