@@ -170,14 +170,409 @@
                     </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="{{ route('antrianservice.index') }}" class="nav-link active">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Antrian Service</p>
                             </a>
+                        </li> --}}
+                        @if (Auth::user()->company_id == 1)
+                        <li class="nav-item">
+                            <a href="{{ route('efrata_antrianservice.index') }}" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Antrian Service</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 2)
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_antrianservice.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Antrian Service</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 3)
+                        <li class="nav-item">
+                            <a href="{{ route('ag_antrianservice.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Antrian Service</p>
+                            </a>
+                        </li>
+                        @endif
+
+                        {{-- service_final --}}
+                        @if (Auth::user()->company_id == 1)
+                        <li class="nav-item">
+                            <a href="{{ route('efrata_servicefinal.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Service Final</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 2)
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_servicefinal.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Service Final</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 3)
+                        <li class="nav-item">
+                            <a href="{{ route('ag_servicefinal.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Service Final</p>
+                            </a>
+                        </li>
+                        @endif
+
+                        {{-- analysis --}}
+                        @if (Auth::user()->company_id == 1)
+                        <li class="nav-item">
+                            <a href="{{ route('efrata_analysis.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Analysis</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 2)
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_analysis.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Analysis</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 3)
+                        <li class="nav-item">
+                            <a href="{{ route('ag_analysis.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Analysis</p>
+                            </a>
+                        </li>
+                        @endif
+                    </ul>
+                </li>
+                
+                {{-- <li class="nav-item">
+                    <a href="{{ route('danliris_stocklist.index') }}" class="nav-link ">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Stock Opname</p>    
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('danliris_stock.index') }}" class="nav-link ">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Saldo Awal</p>    
+                    </a>
+                </li> --}}
+
+                <li class="nav-item menu-close">
+                    <a href="#" class="nav-link active">
+                    <i class="nav-icon fa fa-circle"></i>
+                    <p>
+                        Stock
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_stocklist.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Stock Opname</p>    
+                            </a>
+                        </li>
+        
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_stock.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Saldo Awal</p>    
+                            </a>
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-item menu-close">
+                    <a href="#" class="nav-link active">
+                    <i class="nav-icon fa fa-upload"></i>
+                    <p>
+                        Upload Data
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        {{-- rbt --}}
+                        @if (Auth::user()->company_id == 1)
+                        <li class="nav-item">
+                            <a href="{{ route('efrata_rbt.index') }}" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>RBT</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 2)
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_rbt.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>RBT</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 3)
+                        <li class="nav-item">
+                            <a href="{{ route('ag_rbt.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>RBT</p>
+                            </a>
+                        </li>
+                        @endif
+                        {{-- temperature/suhu --}}
+                        @if (Auth::user()->company_id == 1)
+                        <li class="nav-item">
+                            <a href="{{ route('efrata_temperature.index') }}" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Suhu</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 2)
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_temperature.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Suhu</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 3)
+                        <li class="nav-item">
+                            <a href="{{ route('ag_temperature.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Suhu</p>
+                            </a>
+                        </li>
+                        @endif
+                        {{-- Ups --}}
+                        @if (Auth::user()->company_id == 1)
+                        <li class="nav-item">
+                            <a href="{{ route('efrata_ups.index') }}" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Ups</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 2)
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_ups.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Ups</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 3)
+                        <li class="nav-item">
+                            <a href="{{ route('ag_ups.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Ups</p>
+                            </a>
+                        </li>
+                        @endif
+                        {{-- Server --}}
+                        @if (Auth::user()->company_id == 1)
+                        <li class="nav-item">
+                            <a href="{{ route('efrata_server.index') }}" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Server</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 2)
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_server.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Server</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 3)
+                        <li class="nav-item">
+                            <a href="{{ route('ag_server.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Server</p>
+                            </a>
+                        </li>
+                        @endif
+                        {{-- pergantian user Komputer --}}
+                        @if (Auth::user()->company_id == 1)
+                        <li class="nav-item">
+                            <a href="{{ route('efrata_change_pc_user.index') }}" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Pergantian User PC</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 2)
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_change_pc_user.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Pergantian User PC</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 3)
+                        <li class="nav-item">
+                            <a href="{{ route('ag_change_pc_user.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Pergantian User PC</p>
+                            </a>
+                        </li>
+                        @endif
+                        {{-- pergantian user email --}}
+                        @if (Auth::user()->company_id == 1)
+                        <li class="nav-item">
+                            <a href="{{ route('efrata_change_email_user.index') }}" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Pergantian User Email</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 2)
+                        <li class="nav-item">
+                            <a href="{{ route('dl_change_email_user.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Pergantian User Email</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 3)
+                        <li class="nav-item">
+                            <a href="{{ route('ag_change_email_user.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Pergantian User Email</p>
+                            </a>
+                        </li>
+                        @endif
+                        {{-- pergantian Wifi --}}
+                        @if (Auth::user()->company_id == 1)
+                        <li class="nav-item">
+                            <a href="{{ route('efrata_change_wifi.index') }}" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Pergantian Wifi</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 2)
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_change_wifi.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Pergantian Wifi</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 3)
+                        <li class="nav-item">
+                            <a href="{{ route('ag_change_wifi.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Pergantian Wifi</p>
+                            </a>
+                        </li>
+                        @endif
+                        {{-- kalibrasi alat --}}
+                        @if (Auth::user()->company_id == 1)
+                        <li class="nav-item">
+                            <a href="{{ route('efrata_kalibrasi_alat.index') }}" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Kalibrasi Alat</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 2)
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_kalibrasi_alat.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Kalibrasi Alat</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 3)
+                        <li class="nav-item">
+                            <a href="{{ route('ag_kalibrasi_alat.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Kalibrasi Alat</p>
+                            </a>
+                        </li>
+                        @endif
+                        {{-- serah terima --}}
+                        @if (Auth::user()->company_id == 1)
+                        <li class="nav-item">
+                            <a href="{{ route('efrata_serah_terima.index') }}" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Serah Terima</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 2)
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_serah_terima.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Serah Terima</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 3)
+                        <li class="nav-item">
+                            <a href="{{ route('ag_serah_terima.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Serah Terima</p>
+                            </a>
+                        </li>
+                        @endif
+                    </ul>
+                </li>
+
+                {{-- <li class="nav-item menu-close">
+                    <a href="#" class="nav-link active">
+                    <i class="nav-icon fa fa-upload"></i>
+                    <p>
+                        Upload Data
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('rbt.index') }}" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>RBT</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('temperature.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Suhu</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('ups.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Ups</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('server.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Server</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('change_pc_user.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Pergantian User PC</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('change_email_user.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Pergantian User Email</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('change_wifi.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Pergantian Wifi</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('kalibrasi_alat.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Kalibrasi Alat</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('serah_terima.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Serah Terima</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li> --}}
+
                 <li class="nav-item">
                     <a href="{{ route('pemasukan.index') }}" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
@@ -185,6 +580,7 @@
                     </a>
                     </ul>
                 </li>
+                
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

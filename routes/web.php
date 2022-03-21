@@ -17,13 +17,60 @@ use App\Http\Controllers\PermintaanController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\AntrianServiceController;
 use App\Http\Controllers\PemasukanController;
-use App\Http\Controllers\ServiceMasukAssetController;
 use App\Http\Controllers\Danliris_Permintaan_Controller;
 use App\Http\Controllers\Efrata_Permintaan_Controller;
 use App\Http\Controllers\AG_Permintaan_Controller;
 use App\Http\Controllers\DanlirisBudgetController;
 use App\Http\Controllers\EfrataBudgetController;
 use App\Http\Controllers\AGBudgetController;
+use App\Http\Controllers\Danliris_Antrianservice_Controller;
+use App\Http\Controllers\Efrata_Antrianservice_Controller;
+use App\Http\Controllers\AG_Antrianservice_Controller;
+use App\Http\Controllers\AG_Servicefinal_Controller;
+use App\Http\Controllers\Danliris_Analysis_Controller;
+use App\Http\Controllers\Danliris_Servicefinal_Controller;
+use App\Http\Controllers\Efrata_Analysis_Controller;
+use App\Http\Controllers\Efrata_Servicefinal_Controller;
+use App\Http\Controllers\AG_Analysis_Controller;
+use App\Http\Controllers\AG_Change_Email_User_Controller;
+use App\Http\Controllers\AG_Change_Pc_User_Controller;
+use App\Http\Controllers\AG_Change_Wifi_Controller;
+use App\Http\Controllers\AG_Kalibrasi_Alat_Controller;
+use App\Http\Controllers\AG_RBT_Controller;
+use App\Http\Controllers\AG_Serah_Terima_Controller;
+use App\Http\Controllers\AG_Server_Controller;
+use App\Http\Controllers\AG_Temperature_Controller;
+use App\Http\Controllers\AG_Ups_Controller;
+use App\Http\Controllers\Change_Email_User_Controller;
+use App\Http\Controllers\Change_Pc_User_Controller;
+use App\Http\Controllers\Change_Wifi_Controller;
+use App\Http\Controllers\Danliris_Change_Pc_User_Controller;
+use App\Http\Controllers\Danliris_Change_Wifi_Controller;
+use App\Http\Controllers\Danliris_Kalibrasi_Alat_Controller;
+use App\Http\Controllers\Danliris_RBT_Controller;
+use App\Http\Controllers\Danliris_Serah_Terima_Controller;
+use App\Http\Controllers\Danliris_Server_Controller;
+use App\Http\Controllers\Danliris_Stock_Controller;
+use App\Http\Controllers\Danliris_Stocklist_Controller;
+use App\Http\Controllers\Danliris_Temperature_Controller;
+use App\Http\Controllers\Danliris_Ups_Controller;
+use App\Http\Controllers\DL_Change_Email_User_Controller;
+use App\Http\Controllers\Efrata_Change_Email_User_Controller;
+use App\Http\Controllers\Efrata_Change_Pc_User_Controller;
+use App\Http\Controllers\Efrata_Change_Wifi_Controller;
+use App\Http\Controllers\Efrata_Kalibrasi_Alat_Controller;
+use App\Http\Controllers\Efrata_RBT_Controller;
+use App\Http\Controllers\Efrata_Serah_Terima_Controller;
+use App\Http\Controllers\Efrata_Server_Controller;
+use App\Http\Controllers\Efrata_Temperature_Controller;
+use App\Http\Controllers\Efrata_Ups_Controller;
+use App\Http\Controllers\Kalibrasi_Alat_Controller;
+use App\Http\Controllers\RBT_Controller;
+use App\Http\Controllers\Serah_Terima_Controller;
+use App\Http\Controllers\Server_Controller;
+use App\Http\Controllers\Temperature_Controller;
+use App\Http\Controllers\Ups_Controller;
+use App\Models\AG_Temperature;
 
 /*
 |--------------------------------------------------------------------------
@@ -122,14 +169,98 @@ route::resource('efrata_budget', EfrataBudgetController::class)->except(['show']
 Route::get('ag_budget/{id}/edit', [AGBudgetController::class, 'edit'])->name('budget.edit');
 route::resource('ag_budget', AGBudgetController::class)->except(['show']);
 
+
 //antrianservice route
-Route::get('antrianservice/{id}/edit', [AntrianServiceController::class, 'edit'])->name('antranservice.edit');
+Route::get('antrianservice/{id}/edit', [AntrianServiceController::class, 'edit'])->name('antrianservice.edit');
 Route::resource('antrianservice', AntrianServiceController::class)->except(['show']);
+
+Route::get('danliris_antrianservice/{id}/edit', [Danliris_Antrianservice_Controller::class, 'edit'])->name('danliris_antrianservice.edit');
+Route::get('danliris_antrianservice/{id}/edit1', [Danliris_Antrianservice_Controller::class, 'edit1'])->name('danliris_antrianservice.edit1');
+Route::resource('danliris_antrianservice', Danliris_Antrianservice_Controller::class)->except(['show']);
+
+
+Route::get('efrata_antrianservice/{id}/edit', [Efrata_Antrianservice_Controller::class, 'edit'])->name('efrata_antrianservice.edit');
+Route::resource('efrata_antrianservice', Efrata_Antrianservice_Controller::class)->except(['show']);
+
+Route::get('ag_antrianservice/{id}/edit', [AG_Antrianservice_Controller::class, 'edit'])->name('ag_antrianservice.edit');
+Route::resource('ag_antrianservice', AG_Antrianservice_Controller::class)->except(['show']);
+
 //pemasukan route
 Route::get('pemasukan/{id}/edit', [PemasukanController::class, 'edit'])->name('pemasukan.edit');
 Route::resource('pemasukan', PemasukanController::class)->except(['show']);
 
-//servicemasukasset route
-Route::get('servicemasukasset/{id}/edit', [ServiceMasukAssetController::class, 'edit'])->name('servicemasukasset.edit');
-Route::resource('servicemasukasset', ServiceMasukAssetController::class)->except(['show']);
+//service final route
+Route::get('danliris_servicefinal/{id}/edit', [Danliris_Servicefinal_Controller::class, 'edit'])->name('danliris_servicefinal.edit');
+Route::resource('danliris_servicefinal', Danliris_Servicefinal_Controller::class)->except(['show']);
 
+Route::get('efrata_servicefinal/{id}/edit', [Efrata_Servicefinal_Controller::class, 'edit'])->name('efrata_servicefinal.edit');
+Route::resource('efrata_servicefinal', Efrata_Servicefinal_Controller::class)->except(['show']);
+
+Route::get('ag_servicefinal/{id}/edit', [AG_Servicefinal_Controller::class, 'edit'])->name('ag_servicefinal.edit');
+Route::resource('ag_servicefinal', AG_Servicefinal_Controller::class)->except(['show']);
+
+//analysis route
+Route::resource('danliris_analysis', Danliris_Analysis_Controller::class)->except(['show']);
+Route::resource('efrata_analysis', Efrata_Analysis_Controller::class)->except(['show']);
+Route::resource('ag_analysis', AG_Analysis_Controller::class)->except(['show']);
+
+//upload stock
+Route::resource('danliris_stocklist', Danliris_Stocklist_Controller::class);
+Route::post('/danliris_stocklist/import', [Danliris_Stocklist_Controller::class, 'import'])->name('danliris_stocklist.import');
+
+//Stock
+Route::resource('danliris_stock', Danliris_Stock_Controller::class)->except(['show']);
+
+//upload RBT
+// Route::resource('rbt', RBT_Controller::class)->except(['show']);
+Route::resource('efrata_rbt', Efrata_RBT_Controller::class)->except(['show']);
+Route::resource('danliris_rbt', Danliris_RBT_Controller::class)->except(['show']);
+Route::resource('ag_rbt', AG_RBT_Controller::class)->except(['show']);
+
+//upload Temperature
+// Route::resource('temperature', Temperature_Controller::class)->except(['show']);
+Route::resource('efrata_temperature', Efrata_Temperature_Controller::class)->except(['show']);
+Route::resource('danliris_temperature', Danliris_Temperature_Controller::class)->except(['show']);
+Route::resource('ag_temperature', AG_Temperature_Controller::class)->except(['show']);
+
+//upload Ups
+// Route::resource('ups', Ups_Controller::class)->except(['show']);
+Route::resource('efrata_ups', Efrata_Ups_Controller::class)->except(['show']);
+Route::resource('danliris_ups', Danliris_Ups_Controller::class)->except(['show']);
+Route::resource('ag_ups', AG_Ups_Controller::class)->except(['show']);
+
+//upload Server
+// Route::resource('server', Server_Controller::class)->except(['show']);
+Route::resource('efrata_server', Efrata_Server_Controller::class)->except(['show']);
+Route::resource('danliris_server', Danliris_Server_Controller::class)->except(['show']);
+Route::resource('ag_server', AG_Server_Controller::class)->except(['show']);
+
+//upload change pc user
+// Route::resource('change_pc_user', Change_Pc_User_Controller::class)->except(['show']);
+Route::resource('danliris_change_pc_user', Danliris_Change_Pc_User_Controller::class)->except(['show']);
+Route::resource('efrata_change_pc_user', Efrata_Change_Pc_User_Controller::class)->except(['show']);
+Route::resource('ag_change_pc_user', AG_Change_Pc_User_Controller::class)->except(['show']);
+
+//upload change email user
+// Route::resource('change_email_user', Change_Email_User_Controller::class)->except(['show']);
+Route::resource('efrata_change_email_user', Efrata_Change_Email_User_Controller::class)->except(['show']);
+Route::resource('dl_change_email_user', DL_Change_Email_User_Controller::class)->except(['show']);
+Route::resource('ag_change_email_user', AG_Change_Email_User_Controller::class)->except(['show']);
+
+//upload change wifi
+// Route::resource('change_wifi', Change_Wifi_Controller::class)->except(['show']);
+Route::resource('efrata_change_wifi', Efrata_Change_Wifi_Controller::class)->except(['show']);
+Route::resource('danliris_change_wifi', Danliris_Change_Wifi_Controller::class)->except(['show']);
+Route::resource('ag_change_wifi', AG_Change_Wifi_Controller::class)->except(['show']);
+
+//upload kalibrasi alat
+// Route::resource('kalibrasi_alat', Kalibrasi_Alat_Controller::class)->except(['show']);
+Route::resource('efrata_kalibrasi_alat', Efrata_Kalibrasi_Alat_Controller::class)->except(['show']);
+Route::resource('danliris_kalibrasi_alat', Danliris_Kalibrasi_Alat_Controller::class)->except(['show']);
+Route::resource('ag_kalibrasi_alat', AG_Kalibrasi_Alat_Controller::class)->except(['show']);
+
+//upload serah terima
+// Route::resource('serah_terima', Serah_Terima_Controller::class)->except(['show']);
+Route::resource('efrata_serah_terima', Efrata_Serah_Terima_Controller::class)->except(['show']);
+Route::resource('danliris_serah_terima', Danliris_Serah_Terima_Controller::class)->except(['show']);
+Route::resource('ag_serah_terima', AG_Serah_Terima_Controller::class)->except(['show']);
