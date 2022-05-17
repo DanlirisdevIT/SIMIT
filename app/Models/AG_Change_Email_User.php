@@ -13,5 +13,5 @@ class AG_Change_Email_User extends Model
 
     protected $table = 'ag_change_email_users';
 
-    protected $fillable = ['datafile', 'created_at', 'updated_at'];
+    protected $fillable = ['datafile', 'document_name', 'created_at', 'updated_at'];
 }

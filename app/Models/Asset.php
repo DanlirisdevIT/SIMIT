@@ -59,4 +59,16 @@ class Asset extends Model
     public function efrata_budgets(){
         return $this->hasOne(Efrata_budget::class, 'asset_id', 'id');
     }
+
+    public function danliris_histories(){
+        return $this->hasOne(Danliris_History::class, 'asset_id', 'id');
+    }
+
+    public function efrata_histories(){
+        return $this->hasOne(Efrata_History::class, 'asset_id', 'id');
+    }
+
+    public function AG_histories(){
+        return $this->hasOne(AG_History::class, 'asset_id', 'id');
+    }
 }

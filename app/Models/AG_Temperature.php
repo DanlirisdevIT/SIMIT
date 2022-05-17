@@ -13,5 +13,5 @@ class AG_Temperature extends Model
 
     protected $table = 'ag_temperatures';
 
-    protected $fillable = ['datafile', 'created_at', 'updated_at'];
+    protected $fillable = ['datafile', 'document_name', 'created_at', 'updated_at'];
 }

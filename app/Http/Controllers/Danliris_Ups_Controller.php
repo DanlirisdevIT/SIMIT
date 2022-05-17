@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Danliris_Ups;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class Danliris_Ups_Controller extends Controller
 {
@@ -14,9 +16,14 @@ class Danliris_Ups_Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $danliris_ups = Danliris_Ups::orderBy('datafile', 'DESC')->get();
+        $danliris_ups = Danliris_Ups::get();
+        if($request->ajax()){
+            return DataTables::of($danliris_ups)
+            ->addIndexColumn()
+            ->make(true);
+        }
         return view('upload_data.danliris_ups.index')->with('danliris_ups', $danliris_ups);
     }
 
@@ -39,28 +46,36 @@ class Danliris_Ups_Controller extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'filename' => 'required|mimes:pdf|max:10000',
+            'datafile' => 'required|mimes:pdf|max:10000',
+            'document_name' => 'required'
         ]);
 
         if($validator->fails()) {
             return back()->withErrors($validator);
         }
+        else
+        {
+            $createdBy = Auth::user()->level;
 
-        if ($request->hasfile('filename')) {           
-            $filename =$request->file('filename')->getClientOriginalName();
-            $request->file('filename')->move(public_path('uploads/pdf'), $filename);
-             Danliris_Ups::create(
-                    [                        
-                        'datafile' =>$filename
-                    ]
-                );
-            return back()->with('success', 'File berhasil diupload!');
+            $data = new Danliris_Ups();
+
+            if ($request->hasfile('datafile')) {           
+                $filename =$request->file('datafile')->getClientOriginalName();
+                $request->file('datafile')->move(public_path('uploads/pdf'), $filename);
+                 Danliris_Ups::create(
+                        [                        
+                            'datafile' => $filename,
+                            'document_name' => $request->input('document_name')
+                        ]
+                    );
+                $data -> document_name = $request->input('document_name');
+                $data -> createdBy = $createdBy;
+                
+                return back()->with('success', 'File berhasil diupload!');
+            }
+
         }
-        
-        
-        else{
-            return back()->with('error', 'Jenis file tidak didukung');
-        }
+
     }
 
     /**

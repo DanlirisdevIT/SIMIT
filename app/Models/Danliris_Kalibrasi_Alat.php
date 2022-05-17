@@ -13,5 +13,5 @@ class Danliris_Kalibrasi_Alat extends Model
 
     protected $table = 'danliris_kalibrasi_alat';
 
-    protected $fillable = ['datafile', 'created_at', 'updated_at'];
+    protected $fillable = ['datafile', 'document_name', 'created_at', 'updated_at'];
 }

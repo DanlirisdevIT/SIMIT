@@ -13,5 +13,5 @@ class AG_Change_Wifi extends Model
 
     protected $table = 'ag_change_wifi';
 
-    protected $fillable = ['datafile', 'created_at', 'updated_at'];
+    protected $fillable = ['datafile', 'document_name', 'created_at', 'updated_at'];
 }

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Danliris_Change_Wifi;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class Danliris_Change_Wifi_Controller extends Controller
 {
@@ -14,9 +16,14 @@ class Danliris_Change_Wifi_Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $danliris_change_wifi = Danliris_Change_Wifi::orderBy('datafile', 'DESC')->get();
+        $danliris_change_wifi = Danliris_Change_Wifi::get();
+        if($request->ajax()){
+            return DataTables::of($danliris_change_wifi)
+            ->addIndexColumn()
+            ->make(true);
+        }
         return view('upload_data.danliris_change_wifi.index')->with('danliris_change_wifi', $danliris_change_wifi);
     }
 
@@ -39,28 +46,33 @@ class Danliris_Change_Wifi_Controller extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'filename' => 'required|mimes:pdf|max:10000',
+            'datafile' => 'required|mimes:pdf|max:10000',
+            'document_name' => 'required'
         ]);
 
         if($validator->fails()) {
             return back()->withErrors($validator);
         }
+        else
+        {
+            $createdBy = Auth::user()->level;
+            $data = new Danliris_Change_Wifi();
 
-        if ($request->hasfile('filename')) {           
-            $filename =$request->file('filename')->getClientOriginalName();
-            $request->file('filename')->move(public_path('uploads/pdf'), $filename);
-             Danliris_Change_Wifi::create(
-                    [                        
-                        'datafile' =>$filename
-                    ]
-                );
-            return back()->with('success', 'File berhasil diupload!');
+            if ($request->hasfile('datafile')) {           
+                $filename =$request->file('datafile')->getClientOriginalName();
+                $request->file('datafile')->move(public_path('uploads/pdf'), $filename);
+                 Danliris_Change_Wifi::create(
+                        [                        
+                            'datafile' =>$filename,
+                            'document_name' => $request->input('document_name')
+                        ]
+                    );
+                $data -> document_name = $request->input('document_name');
+                $data -> createdBy = $createdBy;
+                return back()->with('success', 'File berhasil diupload!');
+            }
         }
-        
-        
-        else{
-            return back()->with('error', 'Jenis file tidak didukung');
-        }
+
     }
 
     /**

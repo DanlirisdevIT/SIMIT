@@ -13,5 +13,5 @@ class Efrata_Temperature extends Model
 
     protected $table = 'efrata_temperatures';
 
-    protected $fillable = ['datafile', 'created_at', 'updated_at'];
+    protected $fillable = ['datafile', 'document_name', 'created_at', 'updated_at'];
 }

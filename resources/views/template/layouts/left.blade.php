@@ -199,26 +199,50 @@
                         </li>
                         @endif
 
-                        {{-- service_final --}}
+                        {{-- Service tidak tercapai --}}
                         @if (Auth::user()->company_id == 1)
                         <li class="nav-item">
-                            <a href="{{ route('efrata_servicefinal.index') }}" class="nav-link ">
+                            <a href="" class="nav-link ">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Service Final</p>
+                            <p>Service tidak tercapai</p>
                             </a>
                         </li>
                         @elseif (Auth::user()->company_id == 2)
                         <li class="nav-item">
-                            <a href="{{ route('danliris_servicefinal.index') }}" class="nav-link ">
+                            <a href="{{ route('danliris_service_tidak_tercapai.index') }}" class="nav-link ">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Service Final</p>
+                            <p>Service tidak tercapai</p>
                             </a>
                         </li>
                         @elseif (Auth::user()->company_id == 3)
                         <li class="nav-item">
-                            <a href="{{ route('ag_servicefinal.index') }}" class="nav-link ">
+                            <a href="" class="nav-link ">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Service Final</p>
+                            <p>Service tidak tercapai</p>
+                            </a>
+                        </li>
+                        @endif
+
+                        {{-- service_final --}}
+                        @if (Auth::user()->company_id == 1)
+                        <li class="nav-item">
+                            <a href="{{ route('efrata_historyservice.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>History Service</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 2)
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_historyservice.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>History Service</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 3)
+                        <li class="nav-item">
+                            <a href="{{ route('ag_historyservice.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>History Service</p>
                             </a>
                         </li>
                         @endif
@@ -272,13 +296,30 @@
                     </p>
                     </a>
                     <ul class="nav nav-treeview">
+
+                        @if (Auth::user()->company_id == 1)
                         <li class="nav-item">
-                            <a href="{{ route('danliris_stocklist.index') }}" class="nav-link ">
+                            <a href="{{ route('efrata_stockopname.index') }}" class="nav-link active">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Stock Opname</p>    
+                            <p>Stock Opname</p>
                             </a>
                         </li>
-        
+                        @elseif (Auth::user()->company_id == 2)
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_stockopname.index') }}" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Stock Opname</p>
+                            </a>
+                        </li>
+                        @elseif (Auth::user()->company_id == 3)
+                        <li class="nav-item">
+                            <a href="{{ route('ag_stockopname.index') }}" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Stock Opname</p>
+                            </a>
+                        </li>
+                        @endif
+
                         <li class="nav-item">
                             <a href="{{ route('danliris_stock.index') }}" class="nav-link ">
                             <i class="far fa-circle nav-icon"></i>
@@ -422,7 +463,7 @@
                         </li>
                         @elseif (Auth::user()->company_id == 2)
                         <li class="nav-item">
-                            <a href="{{ route('dl_change_email_user.index') }}" class="nav-link ">
+                            <a href="{{ route('danliris_change_email_user.index') }}" class="nav-link ">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Pergantian User Email</p>
                             </a>
@@ -506,72 +547,6 @@
                         @endif
                     </ul>
                 </li>
-
-                {{-- <li class="nav-item menu-close">
-                    <a href="#" class="nav-link active">
-                    <i class="nav-icon fa fa-upload"></i>
-                    <p>
-                        Upload Data
-                        <i class="right fas fa-angle-left"></i>
-                    </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('rbt.index') }}" class="nav-link active">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>RBT</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('temperature.index') }}" class="nav-link ">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Suhu</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('ups.index') }}" class="nav-link ">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Ups</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('server.index') }}" class="nav-link ">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Server</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('change_pc_user.index') }}" class="nav-link ">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Pergantian User PC</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('change_email_user.index') }}" class="nav-link ">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Pergantian User Email</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('change_wifi.index') }}" class="nav-link ">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Pergantian Wifi</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('kalibrasi_alat.index') }}" class="nav-link ">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Kalibrasi Alat</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('serah_terima.index') }}" class="nav-link ">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Serah Terima</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li> --}}
 
                 <li class="nav-item">
                     <a href="{{ route('pemasukan.index') }}" class="nav-link active">

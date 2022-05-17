@@ -13,5 +13,5 @@ class Efrata_RBT extends Model
 
     protected $table = 'efrata_rbts';
 
-    protected $fillable = ['datafile', 'created_at', 'updated_at'];
+    protected $fillable = ['datafile', 'document_name', 'created_at', 'updated_at'];
 }

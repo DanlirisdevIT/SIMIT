@@ -13,5 +13,5 @@ class Efrata_Change_Wifi extends Model
 
     protected $table = 'efrata_change_wifi';
 
-    protected $fillable = ['datafile', 'created_at', 'updated_at'];
+    protected $fillable = ['datafile', 'document_name', 'created_at', 'updated_at'];
 }

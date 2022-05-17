@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Efrata_Serah_Terima;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class Efrata_Serah_Terima_Controller extends Controller
 {
@@ -14,9 +16,14 @@ class Efrata_Serah_Terima_Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $efrata_serah_terima = Efrata_Serah_Terima::orderBy('datafile', 'DESC')->get();
+        $efrata_serah_terima = Efrata_Serah_Terima::get();
+        if($request->ajax()){
+            return DataTables::of($efrata_serah_terima)
+            ->addIndexColumn()
+            ->make(true);
+        }
         return view('upload_data.efrata_serah_terima.index')->with('efrata_serah_terima', $efrata_serah_terima);
     }
 
@@ -39,27 +46,32 @@ class Efrata_Serah_Terima_Controller extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'filename' => 'required|mimes:pdf|max:10000',
+            'datafile' => 'required|mimes:pdf|max:10000',
+            'document_name' => 'required'
         ]);
 
         if($validator->fails()) {
             return back()->withErrors($validator);
         }
+        else
+        {
+            $createdBy = Auth::user()->level;
+            $data = new Efrata_Serah_Terima();
 
-        if ($request->hasfile('filename')) {           
-            $filename =$request->file('filename')->getClientOriginalName();
-            $request->file('filename')->move(public_path('uploads/pdf'), $filename);
-             Efrata_Serah_Terima::create(
-                    [                        
-                        'datafile' =>$filename
-                    ]
-                );
-            return back()->with('success', 'File berhasil diupload!');
-        }
-        
-        
-        else{
-            return back()->with('error', 'Jenis file tidak didukung');
+            if ($request->hasfile('datafile')) {           
+                $filename =$request->file('datafile')->getClientOriginalName();
+                $request->file('datafile')->move(public_path('uploads/pdf'), $filename);
+                 Efrata_Serah_Terima::create(
+                        [                        
+                            'datafile' =>$filename,
+                            'document_name' => $request->input('document_name')
+                        ]
+                    );
+                $data -> document_name = $request->input('document_name');
+                $data -> createdBy = $createdBy;
+                
+                return back()->with('success', 'File berhasil diupload!');
+            }
         }
     }
 

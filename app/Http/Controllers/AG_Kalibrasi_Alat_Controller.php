@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AG_Kalibrasi_Alat;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class AG_Kalibrasi_Alat_Controller extends Controller
 {
@@ -14,9 +16,14 @@ class AG_Kalibrasi_Alat_Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $ag_kalibrasi_alat = AG_Kalibrasi_Alat::orderBy('datafile', 'DESC')->get();
+        $ag_kalibrasi_alat = AG_Kalibrasi_Alat::get();
+        if($request->ajax()){
+            return DataTables::of($ag_kalibrasi_alat)
+            ->addIndexColumn()
+            ->make(true);
+        }
         return view('upload_data.ag_kalibrasi_alat.index')->with('ag_kalibrasi_alat', $ag_kalibrasi_alat);
     }
 
@@ -39,28 +46,33 @@ class AG_Kalibrasi_Alat_Controller extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'filename' => 'required|mimes:pdf|max:10000',
+            'datafile' => 'required|mimes:pdf|max:10000',
+            'document_name' => 'required'
         ]);
 
         if($validator->fails()) {
             return back()->withErrors($validator);
         }
+        else
+        {
+            $createdBy = Auth::user()->level;
+            $data = new AG_Kalibrasi_Alat();
 
-        if ($request->hasfile('filename')) {           
-            $filename =$request->file('filename')->getClientOriginalName();
-            $request->file('filename')->move(public_path('uploads/pdf'), $filename);
-             AG_Kalibrasi_Alat::create(
-                    [                        
-                        'datafile' =>$filename
-                    ]
-                );
-            return back()->with('success', 'File berhasil diupload!');
+            if ($request->hasfile('datafile')) {           
+                $filename =$request->file('datafile')->getClientOriginalName();
+                $request->file('datafile')->move(public_path('uploads/pdf'), $filename);
+                 AG_Kalibrasi_Alat::create(
+                        [                        
+                            'datafile' =>$filename,
+                            'document_name' => $request ->input('document_name')
+                        ]
+                    );
+                $data -> document_name = $request->input('document_name');
+                $data -> createdBy = $createdBy;
+                return back()->with('success', 'File berhasil diupload!');
+            }
         }
-        
-        
-        else{
-            return back()->with('error', 'Jenis file tidak didukung');
-        }
+
     }
 
     /**
