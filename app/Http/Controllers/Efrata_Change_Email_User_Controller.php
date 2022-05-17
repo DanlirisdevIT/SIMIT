@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Efrata_Change_Email_User;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class Efrata_Change_Email_User_Controller extends Controller
 {
@@ -14,9 +16,14 @@ class Efrata_Change_Email_User_Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $efrata_change_email_users = Efrata_Change_Email_User::orderBy('datafile', 'DESC')->get();
+        $efrata_change_email_users = Efrata_Change_Email_User::get();
+        if($request->ajax()){
+            return DataTables::of($efrata_change_email_users)
+            ->addIndexColumn()
+            ->make(true);
+        }
         return view('upload_data.efrata_change_email_user.index')->with('efrata_change_email_users', $efrata_change_email_users);
     }
 
@@ -39,28 +46,33 @@ class Efrata_Change_Email_User_Controller extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'filename' => 'required|mimes:pdf|max:10000',
+            'datafile' => 'required|mimes:pdf|max:10000',
+            'document_name' => 'required'
         ]);
 
         if($validator->fails()) {
             return back()->withErrors($validator);
         }
+        else
+        {
+            $createdBy = Auth::user()->level;
+            $data = new Efrata_Change_Email_User();
 
-        if ($request->hasfile('filename')) {           
-            $filename =$request->file('filename')->getClientOriginalName();
-            $request->file('filename')->move(public_path('uploads/pdf'), $filename);
-             Efrata_Change_Email_User::create(
-                    [                        
-                        'datafile' =>$filename
-                    ]
-                );
-            return back()->with('success', 'File berhasil diupload!');
+            if ($request->hasfile('datafile')) {           
+                $filename =$request->file('datafile')->getClientOriginalName();
+                $request->file('datafile')->move(public_path('uploads/pdf'), $filename);
+                 Efrata_Change_Email_User::create(
+                        [                        
+                            'datafile' =>$filename,
+                            'document_name' => $request->input('document_name')
+                        ]
+                    );
+                $data -> document_name = $request->input('document_name');
+                $data -> createdBy = $createdBy;
+                return back()->with('success', 'File berhasil diupload!');
+            }
         }
         
-        
-        else{
-            return back()->with('error', 'Jenis file tidak didukung');
-        }
     }
 
     /**

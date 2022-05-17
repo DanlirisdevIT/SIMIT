@@ -57,4 +57,16 @@ class Unit extends Model
     {
         return $this->hasOne(Pemasukan::class, 'unit_id', 'id');
     }
+
+    public function danliris_histories(){
+        return $this->hasOne(Danliris_History::class, 'unit_id', 'id');
+    }
+
+    public function efrata_histories(){
+        return $this->hasOne(Efrata_History::class, 'unit_id', 'id');
+    }
+
+    public function AG_histories(){
+        return $this->hasOne(AG_Historye::class, 'unit_id', 'id');
+    }
 }

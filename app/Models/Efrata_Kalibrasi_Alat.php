@@ -13,5 +13,5 @@ class Efrata_Kalibrasi_Alat extends Model
 
     protected $table = 'efrata_kalibrasi_alat';
 
-    protected $fillable = ['datafile', 'created_at', 'updated_at'];
+    protected $fillable = ['datafile', 'document_name', 'created_at', 'updated_at'];
 }

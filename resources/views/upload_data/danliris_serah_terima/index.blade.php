@@ -22,6 +22,27 @@
                                 Upload PDF
                             </button>
                      
+                            <br><br>
+
+
+                            @csrf
+                                <table class="table table-bordered datatables">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Dokumen</th>
+                                            <th>Tanggal Upload</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
                             <!-- Import Excel -->
                             <div class="modal fade" id="importPdf" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
@@ -48,12 +69,19 @@
                                                     @csrf
                                                     <div class="form-group row">
                                                         <div class="col-md-4">
-                                                            <input type="file" name="filename" required>
+                                                            <input type="file" name="datafile" required>
                                                         </div>
                                                     </div>
                                             <label for="formFile" class="form-label fw-normal">Acceptable file types are PDF</label>
                                             <div>
                                                 <label for="formFile" class="form-label fw-normal">Maks file size 10MB</label>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label name="document_name" class="col-sm-4 control-label"> Nama Dokumen </label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" id="document_name" name="document_name" placeholder="Masukkan nama dokumen..." maxlength="50" >
+                                                </div>
                                             </div>
                                             
                                                             
@@ -67,35 +95,32 @@
                                 </div>
                             </div>
                      
-                            <br><br>
+                            
 
+    <script type="text/javascript">
+        $(function() {
+            $.ajaxSetup({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
-                            @csrf
-                                <table class="table table-bordered">
-                                    <thead class="text-center"></thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Nama File</th>
-                                            <th>Tanggal Upload</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php $i=1 @endphp
-                                        @foreach($danliris_serah_terima as $serah_terima)
-                                        <tr>
-                                            <td>{{ $i++ }}</td>
-                                            <td>{{ $serah_terima->datafile }}</td>
-                                            <td>{{ $serah_terima->created_at }}</td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>  
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        var table = $('.datatables').DataTable({
+                autoWidth: false,
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('danliris_serah_terima.index') }}",
+                method: 'GET',
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex', width: '5%'},
+                    {data: 'document_name', name: 'document_name', width: '15%'},
+                    {data: 'created_at', name: 'created_at', width: '15%'},
+                ],
+                order: [
+                    [0, 'desc'],
+                ],
+            });
+        });
+    </script>
 
 @endsection

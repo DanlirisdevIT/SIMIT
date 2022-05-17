@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\AG_Temperature;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class AG_Temperature_Controller extends Controller
 {
@@ -15,9 +17,14 @@ class AG_Temperature_Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $ag_temperatures = AG_Temperature::orderBy('datafile', 'DESC')->get();
+        $ag_temperatures = AG_Temperature::get();
+        if($request->ajax()){
+            return DataTables::of($ag_temperatures)
+            ->addIndexColumn()
+            ->make(true);
+        }
         
         return view('upload_data.ag_temperature.index')->with('ag_temperatures', $ag_temperatures);
     }
@@ -41,31 +48,36 @@ class AG_Temperature_Controller extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'filename' => 'required|mimes:xlsx,xls,pdf|max:10000',
+            'datafile' => 'required|mimes:xlsx,xls,pdf|max:10000',
+            'document_name' => 'required'
         ]);
 
         if($validator->fails()) {
             return back()->withErrors($validator);
         }
-
-        if ($request->hasfile('filename')) {           
-            // $filename = round(microtime(true) * 1000).'-'.str_replace(' ','-',$request->file('filename')->getClientOriginalName());
-            $filename =$request->file('filename')->getClientOriginalName();
-            $request->file('filename')->move(public_path('uploads/pdf'), $filename);
+        else
+        {
+            $createdBy = Auth::user()->level;
             $getDate = Carbon::parse($request->input('created_at'))->format('Y-m-d');
-             AG_Temperature::create(
-                    [                        
-                        'datafile' => $filename,
-                        'created_at' => $getDate
-                    ]
-                );
-            return back()->with('success', 'File berhasil diupload!');
+
+            $data = new AG_Temperature();
+            if ($request->hasfile('datafile')) {           
+                // $filename = round(microtime(true) * 1000).'-'.str_replace(' ','-',$request->file('filename')->getClientOriginalName());
+                $filename =$request->file('datafile')->getClientOriginalName();
+                $request->file('datafile')->move(public_path('uploads/pdf'), $filename);
+                 AG_Temperature::create(
+                        [                        
+                            'datafile' => $filename,
+                            'document_name' => $request->input('document_name')
+                        ]
+                    );
+
+                $data -> document_name = $request->input('document_name');
+                $data -> createdBY = $createdBy;
+                return back()->with('success', 'File berhasil diupload!');
+            }
         }
-        
-        
-        else{
-            return back()->with('error', 'Jenis file tidak didukung');
-        }
+
     }
 
     /**

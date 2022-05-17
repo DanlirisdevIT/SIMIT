@@ -13,5 +13,5 @@ class Danliris_Server extends Model
 
     protected $table = 'danliris_servers';
 
-    protected $fillable = ['datafile', 'created_at', 'updated_at'];
+    protected $fillable = ['datafile', 'document_name', 'created_at', 'updated_at'];
 }

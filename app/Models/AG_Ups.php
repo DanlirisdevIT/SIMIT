@@ -13,5 +13,5 @@ class AG_Ups extends Model
 
     protected $table = 'ag_ups';
 
-    protected $fillable = ['datafile', 'created_at', 'updated_at'];
+    protected $fillable = ['datafile', 'document_name', 'created_at', 'updated_at'];
 }

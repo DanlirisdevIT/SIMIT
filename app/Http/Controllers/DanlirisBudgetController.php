@@ -42,7 +42,7 @@ class DanlirisBudgetController extends Controller
                 $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-primary btn-sm editBudget"><i class="far fa-edit"></i></a>';
                 return $btn;
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'date'])
             ->make(true);
         }
         return view('budget.danliris_budget.index', compact('danliris_permintaans' ,'divisions', 'categories', 'assets'));

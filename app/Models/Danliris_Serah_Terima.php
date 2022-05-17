@@ -13,5 +13,5 @@ class Danliris_Serah_Terima extends Model
 
     protected $table = 'danliris_serah_terima';
 
-    protected $fillable = ['datafile', 'created_at', 'updated_at'];
+    protected $fillable = ['datafile', 'document_name', 'created_at', 'updated_at'];
 }

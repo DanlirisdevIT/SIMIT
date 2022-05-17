@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Danliris_Temperature;
 Use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class Danliris_Temperature_Controller extends Controller
 {
@@ -15,9 +17,14 @@ class Danliris_Temperature_Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $danliris_temperatures = Danliris_Temperature::orderBy('datafile', 'DESC')->get();
+        $danliris_temperatures = Danliris_Temperature::get();
+        if($request->ajax()){
+            return DataTables::of($danliris_temperatures)
+            ->addIndexColumn()
+            ->make(true);
+        }
         
         return view('upload_data.danliris_temperature.index')->with('danliris_temperatures', $danliris_temperatures);
     }
@@ -41,31 +48,37 @@ class Danliris_Temperature_Controller extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'filename' => 'required|mimes:xlsx,xls,pdf|max:10000',
+            'datafile' => 'required|mimes:xlsx,xls,pdf|max:10000',
+            'document_name' => 'required'
         ]);
 
         if($validator->fails()) {
             return back()->withErrors($validator);
         }
+        else
+        {
+            $createdBy = Auth::user()->level;
+            // $getDate = Carbon::parse($request->input('created_at'))->format('Y-m-d');
 
-        if ($request->hasfile('filename')) {           
-            // $filename = round(microtime(true) * 1000).'-'.str_replace(' ','-',$request->file('filename')->getClientOriginalName());
-            $filename =$request->file('filename')->getClientOriginalName();
-            $request->file('filename')->move(public_path('uploads/pdf'), $filename);
-            $getDate = Carbon::parse($request->input('created_at'))->format('Y-m-d');
-             Danliris_Temperature::create(
-                    [                        
-                        'datafile' => $filename,
-                        'created_at' => $getDate
-                    ]
-                );
-            return back()->with('success', 'File berhasil diupload!');
+            $data = new Danliris_Temperature();
+
+            if ($request->hasfile('datafile')) {           
+                // $filename = round(microtime(true) * 1000).'-'.str_replace(' ','-',$request->file('filename')->getClientOriginalName());
+                $filename =$request->file('datafile')->getClientOriginalName();
+                $request->file('datafile')->move(public_path('uploads/pdf'), $filename);
+                 Danliris_Temperature::create(
+                        [                        
+                            'datafile' => $filename,
+                            'document_name' => $request->input('document_name')
+                        ]
+                    );
+
+                $data -> document_name = $request->input('document_name');
+                $data->createdBy = $createdBy;
+                return back()->with('success', 'File berhasil diupload!');
+            }
         }
         
-        
-        else{
-            return back()->with('error', 'Jenis file tidak didukung');
-        }
     }
 
     /**

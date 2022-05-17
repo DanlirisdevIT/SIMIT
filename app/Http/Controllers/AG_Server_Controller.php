@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AG_Server;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class AG_Server_Controller extends Controller
 {
@@ -14,9 +16,14 @@ class AG_Server_Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $ag_servers = AG_Server::orderBy('datafile', 'DESC')->get();
+        $ag_servers = AG_Server::get();
+        if($request->ajax()){
+            return DataTables::of($ag_servers)
+            ->addIndexColumn()
+            ->make(true);
+        }
         return view('upload_data.ag_server.index')->with('ag_servers', $ag_servers);
     }
 
@@ -39,27 +46,32 @@ class AG_Server_Controller extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'filename' => 'required|mimes:pdf|max:10000',
+            'datafile' => 'required|mimes:pdf|max:10000',
+            'document_name' => 'required'
         ]);
 
         if($validator->fails()) {
             return back()->withErrors($validator);
         }
+        else
+        {
+            $createdBy = Auth::user()->level;
 
-        if ($request->hasfile('filename')) {           
-            $filename =$request->file('filename')->getClientOriginalName();
-            $request->file('filename')->move(public_path('uploads/pdf'), $filename);
-             AG_Server::create(
-                    [                        
-                        'datafile' =>$filename
-                    ]
-                );
-            return back()->with('success', 'File berhasil diupload!');
-        }
-        
-        
-        else{
-            return back()->with('error', 'Jenis file tidak didukung');
+            $data = new AG_Server();
+            
+            if ($request->hasfile('datafile')) {           
+                $filename =$request->file('datafile')->getClientOriginalName();
+                $request->file('datafile')->move(public_path('uploads/pdf'), $filename);
+                 AG_Server::create(
+                        [                        
+                            'datafile' => $filename,
+                            'document_name' => $request -> input('document_name')
+                        ]
+                    );
+                $data -> document_name = $request->input('document_name');
+                $data -> createdBy = $createdBy;
+                return back()->with('success', 'File berhasil diupload!');
+            }
         }
     }
 

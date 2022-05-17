@@ -13,5 +13,5 @@ class Efrata_Change_Pc_user extends Model
 
     protected $table = 'efrata_change_pc_users';
 
-    protected $fillable = ['datafile', 'created_at', 'updated_at'];
+    protected $fillable = ['datafile', 'document_name', 'created_at', 'updated_at'];
 }
