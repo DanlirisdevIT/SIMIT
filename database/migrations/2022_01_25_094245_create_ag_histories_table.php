@@ -15,21 +15,25 @@ class CreateAgHistoriesTable extends Migration
     {
         Schema::create('ag_histories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('asset_id');
-            $table->foreign('asset_id')->references('id')->on('assets')->onDelete('cascade')->onUpdate('cascade');
+            // $table->unsignedBigInteger('asset_id');
+            // $table->foreign('asset_id')->references('id')->on('assets')->onDelete('cascade')->onUpdate('cascade');
             $table->string('asset_name', 255);
             $table->string('asset_ip', 255);
             $table->string('barcode', 255);
-            $table->integer('pengeluaran_id');
+            // $table->integer('pengeluaran_id');
             // $table->unsignedBigInteger('pengeluaran_id');
             // $table->foreign('pengeluaran_id')->references('id')->on('ag_pengeluarans')->onDelete('cascade')->onUpdate('cascade');
-            $table->date('pengeluaran_date');
+            $table->date('tanggal_pengeluaran');
             // $table->date('date');
             $table->string('username', 255);
-            $table->unsignedBigInteger('division_id');
-            $table->foreign('division_id')->references('id')->on('divisions')->onDelete('cascade')->onUpdate('cascade');
-            $table->unsignedBigInteger('unit_id');
-            $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('unit_name')->nullable();
+            $table->string('division_name')->nullable();
+            $table->string('category_type')->nullable();
+            $table->string('category_name')->nullable();
+            // $table->unsignedBigInteger('division_id');
+            // $table->foreign('division_id')->references('id')->on('divisions')->onDelete('cascade')->onUpdate('cascade');
+            // $table->unsignedBigInteger('unit_id');
+            // $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade')->onUpdate('cascade');
             $table->string('status', 255);
             $table->string('createdBy');
             $table->dateTime('createdUtc');

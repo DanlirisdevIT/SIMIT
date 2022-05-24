@@ -53,10 +53,10 @@
                     <div class="form-group">
                         <label name="date" class="col-sm-4 control-label"> Tanggal </label>
                         <div class="input-group mb-2">
-                            <input type="text" class="form-control" id="date" name="date" placeholder="Masukkan Tanggal..." aria-label="date" aria-describedby="basic-addon1" readonly>
-                            <div class="input-group-prepend">
+                            <input type="date" class="form-control" id="date" name="date" placeholder="Masukkan Tanggal..." aria-label="date" aria-describedby="basic-addon1">
+                            {{-- <div class="input-group-prepend">
                                 <span class="input-group-text" id="date"><i class="fa fa-calendar-alt" id="date"></i></span>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -177,10 +177,10 @@
                                 <div class="form-group">
                                     <label name="date" class="col-sm-4 control-label"> Tanggal </label>
                                     <div class="input-group mb-2">
-                                        <div class="input-group-prepend">
+                                        {{-- <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-calendar-alt" id="date"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" id="date" name="date" placeholder="Masukkan Tanggal..." aria-label="date" aria-describedby="basic-addon1" readonly>
+                                        </div> --}}
+                                        <input type="date" class="form-control" id="date" name="date" placeholder="Masukkan Tanggal..." aria-label="date" aria-describedby="basic-addon1">
                                     </div>
                                 </div>
 
@@ -330,11 +330,11 @@
                 $('#description').val("")
             })
 
-            $('#date').datepicker({
-                format: 'dd-mm-yyyy',
-                autoclose: true,
-                locale: 'en'
-            });
+            // $('#date').datepicker({
+            //     format: 'dd-mm-yyyy',
+            //     autoclose: true,
+            //     locale: 'en'
+            // });
 
             $(document).on('click', '.create', function (e) {
                 e.preventDefault();
@@ -372,6 +372,7 @@
                             $('.modal-backdrop').remove();
                             var table = $('.datatables').DataTable();
                             table.ajax.reload();
+                            location.reload()
                         }
                     }
                 })
@@ -441,7 +442,7 @@
                         // console.log(response.permintaans['username'])
                         $("#id").val(id);
 
-                        $('#updatePermintaan').find('#date').val(response.getDate);
+                        $('#updatePermintaan').find('#date').val(response.ag_permintaans.date);
                         $('#updatePermintaan').find('#username').val(response.ag_permintaans.username);
 
                         $('#updatePermintaan').find('#unit_id').val(response.units.unit_name);
@@ -529,6 +530,7 @@
                         $('.modal-backdrop').remove();
                         var table = $('.datatables').DataTable();
                         table.ajax.reload();
+                        location.reload()
                     }
                 }
             })

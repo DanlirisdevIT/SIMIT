@@ -13,8 +13,23 @@ class Supplier extends Model
 
     protected $fillable = ['supplier_name', 'address', 'phone', 'agent_name', 'partner_type'];
 
-    public function pemasukans()
+    // public function pemasukans()
+    // {
+    //     return $this->hasOne(Pemasukan::class, 'supplier_id', 'id');
+    // }
+
+    public function danliris_pemasukans()
     {
-        return $this->hasOne(Pemasukan::class, 'supplier_id', 'id');
+        return $this->hasOne(Danliris_Pemasukan::class, 'supplier_id', 'id');
+    }
+
+    public function ag_pemasukans()
+    {
+        return $this->hasOne(AG_Pemasukan::class, 'supplier_id', 'id');
+    }
+
+    public function efrata_pemasukans()
+    {
+        return $this->hasOne(Efrata_Pemasukan::class, 'supplier_id', 'id');
     }
 }

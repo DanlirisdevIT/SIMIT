@@ -32,7 +32,7 @@
             <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="/" class="nav-link">
+                    <a href="{{ route('dashboard') }}" class="nav-link">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
@@ -104,62 +104,126 @@
                         </li>
                     </ul>
                 </li>
-                {{-- <li class="nav-item">
-                    <a href="{{ route('permintaan.index') }}" class="nav-link active">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Permintaan</p>
+                <li class="nav-item menu-close">
+                    <a href="#" class="nav-link active">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        Permintaan
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
                     </a>
-                </li> --}}
-                @if(Auth::user()->company_id == 1)
+                    <ul class="nav nav-treeview">
+                    @if(Auth::user()->company_name == 'Danliris' || is_null(Auth::user()->company_id))
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_permintaan.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Danliris Permintaan</p>
+                            </a>
+                        </li>
+                    @endif
+                    @if(Auth::user()->company_name == 'Efrata' || is_null(Auth::user()->company_id))
+                        <li class="nav-item">
+                            <a href="{{ route('efrata_permintaan.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Efrata Permintaan</p>
+                            </a>
+                        </li>
+                    @endif
+                    @if(Auth::user()->company_name == 'AG' || is_null(Auth::user()->company_id))
+                        <li class="nav-item">
+                            <a href="{{ route('ag_permintaan.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>AG Permintaan</p>
+                            </a>
+                        </li>
+                    @endif
+                    </ul>
+                </li>
+                <li class="nav-item menu-close">
+                    <a href="#" class="nav-link active">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        Budget
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @if(Auth::user()->company_name == 'Efrata' || is_null(Auth::user()->company_id))
+                        <li class="nav-item">
+                            <a href="{{ route('efrata_budget.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Efrata Budget</p>
+                            </a>
+                        </li>
+                        @endif
+                        @if(Auth::user()->company_name == 'Danliris' || is_null(Auth::user()->company_id))
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_budget.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Danliris Budget</p>
+                            </a>
+                        </li>
+                        @endif
+                        @if(Auth::user()->company_name == 'AG' || is_null(Auth::user()->company_id))
+                        <li class="nav-item">
+                            <a href="{{ route('ag_budget.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Ag Budget</p>
+                            </a>
+                        </li>
+                        @endif
+                    </ul>
+                </li>
+                <!-- @if(Auth::user()->company_id == 1)
                 <li class="nav-item">
-                    <a href="{{ route('efrata_permintaan.index') }}" class="nav-link active">
+                    <a href="{{ route('efrata_permintaan.index') }}" class="nav-link ">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Permintaan</p>
                     </a>
                 </li>
                 @elseif(Auth::user()->company_id == 2)
                 <li class="nav-item">
-                    <a href="{{ route('danliris_permintaan.index') }}" class="nav-link active">
+                    <a href="{{ route('danliris_permintaan.index') }}" class="nav-link ">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Permintaan</p>
                     </a>
                 </li>
                 @elseif(Auth::user()->company_id == 3)
                 <li class="nav-item">
-                    <a href="{{ route('ag_permintaan.index') }}" class="nav-link active">
+                    <a href="{{ route('ag_permintaan.index') }}" class="nav-link ">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Permintaan</p>
                     </a>
                 </li>
-                @endif
-                 {{-- <li class="nav-item">
-                    <a href="{{ route('budget.index') }}" class="nav-link active">
+                @endif -->
+                 <!-- {{-- <li class="nav-item">
+                    <a href="{{ route('budget.index') }}" class="nav-link ">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Budget</p>
                     </a>
-                </li> --}}
-                @if (Auth::user()->company_id == 1)
+                </li> --}} -->
+                <!-- @if (Auth::user()->company_id == 1)
                 <li class="nav-item">
-                    <a href="{{ route('efrata_budget.index') }}" class="nav-link active">
+                    <a href="{{ route('efrata_budget.index') }}" class="nav-link ">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Budget</p>
                     </a>
                 </li>
                 @elseif(Auth::user()->company_id == 2)
                 <li class="nav-item">
-                    <a href="{{ route('danliris_budget.index') }}" class="nav-link active">
+                    <a href="{{ route('danliris_budget.index') }}" class="nav-link ">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Budget</p>
                     </a>
                 </li>
                 @elseif(Auth::user()->company_id == 3)
                 <li class="nav-item">
-                    <a href="{{ route('ag_budget.index') }}" class="nav-link active">
+                    <a href="{{ route('ag_budget.index') }}" class="nav-link ">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Budget</p>
                     </a>
                 </li>
-                @endif
+                @endif -->
 
                 <li class="nav-item menu-close">
                     <a href="#" class="nav-link active">
@@ -176,21 +240,23 @@
                             <p>Antrian Service</p>
                             </a>
                         </li> --}}
-                        @if (Auth::user()->company_id == 1)
+                        @if(Auth::user()->company_name == 'Efrata' || is_null(Auth::user()->company_id))
                         <li class="nav-item">
                             <a href="{{ route('efrata_antrianservice.index') }}" class="nav-link active">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Antrian Service</p>
                             </a>
                         </li>
-                        @elseif (Auth::user()->company_id == 2)
+                        @endif
+                        @if(Auth::user()->company_name == 'Danliris' || is_null(Auth::user()->company_id))
                         <li class="nav-item">
                             <a href="{{ route('danliris_antrianservice.index') }}" class="nav-link ">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Antrian Service</p>
                             </a>
                         </li>
-                        @elseif (Auth::user()->company_id == 3)
+                        @endif
+                        @if(Auth::user()->company_name == 'AG' || is_null(Auth::user()->company_id))
                         <li class="nav-item">
                             <a href="{{ route('ag_antrianservice.index') }}" class="nav-link ">
                             <i class="far fa-circle nav-icon"></i>
@@ -200,21 +266,23 @@
                         @endif
 
                         {{-- Service tidak tercapai --}}
-                        @if (Auth::user()->company_id == 1)
+                        @if(Auth::user()->company_name == 'Efrata' || is_null(Auth::user()->company_id))
                         <li class="nav-item">
                             <a href="" class="nav-link ">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Service tidak tercapai</p>
                             </a>
                         </li>
-                        @elseif (Auth::user()->company_id == 2)
+                        @endif
+                        @if(Auth::user()->company_name == 'Danliris' || is_null(Auth::user()->company_id))
                         <li class="nav-item">
                             <a href="{{ route('danliris_service_tidak_tercapai.index') }}" class="nav-link ">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Service tidak tercapai</p>
                             </a>
                         </li>
-                        @elseif (Auth::user()->company_id == 3)
+                        @endif
+                        @if(Auth::user()->company_name == 'AG' || is_null(Auth::user()->company_id))
                         <li class="nav-item">
                             <a href="" class="nav-link ">
                             <i class="far fa-circle nav-icon"></i>
@@ -224,21 +292,23 @@
                         @endif
 
                         {{-- service_final --}}
-                        @if (Auth::user()->company_id == 1)
+                        @if(Auth::user()->company_name == 'Efrata' || is_null(Auth::user()->company_id))
                         <li class="nav-item">
                             <a href="{{ route('efrata_historyservice.index') }}" class="nav-link ">
                             <i class="far fa-circle nav-icon"></i>
                             <p>History Service</p>
                             </a>
                         </li>
-                        @elseif (Auth::user()->company_id == 2)
+                        @endif
+                        @if(Auth::user()->company_name == 'Danliris' || is_null(Auth::user()->company_id))
                         <li class="nav-item">
                             <a href="{{ route('danliris_historyservice.index') }}" class="nav-link ">
                             <i class="far fa-circle nav-icon"></i>
                             <p>History Service</p>
                             </a>
                         </li>
-                        @elseif (Auth::user()->company_id == 3)
+                        @endif
+                        @if(Auth::user()->company_name == 'AG' || is_null(Auth::user()->company_id))
                         <li class="nav-item">
                             <a href="{{ route('ag_historyservice.index') }}" class="nav-link ">
                             <i class="far fa-circle nav-icon"></i>
@@ -547,15 +617,126 @@
                         @endif
                     </ul>
                 </li>
-
-                <li class="nav-item">
-                    <a href="{{ route('pemasukan.index') }}" class="nav-link active">
+                <!-- {{-- <li class="nav-item">
+                    <a href="{{ route('pemasukan.index') }}" class="nav-link ">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Pemasukan</p>
                     </a>
+                </li> --}} -->
+                <li class="nav-item menu-close">
+                    <a href="#" class="nav-link active">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        Pemasukan
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @if(Auth::user()->company_name == 'Efrata' || is_null(Auth::user()->company_id))
+                        <li class="nav-item">
+                            <a href="{{ route('efrata_pemasukan.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Efrata Pemasukan</p>
+                            </a>
+                        </li>
+                        @endif
+                        @if(Auth::user()->company_name == 'Danliris' || is_null(Auth::user()->company_id))
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_pemasukan.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Danliris Pemasukan</p>
+                            </a>
+                        </li>
+                        @endif
+                        @if(Auth::user()->company_name == 'AG' || is_null(Auth::user()->company_id))
+                        <li class="nav-item">
+                            <a href="{{ route('ag_pemasukan.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>AG Pemasukan</p>
+                            </a>
+                        </li>
+                        @endif
                     </ul>
                 </li>
-                
+                <li class="nav-item menu-close">
+                    <a href="#" class="nav-link active">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        Pengeluaran
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @if(Auth::user()->company_name == 'efrata' || is_null(Auth::user()->company_id))
+                        <li class="nav-item">
+                            <a href="{{ route('efrata_pengeluaran.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Efrata Pengeluaran</p>
+                            </a>
+                        </li>
+                        @endif
+                        @if(Auth::user()->company_name == 'Danliris' || is_null(Auth::user()->company_id))
+                        <li class="nav-item">
+                            <a href="{{ route('danliris_pengeluaran.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Danliris Pengeluaran</p>
+                            </a>
+                        </li>
+                        @endif
+                        @if(Auth::user()->company_name == 'AG' || is_null(Auth::user()->company_id))
+                        <li class="nav-item">
+                            <a href="{{ route('ag_pengeluaran.index') }}" class="nav-link ">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>AG Pengeluaran</p>
+                            </a>
+                        </li>
+                        @endif
+                    </ul>
+                </li>
+                <!-- @if(Auth::user()->company_id == 1)
+                <li class="nav-item">
+                    <a href="{{ route('efrata_pemasukan.index') }}" class="nav-link ">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Pemasukan</p>
+                    </a>
+                </li>
+                @elseif(Auth::user()->company_id == 2)
+                <li class="nav-item">
+                    <a href="{{ route('danliris_pemasukan.index') }}" class="nav-link ">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Pemasukan</p>
+                    </a>
+                </li>
+                @elseif(Auth::user()->company_id == 3)
+                <li class="nav-item">
+                    <a href="{{ route('ag_pemasukan.index') }}" class="nav-link ">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Pemasukan</p>
+                    </a>
+                </li>
+                @endif -->
+                <!-- @if(Auth::user()->company_id == 1)
+                <li class="nav-item">
+                    <a href="{{ route('efrata_pengeluaran.index') }}" class="nav-link ">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Pengeluaran</p>
+                    </a>
+                </li>
+                @elseif(Auth::user()->company_id == 2)
+                <li class="nav-item">
+                    <a href="{{ route('danliris_pengeluaran.index') }}" class="nav-link ">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Pengeluaran</p>
+                    </a>
+                </li>
+                @elseif(Auth::user()->company_id == 3)
+                <li class="nav-item">
+                    <a href="{{ route('ag_pengeluaran.index') }}" class="nav-link ">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Pengeluaran</p>
+                    </a>
+                </li>
+                @endif -->
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

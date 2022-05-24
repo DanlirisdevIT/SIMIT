@@ -65,7 +65,7 @@
                     </div>
                 </div>
 
-                
+
                 <div class="form-group">
                     <label name="ag_permintaan_id" class="col-sm-4 control-label"> Permintaan </label>
                     <select class="form-control" id="ag_permintaan_id" name="ag_permintaan_id">
@@ -77,7 +77,7 @@
                         @endforeach
                     </select>
                 </div>
-                
+
 
                 <div class="form-group">
                     <label name="group" class="col-sm-4 control-label"> Group </label>
@@ -100,11 +100,11 @@
                             @endforeach --}}
                         </select>
                     </div>
-                
+
                     <div class="form-group">
                         <label name="category_id" class="col-sm-4 control-label"> Kategori </label>
                         <select class="form-control" id="category_id" name="category_id" disabled>
-                            
+
                             {{-- @foreach ($categories as $category)
                                 @if($category->deletedBy == '')
                                     <option value={{ $category->id }}>{{$category->category_name}}</option>
@@ -112,11 +112,11 @@
                             @endforeach --}}
                         </select>
                     </div>
-               
+
                     <div class="form-group">
                         <label name="asset_id" class="col-sm-4 control-label"> Barang </label>
                         <select class="form-control" id="asset_id" name="asset_id" disabled>
-                            
+
                             {{-- @foreach ($assets as $asset)
                                 @if($asset->deletedBy == '')
                                     <option value={{ $asset->id }}>{{$asset->asset_name}}</option>
@@ -138,7 +138,7 @@
                         <input type="number" class="form-control" id="unitPrice" name="unitPrice" placeholder="Masukkan harga..." maxlength="50" >
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label name="totalPrice" class="col-sm-4 control-label"> Total Harga </label>
                     <div class="col-sm-12">
@@ -200,7 +200,7 @@
                             @endforeach
                         </select>
                     </div>
-                
+
                 <div class="form-group">
                     <label name="group" class="col-sm-4 control-label"> Group </label>
                     <select class="form-control" id="group">
@@ -216,14 +216,14 @@
                         <select class="form-control" id="division_id" name="division_id" disabled>
                         </select>
                     </div>
-                   
+
                     <div class="form-group">
                         <label name="category_id" class="col-sm-4 control-label"> Kategori </label>
                         <select class="form-control" id="category_id" name="category_id" disabled>
                         </select>
                     </div>
-    
-                    
+
+
                     <div class="form-group">
                         <label name="asset_id" class="col-sm-4 control-label"> Barang </label>
                         <select class="form-control" id="asset_id" name="asset_id" disabled>
@@ -236,7 +236,7 @@
                             <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Masukkan Jumlah..." maxlength="50" >
                         </div>
                     </div>
-    
+
                     <div class="form-group">
                         <label name="unitPrice" class="col-sm-4 control-label"> Harga </label>
                         <div class="col-sm-12">
@@ -250,7 +250,7 @@
                             <input type="number" class="form-control" id="totalPrice" name="totalPrice" placeholder="Masukkan harga..." maxlength="50" readonly>
                         </div>
                     </div>
-    
+
                     <div class="form-group">
                         <label name="description" class="col-sm-4 control-label"> Keterangan </label>
                         <div class="col-sm-12">
@@ -306,7 +306,7 @@
         });
 
         $(document).ready(function () {
-            
+
             $("#ag_permintaan_id").on('change', function() {
                     var ag_permintaan_id = $("#ag_permintaan_id").val();
                     console.log(ag_permintaan_id)
@@ -356,7 +356,7 @@
                 $('#totalPrice').val("")
                 $('#description').val("")
             })
-                
+
             $("#quantity, #unitPrice").keyup(function(){
                         var quantity = $('#quantity').val()
                         var unitPrice = $('#unitPrice').val()
@@ -370,7 +370,7 @@
                 autoclose: true,
                 locale: 'en'
             });
-        
+
             $(document).on('click', '.create', function (e) {
                 e.preventDefault();
 
@@ -408,6 +408,7 @@
                             $('.modal-backdrop').remove();
                             var table = $('.datatables').DataTable();
                             table.ajax.reload();
+                            location.reload()
                         }
                     }
                 })
@@ -469,7 +470,7 @@
                             var total_price = parseInt(quantity) * parseInt(unitPrice)
                         $('#updateBudget').find('#totalPrice').val(total_price)
                     });
-                        
+
 
                         $('#updateBudget').find("#description").val(response.ag_budgets.description);
                     }

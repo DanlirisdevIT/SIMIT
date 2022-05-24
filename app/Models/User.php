@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
+
+    public function danliris_pengeluarans()
+    {
+        return $this->hasOne(Danliris_Pengeluaran::class, 'user_id', 'id');
+    }
 }

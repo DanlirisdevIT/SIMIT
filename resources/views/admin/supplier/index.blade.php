@@ -7,7 +7,7 @@
                 <div class="col-lg-12">
                     <div class="card card-primary card-outline">
                         <div class="card-body">
-                            <h2 class="mb-4">List Supplier</h2>
+                            <h2 class="mb-4">Supplier</h2>
 
                             <button style="float: right; font-weight: 900;" class="btn btn-info" type="button"  data-toggle="modal" data-target="#addSupplier">
                                 Tambah
@@ -58,7 +58,7 @@
                     <div class="form-group">
                         <label name="address" class="col-sm-4 control-label"> Alamat </label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="address" name="address" placeholder="Masukkan alamat..."  maxlength="50" required>
+                            <input type="text" class="form-control" id="address" name="address" placeholder="Masukkan alamat..." required>
                         </div>
                     </div>
 

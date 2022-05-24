@@ -177,6 +177,9 @@ return [
 
         Yajra\DataTables\DataTablesServiceProvider::class,
 
+        //pdf
+        Barryvdh\Snappy\ServiceProvider::class,
+
     ],
 
     /*
@@ -232,6 +235,13 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+
+        //barcode generate
+        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
+    
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
     ],
 
 ];

@@ -55,7 +55,7 @@ class SupplierController extends Controller
         $validator = Validator::make($request->all(), [
             'supplier_name' => 'required',
             'address' => 'required',
-            'phone' => 'required|string|min:10|max:12|regex:/[0-9]{9}/',
+            // 'phone' => 'required|string|min:10|max:12|regex:/[0-9]{9}/',
             'agent_name' => 'required',
             'partner_type' => 'required',
         ]);

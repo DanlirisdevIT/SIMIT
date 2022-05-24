@@ -56,10 +56,10 @@ class ManufactureController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'manufactureName' => 'required',
-            'url' => 'required',
-            'supportEmail' => 'required',
-            'supportPhone' => 'required|string|min:10|max:12|regex:/[0-9]{9}/',
-            'Image'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            // 'url' => 'required',
+            // 'supportEmail' => 'required',
+            // 'supportPhone' => 'required|string|min:10|max:12|regex:/[0-9]{9}/',
+            // 'Image'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         if($validator->fails())
@@ -133,9 +133,9 @@ class ManufactureController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'manufactureName' => 'required',
-            'url' => 'required',
-            'supportEmail' => 'required',
-            'supportPhone' => 'required|string|min:10|max:12|regex:/[0-9]{9}/',
+            // 'url' => 'required',
+            // 'supportEmail' => 'required',
+            // 'supportPhone' => 'required|string|min:10|max:12|regex:/[0-9]{9}/',
             // 'Image' => 'required'
         ]);
 
@@ -156,11 +156,24 @@ class ManufactureController extends Controller
                 $manufactures -> supportEmail = $request->input('supportEmail');
                 $manufactures -> supportPhone = $request->input('supportPhone');
                 // $manufactures -> Image = $request->input('Image');
-                if($request->has('Image')) {
-                    $Image = $request->file('Image');
-                    $filename = $Image->getClientOriginalName();
-                    $Image->move(public_path('Image/manufactures'), $filename);
-                    $manufactures->Image = $request->file('Image')->getClientOriginalName();
+                // if($request->has('Image')) {
+                //     $Image = $request->file('Image');
+                //     $filename = $Image->getClientOriginalName();
+                //     $Image->move(public_path('Image/manufactures'), $filename);
+                //     $manufactures->Image = $request->file('Image')->getClientOriginalName();
+                // }
+                if($request->hasFile('Image'))
+                {
+                    $prev_path = "uploads/Image/".$manufactures->Image;
+                    if(file_exists($prev_path))
+                    {
+                        unlink($prev_path);
+                    }
+                    $file = $request->file('Image');
+                    $extension = $file->getClientOriginalName();
+                    $filename = time().'-'.$extension;
+                    $file->move('uploads/Image/', $filename);
+                    $manufactures->Image = $filename;
                 }
                 $manufactures -> updatedBy = $getBy;
                 $manufactures -> updatedUtc = $getUtc;

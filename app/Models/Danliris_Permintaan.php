@@ -49,13 +49,23 @@ class Danliris_Permintaan extends Model
         return $this->hasOne(Danliris_budget::class, 'danliris_permintaan_id', 'id');
     }
 
-    public function pemasukans()
+    // public function pemasukans()
+    // {
+    //     return $this->hasOne(Pemasukan::class, 'permintaan_id', 'id');
+    // }
+
+    public function danliris_pemasukans()
     {
-        return $this->hasOne(Pemasukan::class, 'permintaan_id', 'id');
+        return $this->hasOne(Danliris_Pemasukan::class, 'danliris_permintaan_id', 'id');
     }
 
     public function units()
     {
         return $this->belongsTo(Unit::class, 'unit_id', 'id');
+    }
+
+    public function danliris_pengeluarans()
+    {
+        return $this->hasOne(Danliris_Pengeluaran::class, 'danliris_permintaan_id', 'id');
     }
 }

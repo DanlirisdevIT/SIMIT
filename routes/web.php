@@ -71,6 +71,12 @@ use App\Http\Controllers\Efrata_Service_Tidak_Tercapai_Controller;
 use App\Http\Controllers\Efrata_Stocklist_Controller;
 use App\Http\Controllers\Efrata_Temperature_Controller;
 use App\Http\Controllers\Efrata_Ups_Controller;
+use App\Http\Controllers\Danliris_Pemasukan_Controller;
+use App\Http\Controllers\Efrata_Pemasukan_Controller;
+use App\Http\Controllers\AG_Pemasukan_Controller;
+use App\Http\Controllers\Danliris_Pengeluaran_Controller;
+use App\Http\Controllers\Efrata_Pengeluaran_Controller;
+use App\Http\Controllers\AG_Pengeluaran_Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,6 +109,46 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('dashboard', [AdminController::class, 'adminIndex'])->name('dashboard');
     });
 });
+
+// Route::group(['middleware' => ['cek_company:danliris']], function() {
+//     Route::get('permintaan/{id}/edit', [Danliris_Permintaan_Controller::class, 'edit'])->name('permintaan.edit');
+//     Route::resource('danliris_permintaan', Danliris_Permintaan_Controller::class)->except(['show']);
+//     Route::get('danliris_budget/{id}/edit', [DanlirisBudgetController::class, 'edit'])->name('budget.edit');
+//     route::resource('danliris_budget', DanlirisBudgetController::class)->except(['show']);
+//     Route::get('pemasukan/{id}/edit', [Danliris_Pemasukan_Controller::class, 'edit'])->name('pemasukan.edit');
+//     Route::resource('danliris_pemasukan', Danliris_Pemasukan_Controller::class)->except(['show']);
+//     Route::get('getPemasukan_dl', [Danliris_Pengeluaran_Controller::class, 'getPemasukan_dl'])->name('getPemasukan_dl');
+//     Route::get('getBarang_dl', [Danliris_Pengeluaran_Controller::class, 'getBarang_dl'])->name('getBarang_dl');
+//     Route::get('pengeluaran/{id}/edit', [Danliris_Pengeluaran_Controller::class, 'edit'])->name('pemasukan.edit');
+//     Route::resource('danliris_pengeluaran', Danliris_Pengeluaran_Controller::class)->except(['show']);
+// });
+
+// Route::group(['middleware' => ['cek_company:efrata']], function() {
+//     Route::get('permintaan/{id}/edit', [Efrata_Permintaan_Controller::class, 'edit'])->name('permintaan.edit');
+//     Route::resource('efrata_permintaan', Efrata_Permintaan_Controller::class)->except(['show']);
+//     Route::get('efrata_budget/{id}/edit', [EfrataBudgetController::class, 'edit'])->name('efrata.edit');
+//     Route::resource('efrata_budget', EfrataBudgetController::class)->except(['show']);
+//     Route::get('pemasukan/{id}/edit', [Efrata_Pemasukan_Controller::class, 'edit'])->name('pemasukan.edit');
+//     Route::resource('efrata_pemasukan', Efrata_Pemasukan_Controller::class)->except(['show']);
+//     Route::get('getPemasukan_ef', [Efrata_Pengeluaran_Controller::class, 'getPemasukan_ef'])->name('getPemasukan_ef');
+//     Route::get('getBarang_ef', [Efrata_Pengeluaran_Controller::class, 'getBarang_ef'])->name('getBarang_ef');
+//     Route::get('pengeluaran/{id}/edit', [Efrata_Pengeluaran_Controller::class, 'edit'])->name('pemasukan.edit');
+//     Route::resource('efrata_pengeluaran', Efrata_Pengeluaran_Controller::class)->except(['show']);
+// });
+
+// Route::group(['middleware' => ['cek_company:ag']], function() {
+//     Route::get('permintaan/{id}/edit', [AG_Permintaan_Controller::class, 'edit'])->name('permintaan.edit');
+//     Route::resource('ag_permintaan', AG_Permintaan_Controller::class)->except(['show']);
+//     Route::get('ag_budget/{id}/edit', [AGBudgetController::class, 'edit'])->name('budget.edit');
+//     Route::resource('ag_budget', AGBudgetController::class)->except(['show']);
+//     Route::get('pemasukan/{id}/edit', [AG_Pemasukan_Controller::class, 'edit'])->name('pemasukan.edit');
+//     Route::resource('ag_pemasukan', AG_Pemasukan_Controller::class)->except(['show']);
+//     Route::get('getPemasukan_ag', [AG_Pengeluaran_Controller::class, 'getPemasukan_ag'])->name('getPemasukan_ag');
+//     Route::get('getBarang_ag', [AG_Pengeluaran_Controller::class, 'getBarang_ag'])->name('getBarang_ag');
+//     Route::get('pengeluaran/{id}/edit', [AG_Pengeluaran_Controller::class, 'edit'])->name('pemasukan.edit');
+//     Route::resource('ag_pengeluaran', AG_Pengeluaran_Controller::class)->except(['show']);
+
+// });
 
 //logout route
 Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
@@ -167,7 +213,12 @@ Route::get('efrata_budget/{id}/edit', [EfrataBudgetController::class, 'edit'])->
 route::resource('efrata_budget', EfrataBudgetController::class)->except(['show']);
 
 Route::get('ag_budget/{id}/edit', [AGBudgetController::class, 'edit'])->name('budget.edit');
-route::resource('ag_budget', AGBudgetController::class)->except(['show']);
+Route::resource('ag_budget', AGBudgetController::class)->except(['show']);
+
+Route::get('date_range', [DanlirisBudgetController::class, 'date_range'])->name('date_range');
+
+Route::get('getDanliris_Permintaan', [DanlirisBudgetController::class, 'getDanliris_Permintaan'])->name('getDanliris_Permintaan');
+Route::get('getOrder_detail', [DanlirisBudgetController::class, 'getOrder_detail'])->name('getOrder_detail');
 
 
 //antrianservice route
@@ -188,6 +239,12 @@ Route::resource('ag_antrianservice', AG_Antrianservice_Controller::class)->excep
 //pemasukan route
 Route::get('pemasukan/{id}/edit', [PemasukanController::class, 'edit'])->name('pemasukan.edit');
 Route::resource('pemasukan', PemasukanController::class)->except(['show']);
+Route::get('pemasukan/{id}/edit', [Danliris_Pemasukan_Controller::class, 'edit'])->name('pemasukan.edit');
+Route::resource('danliris_pemasukan', Danliris_Pemasukan_Controller::class)->except(['show']);
+Route::get('pemasukan/{id}/edit', [Efrata_Pemasukan_Controller::class, 'edit'])->name('pemasukan.edit');
+Route::resource('efrata_pemasukan', Efrata_Pemasukan_Controller::class)->except(['show']);
+Route::get('pemasukan/{id}/edit', [AG_Pemasukan_Controller::class, 'edit'])->name('pemasukan.edit');
+Route::resource('ag_pemasukan', AG_Pemasukan_Controller::class)->except(['show']);
 
 //history service route
 Route::get('danliris_historyservice/{id}/edit', [Danliris_Servicefinal_Controller::class, 'edit'])->name('danliris_historyservice.edit');
@@ -283,3 +340,16 @@ Route::resource('ag_kalibrasi_alat', AG_Kalibrasi_Alat_Controller::class)->excep
 Route::resource('efrata_serah_terima', Efrata_Serah_Terima_Controller::class)->except(['show']);
 Route::resource('danliris_serah_terima', Danliris_Serah_Terima_Controller::class)->except(['show']);
 Route::resource('ag_serah_terima', AG_Serah_Terima_Controller::class)->except(['show']);
+//pengeluaran route
+Route::get('getPemasukan_dl', [Danliris_Pengeluaran_Controller::class, 'getPemasukan_dl'])->name('getPemasukan_dl');
+Route::get('getBarang_dl', [Danliris_Pengeluaran_Controller::class, 'getBarang_dl'])->name('getBarang_dl');
+Route::get('getPemasukan_ef', [Efrata_Pengeluaran_Controller::class, 'getPemasukan_ef'])->name('getPemasukan_ef');
+Route::get('getBarang_ef', [Efrata_Pengeluaran_Controller::class, 'getBarang_ef'])->name('getBarang_ef');
+Route::get('getPemasukan_ag', [AG_Pengeluaran_Controller::class, 'getPemasukan_ag'])->name('getPemasukan_ag');
+Route::get('getBarang_ag', [AG_Pengeluaran_Controller::class, 'getBarang_ag'])->name('getBarang_ag');
+Route::get('pengeluaran/{id}/edit', [Danliris_Pengeluaran_Controller::class, 'edit'])->name('pemasukan.edit');
+Route::resource('danliris_pengeluaran', Danliris_Pengeluaran_Controller::class)->except(['show']);
+Route::get('pengeluaran/{id}/edit', [Efrata_Pengeluaran_Controller::class, 'edit'])->name('pemasukan.edit');
+Route::resource('efrata_pengeluaran', Efrata_Pengeluaran_Controller::class)->except(['show']);
+Route::get('pengeluaran/{id}/edit', [AG_Pengeluaran_Controller::class, 'edit'])->name('pemasukan.edit');
+Route::resource('ag_pengeluaran', AG_Pengeluaran_Controller::class)->except(['show']);

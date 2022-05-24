@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Helpers\Helper;
 
 class Efrata_Permintaan_Controller extends Controller
 {
@@ -71,7 +72,7 @@ class Efrata_Permintaan_Controller extends Controller
             'date' => 'required',
             'username' => 'required',
             'quantity' => 'required',
-            'description' => 'required',
+            // 'description' => 'required',
         ]);
 
         if($validator->fails()){
@@ -82,9 +83,11 @@ class Efrata_Permintaan_Controller extends Controller
             $getBy  = Auth::user()->name;
             $getUtc = Carbon::now();
             $getDate = Carbon::parse($request->input('date'))->format('Y-m-d');
+            $permintaan_uniqueid = Helper::IDGenerator(new Efrata_Permintaan(), 'ef_permintaan_uid', 'PERMINTAAN', 5);
 
             $data = new Efrata_Permintaan();
             $data -> date = $getDate;
+            $data -> ef_permintaan_uid = $permintaan_uniqueid;
             $data -> username = $request->input('username');
             $data -> division_id = $request->input('division_id');
             $data -> company_id = $request->input('company_id');
@@ -152,7 +155,7 @@ class Efrata_Permintaan_Controller extends Controller
         $validator = Validator::make($request->all(), [
             'username' => 'required',
             'quantity' => 'required',
-            'description' => 'required',
+            // 'description' => 'required',
         ]);
 
         if($validator->fails())

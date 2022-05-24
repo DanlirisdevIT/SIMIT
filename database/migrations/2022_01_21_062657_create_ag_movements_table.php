@@ -15,18 +15,19 @@ class CreateAgMovementsTable extends Migration
     {
         Schema::create('ag_movements', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('asset_id');
-            $table->foreign('asset_id')->references('id')->on('assets')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('asset_name');
-            $table->integer('quantity');
-            $table->string('barcode');
+            // $table->unsignedBigInteger('asset_id')->nullable();
+            // $table->foreign('asset_id')->references('id')->on('assets')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('asset_ip')->nullable();
+            $table->string('asset_name')->nullable();
+            // $table->integer('quantity')->nullable();
+            $table->string('barcode')->nullable();
             // $table->unsignedBigInteger('permintaan_id');
             // $table->foreign('permintaan_id')->references('id')->on('permintaans')->onDelete('cascade')->onUpdate('cascade');
-            $table->unsignedBigInteger('ag_permintaan_id');
-            $table->foreign('ag_permintaan_id')->references('id')->on('ag_permintaans')->onDelete('cascade')->onUpdate('cascade');
-            $table->unsignedBigInteger('user_id');
+            // $table->unsignedBigInteger('ag_permintaan_id')->nullable();
+            // $table->foreign('ag_permintaan_id')->references('id')->on('ag_permintaans')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('status');
+            $table->string('status')->nullable();
             $table->string('createdBy', 255)->nullable();
             $table->dateTime('createdUtc')->nullable();
             $table->string('updatedBy', 255)->nullable();

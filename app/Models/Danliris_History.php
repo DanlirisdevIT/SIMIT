@@ -34,6 +34,11 @@ class Danliris_History extends Model
     {
         return $this->hasOne(Danliris_Antrianservice::class, 'danliris_history_id', 'id');
     }
+    
+    public function danliris_pengeluarans()
+    {
+        return $this->belongsTo(Danliris_Pengeluaran::class, 'danliris_pengeluaran_id', 'id');
+    }
 
     // public function danliris_pengeluarans()
     // {

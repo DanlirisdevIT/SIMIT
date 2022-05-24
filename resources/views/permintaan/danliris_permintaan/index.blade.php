@@ -19,13 +19,14 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Tanggal</th>
+                                        <th>Permintaan UID</th>
                                         <th>User</th>
                                         <th>Divisi</th>
                                         <th>Perusahaan</th>
                                         <th>Kategori</th>
                                         <th>Barang</th>
                                         <th>Jumlah</th>
-                                        {{-- <th>Keterangan</th> --}}
+                                        <!-- {{-- <th>Keterangan</th> --}} -->
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -46,6 +47,8 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
+
+            <form id="form" name="form" class="form-horizontal">
             <div class="modal-body" style="overflow:hidden;">
                 <ul id="saveForm_errList"></ul>
 
@@ -53,21 +56,23 @@
                     <div class="form-group">
                         <label name="date" class="col-sm-4 control-label"> Tanggal </label>
                         <div class="input-group mb-2">
-                            <input type="text" class="form-control" id="date" name="date" placeholder="Masukkan Tanggal..." aria-label="date" aria-describedby="basic-addon1" readonly>
-                            <div class="input-group-prepend">
+                            <input type="date" class="form-control" id="date" name="date" placeholder="Masukkan Tanggal..." aria-label="date" aria-describedby="basic-addon1">
+                            <!-- {{-- <div class="input-group-prepend">
                                 <span class="input-group-text" id="date"><i class="fa fa-calendar-alt" id="date"></i></span>
-                            </div>
+                            </div> --}} -->
                         </div>
                     </div>
                 </div>
-
-                <div class="modal-body1">
-                    <div class="form-group">
-                        <label name="username" class="col-sm-4 control-label"> User </label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control" id="username" name="username">
-                        </div>
-                    </div>
+                   
+                <div class="form-group">
+                    <!-- <div class="modal-body1">
+                        <div class="form-group"> -->
+                            <label name="username" class="col-sm-4 control-label"> User </label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="username" name="username">
+                            </div>
+                        <!-- </div>
+                    </div> -->
                 </div>
 
                 <div class="form-group">
@@ -84,7 +89,7 @@
                 <div class="modal-body1">
                     <div class="form-group">
                         <label name="division_id" class="col-sm-4 control-label"> Pilih Divisi </label>
-                        <select class="form-control" id="division_id" name="division_id">
+                        <select class="form-control select2" id="division_id" name="division_id" style="width: 100%;">
                             {{-- <option value="">Select An Option</option> --}}
                             @foreach ($divisions as $division)
                                 @if($division->deletedBy == '')
@@ -96,28 +101,48 @@
                 </div>
 
                 <div class="form-group">
-                        <label name="company_id" class="col-sm-4 control-label"> Pilih Perusahaan </label>
-                        <select class="form-control" id="company_id" name="company_id">
-                            @foreach ($companies as $company)
-                                @if ($company->deletedBy == '')
-                                    <option value={{ $company->id }}>{{$company->companyName}}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
+                    <label name="company_id" class="col-sm-4 control-label"> Pilih Perusahaan </label>
+                    <select class="form-control" id="company_id" name="company_id">
+                        @foreach ($companies as $company)
+                            @if ($company->deletedBy == '')
+                                <option value={{ $company->id }}>{{$company->companyName}}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
 
                 <div class="modal-body1">
+                    <!-- <form > -->
                     <div class="form-group">
-                        <label name="category_id" class="col-sm-4 control-label"> Pilih Kategori </label>
-                        <select class="form-control" id="category_id" name="category_id">
-                            @foreach ($categories as $category)
-                                @if($category->deletedBy == '')
-                                    <option value={{ $category->id }}>{{$category->category_type}} - {{$category->category_name}}</option>
-                                @endif
-                            @endforeach
-                        </select>
+                        <!-- <div class="input-group mb-8"> -->
+                        <label name="category_id" class="col-sm-4 control-label"> Tambah Kategori</label>
+                        <!-- <div class="input-group mb-4"> -->
+                            <!-- <form id="form" name="form" class="form-horizontal"> -->
+                                <select class="form-control select2" id="category_id" name="category_id" style="width: 100%;">
+                                    @foreach ($categories as $category)
+                                        @if($category->deletedBy == '')
+                                            <option value={{ $category->id }}>{{$category->category_type}} - {{$category->category_name}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                
+                            <!-- </form> -->
+                            <!-- <div class="new_form"></div> -->
+                            <!-- <button class="btn btn-outline-secondary float-right add_category" type="button" id="button-addon2">Tambah</button> -->
+                        <!-- </div> -->
                     </div>
+                    
                 </div>
+
+                <!-- <div class="modal-body1">
+                    <form id="form" name="form" class="form-horizontal">
+                        <div class="input-group mb-4">
+                            <div class="form-group">
+                                <div id="new_form"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div> -->
 
                 <div class="modal-body1">
                     <div class="form-group">
@@ -139,14 +164,17 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label name="description" class="col-sm-4 control-label"> Keterangan </label>
-                    <div class="col-sm-12">
-                        <textarea class="form-control" id="description" name="description" placeholder="Masukkan keterangan..."  maxlength="50" required></textarea>
+                <div class="modal-body1">
+                    <div class="form-group">
+                        <label name="description" class="col-sm-4 control-label"> Keterangan </label>
+                        <div class="col-sm-12">
+                            <textarea class="form-control" id="description" name="description" placeholder="Masukkan keterangan..."  maxlength="50" required></textarea>
+                        </div>
                     </div>
                 </div>
 
             </div>
+            </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary reset">Reset</button>
                 {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button> --}}
@@ -177,10 +205,10 @@
                                 <div class="form-group">
                                     <label name="date" class="col-sm-4 control-label"> Tanggal </label>
                                     <div class="input-group mb-2">
-                                        <div class="input-group-prepend">
+                                        {{-- <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-calendar-alt" id="date"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" id="date" name="date" placeholder="Masukkan Tanggal..." aria-label="date" aria-describedby="basic-addon1" readonly>
+                                        </div> --}}
+                                        <input type="date" class="form-control" id="date" name="date" placeholder="Masukkan Tanggal..." aria-label="date" aria-describedby="basic-addon1">
                                     </div>
                                 </div>
 
@@ -295,6 +323,7 @@
                 columns: [
                         {data: 'DT_RowIndex', name: 'DT_RowIndex', width: '5%'},
                         {data: 'date', name: 'date', width: '15%' },
+                        {data: 'dl_permintaan_uid', name: 'dl_permintaan_uid', width: '15%'},
                         {data: 'username', name: 'username', width: '15%'},
                         {data: 'divisions.division_name', name: 'divisions.division_name', width: '15%'},
                         {data: 'companies.companyName', name: 'companies.companyName', width: '15%'},
@@ -318,6 +347,327 @@
             theme: 'bootstrap4'
         })
 
+        $('#category_id').select2({
+            theme: 'bootstrap4'
+        })
+
+        $('#division_id').select2({
+            theme: 'bootstrap4'
+        })
+
+        // $('.add_category').click(function(){
+
+            // function get_categories()
+            // {
+            //     $.ajax({
+            //         url: "{{ route('danliris_permintaan.create') }}",
+            //         type: "GET",
+            //         dataType: "json",
+            //         success: function(response)
+            //         {
+            //             if(response.status == 200)
+            //             {
+                            
+            //                 var categories = response.categories;
+
+            //                 var assets = response.assets;
+
+            //                 category(categories)
+
+            //                 asset(assets)
+            //             }
+            //         }
+            //     })
+            // }
+
+            // get_categories();
+
+            // function category(categories)
+            // {
+            //     var html = '<div class = "form-group">'
+            //     html += '<select class="form-control" id="category_id" name="category_id[]">'
+            //     $.each(categories, function(index, categories) {
+            //         html += '<option value="'+categories.id+'">'+categories.category_type+' - '+categories.category_name+'</option>'
+            //     })
+            //     html += '</select>'
+            //     html += '</div>'
+
+            //     $('#new_category').append(html);
+            // }
+
+            // function asset(assets)
+            // {
+            //     var html = '<div class = "form-group">'
+            //     html += '<select class="form-control" id="asset_id" name="asset_id[]">'
+            //     $.each(assets, function(index, assets) {
+            //         html += '<option value="'+assets.id+'">'+assets.asset_name+'</option>'
+            //     })
+            //     html += '</select>'
+            //     html += '</div>'
+
+            //     $('#new_asset').append(html);
+            // }
+
+            // var html = '<button class="btn btn-outline-danger float-right remove_category" type="button" id="button-addon2">Remove</button>'
+            // $('#btn-remove').append(html);
+
+        // });
+
+        // const add = document.querySelectorAll(".input-group .add_category")
+        // add.forEach(function (e) {
+        //     e.addEventListener('click', function() {
+        //         let element = this.parentElement
+
+        //         var tmp;
+
+        //         var get_categories = function() {
+        //             // var tmp;
+        //                 $.ajax({
+        //                     async: false,
+        //                     url: "{{ route('danliris_permintaan.create') }}",
+        //                     type: "GET",
+        //                     dataType: "json",
+        //                     success: function(response)
+        //                     {
+        //                         if(response.status == 200)
+        //                         {
+        //                             tmp = response.categories;
+        //                             // category(categories);
+        //                         }
+        //                     }
+        //                 })
+
+        //             return tmp; 
+        //         }();
+
+        //         // get_categories()
+
+        //         let newElement = document.createElement('div')
+        //         newElement.classList.add('.input-group', 'mb-2')
+        //         newElement.innerHTML = '<div class="form-group">';
+        //         newElement.innerHTML = newElement.innerHTML + '<select class="form-control" id="category_id" name="category_id[]">';
+        //         newElement.innerHTML = newElement.innerHTML + '<option value="'+tmp.id+'">'+tmp.category_type+' - '+tmp.category_name+'</option>';
+        //         // $.each(tmp, function(index, tmp) {
+        //         //     $('select[name="category_id[]"]').appendChild('<option value="'+tmp.id+'">'+tmp.category_type+' - '+tmp.category_name+'</option>')
+        //         // })
+        //         newElement.innerHTML = newElement.innerHTML + '</select>';
+        //         newElement.innerHTML = newElement.innerHTML + '</div>';
+
+        //         newElement.innerHTML = newElement.innerHTML + '<div class="form-group">'
+        //         newElement.innerHTML = newElement.innerHTML + '<button class="btn btn-outline-danger float-right remove_category" type="button" id="button-addon2">Remove</button>'
+        //         newElement.innerHTML = newElement.innerHTML + '</div>'
+                
+        //         var len = 0;
+
+        //         if(tmp != null)
+        //         {
+        //             len = tmp.length;
+        //         }
+        //         if(len > 0)
+        //         {
+        //             for(var i=0; i<len; i++)
+        //             {
+        //                 var id= tmp[i].id;
+        //                 var name= tmp[i].category_name;
+        //                 var type= tmp[i].category_type;
+                        
+        //                 console.log(name)
+
+        //                 var option = '<option value='+id+'>'+type+' - '+name+'</option>'
+                        
+        //                 $('select[name="category_id[]"]').append(option);
+        //             }
+        //         }
+
+        //         document.getElementById('new_form').appendChild(newElement)
+
+        //         document.querySelector('form').querySelectorAll('.remove_category').forEach(function (remove) {
+        //             remove.addEventListener('click', function(click) {
+        //                 click.target.parentElement.remove();
+        //             })
+        //         })
+        //     })
+        // })
+
+        // document.getElementById( 'button-addon2' ).addEventListener( 'click', function ( event ) {
+
+        //     event.preventDefault();
+        //     var select = document.getElementById( 'category_id' ).cloneNode( true );
+        //     document.getElementById( 'form' ).appendChild( select );
+
+        // }, false );
+
+        // const add = document.querySelectorAll(".input-group .add_category")
+        // add.forEach(function(e){
+        //     e.addEventListener('click', function() {
+        //         let element = this.parentElement;
+        //         console.log(element)
+        //         let newElement = document.createElement('div');
+        //         newElement.classList.add('.input-group', 'mb-4')
+        //         newElement.innerHTML = '<div class="form-group">';
+        //         newElement.innerHTML = newElement.innerHTML + '<select class="form-control" id="category_id" name="category_id">';
+        //         newElement.innerHTML = newElement.innerHTML + '</select>';
+        //         newElement.innerHTML = newElement.innerHTML + '</div>';
+
+        //         // let newElementAsset = document.createElement('div')
+        //         newElement.classList.add('.input-group', 'mb-4')
+        //         newElement.innerHTML = newElement.innerHTML + '<div class="form-group">';
+        //         newElement.innerHTML = newElement.innerHTML + '<select class="form-control" id="asset_id" name="asset_id">';
+        //         newElement.innerHTML = newElement.innerHTML + '</select>';
+        //         newElement.innerHTML = newElement.innerHTML + '</div>';
+        //         // newElementAsset.innerHTML = newElementAsset.innerHTML + '<button class="btn btn-outline-danger remove_category" type="button" id="button-addon2">Remove</button>';
+
+        //         // let newElementQty = document.createElement('div')
+        //         newElement.classList.add('.input-group', 'mb-4')
+        //         newElement.innerHTML = newElement.innerHTML + '<div class="form-group">';
+        //         newElement.innerHTML = newElement.innerHTML + '<input type="number" class="form-control" id="quantity" name="quantity" placeholder="jumlah..." maxlength="50">';
+        //         newElement.innerHTML = newElement.innerHTML + '</div>';
+        //         newElement.innerHTML = newElement.innerHTML + '<div class="form-group">';
+        //         newElement.innerHTML = newElement.innerHTML + '<button class="btn btn-outline-danger float-right remove_category" type="button" id="button-addon2">Remove</button>';
+        //         newElement.innerHTML = newElement.innerHTML + '</div>';
+
+        //         document.getElementById('new_form').appendChild(newElement)
+        //         // document.getElementById('new_asset').appendChild(newElementAsset)
+        //         // document.getElementById('new_qty').appendChild(newElementQty)
+        //         // document.getElementById('btn-remove').appendChild(newElementQty)
+        //         console.log(newElement)
+
+        //         document.querySelector('form').querySelectorAll('.remove_category').forEach(function (remove) {
+        //             remove.addEventListener('click', function(click) {
+        //                 click.target.parentElement.remove();
+        //             })
+        //         })
+
+        //         // var getElementCategory = document.querySelector(newElement)
+
+        //         // getCategories(getElementCategory);
+        //     })
+        // })
+
+        // $.ajax({
+        //     url: "{{ route('danliris_permintaan.create') }}",
+        //     type: "GET",
+        //     dataType: "json",
+        //     success: function(response)
+        //     {
+        //         if(response.status == 200)
+        //         {
+        //             var sel = document.getElementById('category_id')
+        //             var opt = null;
+
+        //             for(let i=0; i<response.categories.length; i++)
+        //             {
+        //                 opt = document.createElement('option');
+        //                 opt.value = response.categories[i].id;
+        //                 opt.innerHTML = response.categories[i].name;
+        //                 sel.appendChild(opt);
+        //             }
+        //         }
+        //     }
+        // })
+
+        // function getCategories(getElementCategory)
+        // {
+            // $.ajax({
+            //     url: "{{ route('danliris_permintaan.create') }}",
+            //     type: "GET",
+            //     dataType: "json",
+            //     success: function(response)
+            //     {
+            //         if(response.status == 200)
+            //         {
+                        // $.each(response.categories, function(index, categories) {
+                        //     $('select[name="category_id"]').append('<option value="'+categories.id+'">'+categories.category_type+' - '+categories.category_name+'</option>')
+                            
+                        //     $(this).siblings('[value="'+this.categories+'"]').remove()
+                        // })
+
+                        // $.each(response.categories, function(index, categories) {
+                        //     $('select[name="category_id"]').append($('<option></option>').attr("categories", index).text(categories));
+                        // })
+                        
+                        // $.each(response.assets, function(index, assets) {
+                        //     $('select[name="asset_id"]').html('<option value="'+assets.id+'">'+assets.asset_name+'</option>')
+                        // })
+
+                        // $.each(response.categories, function(index, categories) {
+                        //     var selected = false;
+                        //     for(var i=0; i<categories.length; i++){
+                        //         selected = true;
+                        //         break;
+                        //     }
+
+                        //     $('select[name="category_id"]').append('<option value="'+categories.id+'">'+categories.category_type+' - '+categories.category_name+'</option>')
+                        
+                        //     var map = {};
+
+                        //     if(map[this.categories]) {
+                        //         $(this).remove();
+                        //     }
+                        //     map[this.categories] = true;
+                            
+                        // })
+            //         }
+            //     }
+            // })
+        // }
+
+        // const addAsset = document.querySelectorAll(".input-group .add_category")
+        // addAsset.forEach(function(e) {
+        //     e.addEventListener('click', function() {
+        //         let element = this.parentElement
+        //         console.log(element)
+
+        //         let newElementAsset = document.createElement('div')
+        //         newElementAsset.classList.add('.input-group', 'mb-4')
+        //         newElementAsset.innerHTML = '<div class="form-group">';
+        //         newElementAsset.innerHTML = newElementAsset.innerHTML + '<select class="form-control" id="asset_id" name="asset_id">';
+        //         newElementAsset.innerHTML = newElementAsset.innerHTML + '</select>';
+        //         newElementAsset.innerHTML = newElementAsset.innerHTML + '</div>';
+
+        //         $.ajax({
+        //             url: "{{ route('danliris_permintaan.create') }}",
+        //             type: "GET",
+        //             dataType: "json",
+        //             success: function(response)
+        //             {
+        //                 if(response.status == 200)
+        //                 {
+        //                     $.each(response.categories, function(index, categories) {
+        //                         $('select[name="category_id[]"]').html('<option value="'+categories.id+'">'+categories.category_type+' - '+categories.category_name+'</option>')
+        //                     })
+                            
+        //                     $.each(response.assets, function(index, assets) {
+        //                         $('select[name="asset_id"]').html('<option value="'+assets.id+'">'+assets.asset_name+'</option>')
+        //                     })
+        //                 }
+        //             }
+        //         })
+
+        //         document.getElementById('new_asset').appendChild(newElementAsset)
+        //         console.log(newElementAsset)
+        //     })
+        // })
+
+        // $.ajax({
+        //     url: "{{ route('danliris_permintaan.create') }}",
+        //     type: "GET",
+        //     dataType: "json",
+        //     success: function(response)
+        //     {
+        //         if(response.status == 200)
+        //         {
+        //             $.each(response.categories, function(index, categories) {
+        //                 $('select[name="category_id"]').append('<option value="'+categories.id+'">'+categories.category_type+' - '+categories.category_name+'</option>')
+        //             })
+                    
+        //             $.each(response.assets, function(index, assets) {
+        //                 $('select[name="asset_id"]').append('<option value="'+assets.id+'">'+assets.asset_name+'</option>')
+        //             })
+        //         }
+        //     }
+        // })
+
         $(document).ready(function () {
             $('.reset').click(function (){
                 $('#date').val("")
@@ -330,32 +680,65 @@
                 $('#description').val("")
             })
 
-            $('#date').datepicker({
-                format: 'dd-mm-yyyy',
-                autoclose: true,
-                locale: 'en'
-            });
+            // $('#date').datepicker({
+            //     format: 'dd-mm-yyyy',
+            //     autoclose: true,
+            //     locale: 'en'
+            // });
 
             $(document).on('click', '.create', function (e) {
                 e.preventDefault();
 
-                var data = {
+                // var category_id = [];
+                // var asset_id = [];
+                // var quantity = [];
+
+                // for(var i=0; i<= quantity; i++)
+                // {
+
+                // }
+
+                // $('#category_id').each(function () {
+                //     category_id.push($(this).text())
+                // })
+
+                // $('#asset_id').each(function () {
+                //     asset_id.push($(this).text())
+                // })
+                
+                // $('#quantity').each(function () {
+                //     quantity.push($(this).text())
+                // })
+
+                var requestData = {
                     'date': $('#date').val(),
                     'username': $('#username').val(),
                     'division_id': $('#division_id').val(),
                     'company_id': $('#company_id').val(),
                     'category_id': $('#category_id').val(),
                     'asset_id': $('#asset_id').val(),
-                    'unit_id': $('#unit_id').val(),
                     'quantity': $('#quantity').val(),
+                    // 'category_id': JSON.stringify(category_id),
+                    // 'asset_id': JSON.stringify(asset_id),
+                    'unit_id': $('#unit_id').val(),
+                    // 'quantity': JSON.stringify(quantity),
                     'description': $('#description').val(),
                 }
 
                 $.ajax({
                     method: "POST",
-                    data: data,
+                    data: requestData,
                     url: "{{ route('danliris_permintaan.store') }}",
-                    dataType: "json",
+                    // dataType:'json',
+                    // contentType: 'application/json; charset=utf-8',
+                    // headers: {
+                    //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    // },
+                    // async: false,
+                    beforeSend: function()
+                    {
+                        console.log(requestData)
+                    },
                     success: function(response){
                         if(response.status == 400){
                             $('#saveForm_errList').html("");
@@ -372,6 +755,7 @@
                             $('.modal-backdrop').remove();
                             var table = $('.datatables').DataTable();
                             table.ajax.reload();
+                            location.reload()
                         }
                     }
                 })
@@ -421,11 +805,11 @@
                             $('#updatePermintaanForm').find('#description').val("");
 
                         });
-                        $('#updatePermintaan').find('#date').datepicker({
-                            format: 'dd-mm-yyyy',
-                            autoclose: true,
-                            locale: 'en'
-                        });
+                        // $('#updatePermintaan').find('#date').datepicker({
+                        //     format: 'dd-mm-yyyy',
+                        //     autoclose: true,
+                        //     locale: 'en'
+                        // });
                         // $('#updatePermintaan').find('#asset_id').select2({
                         //     theme: 'bootstrap4'
                         // });
@@ -441,7 +825,7 @@
                         // console.log(response.permintaans['username'])
                         $("#id").val(id);
 
-                        $('#updatePermintaan').find('#date').val(response.getDate);
+                        $('#updatePermintaan').find('#date').val(response.danliris_permintaans.date);
                         $('#updatePermintaan').find('#username').val(response.danliris_permintaans.username);
 
                         $('#updatePermintaan').find('#unit_id').val(response.units.unit_name);
@@ -529,6 +913,7 @@
                         $('.modal-backdrop').remove();
                         var table = $('.datatables').DataTable();
                         table.ajax.reload();
+                        location.reload()
                     }
                 }
             })

@@ -49,9 +49,14 @@ class Efrata_Permintaan extends Model
         return $this->hasOne(Efrata_budget::class, 'efrata_permintaan_id', 'id');
     }
 
-    public function pemasukans()
+    public function efrata_pemasukans()
     {
-        return $this->hasOne(Pemasukan::class, 'permintaan_id', 'id');
+        return $this->hasOne(Efrata_Pemasukan::class, 'efrata_permintaan_id', 'id');
+    }
+
+    public function efrata_pengeluarans()
+    {
+        return $this->hasOne(Efrata_Pengeluaran::class, 'efrata_permintaan_id', 'id');
     }
 
     public function units()

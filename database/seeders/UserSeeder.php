@@ -1,0 +1,39 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\User;
+use Carbon\Carbon;
+
+class UserSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $user = [
+            [
+                'name' => 'superadmin',
+                'username' => 'superadmin',
+                'password' => bcrypt('superadmin123'),
+                'level' => 'superadmin',
+                'company_id' => NULL,
+                'company_name' => NULL,
+                'createdBy' => 'superadmin',
+                'createdUtc' => Carbon::now(),
+                'updatedBy' => '',
+                'updatedUtc' => NULL,
+                'deletedBy' => '',
+                'deletedUtc' => NULL,
+            ],
+        ];
+
+        foreach ($user as $key => $value) {
+            User::create($value);
+        }
+    }
+}

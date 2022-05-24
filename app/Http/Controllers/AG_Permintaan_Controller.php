@@ -71,7 +71,7 @@ class AG_Permintaan_Controller extends Controller
             'date' => 'required',
             'username' => 'required',
             'quantity' => 'required',
-            'description' => 'required',
+            // 'description' => 'required',
         ]);
 
         if($validator->fails()){
@@ -152,7 +152,7 @@ class AG_Permintaan_Controller extends Controller
         $validator = Validator::make($request->all(), [
             'username' => 'required',
             'quantity' => 'required',
-            'description' => 'required',
+            // 'description' => 'required',
         ]);
 
         if($validator->fails())

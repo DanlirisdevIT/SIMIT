@@ -7,7 +7,7 @@
                 <div class="col-lg-12">
                     <div class="card card-primary card-outline">
                         <div class="card-body">
-                            <h2 class="mb-4">List Barang</h2>
+                            <h2 class="mb-4">Barang</h2>
 
                             <button style="float: right; font-weight: 900;" class="btn btn-info" type="button"  data-toggle="modal" data-target="#addAsset">
                                 Tambah
@@ -56,7 +56,7 @@
                             </div>
                             <div class="form-group">
                                 <label name="manufacture_id" class="col-sm-4 control-label"> Pilih Manufaktur </label>
-                                <select class="form-control" id="manufacture_id" name="manufacture_id">
+                                <select class="form-control select2" id="manufacture_id" name="manufacture_id" style="width: 100%;">
                                     @foreach ($manufactures as $manufacture)
                                         @if ($manufacture->deletedBy == '')
                                             <option value={{ $manufacture->id }}>{{$manufacture->manufactureName}}</option>
@@ -66,7 +66,7 @@
                             </div>
                             <div class="form-group">
                                 <label name="category_id" class="col-sm-4 control-label"> Pilih Kategori </label>
-                                <select class="form-control" id="category_id" name="category_id">
+                                <select class="form-control select2" id="category_id" name="category_id" style="width: 100%;">
                                     @foreach ($categories as $category)
                                         @if ($category->deletedBy == '')
                                             <option value={{ $category->id }}>{{$category->category_type}} - {{$category->category_name}}</option>
@@ -146,7 +146,7 @@
                     </div>
                     <div class="form-group">
                         <label name="manufacture_id" class="col-sm-4 control-label"> Pilih Manufaktur </label>
-                        <select class="form-control" id="manufacture_id" name="manufacture_id">
+                        <select class="form-control select2" id="manufacture_id" name="manufacture_id" style="width: 100%;">
                             {{-- <option value="0" disabled="true" selected="true"> Pilih </option> --}}
                             @foreach ($manufactures as $manufacture)
                                 @if ($manufacture->deletedBy == '')
@@ -157,7 +157,7 @@
                     </div>
                     <div class="form-group">
                         <label name="category_id" class="col-sm-4 control-label"> Pilih Kategori </label>
-                        <select class="form-control" id="category_id" name="category_id">
+                        <select class="form-control select2" id="category_id" name="category_id" style="width: 100%;">
                             @foreach ($categories as $category)
                                 @if ($category->deletedBy == '')
                                     <option value={{ $category->id }}>{{$category->category_name}}</option>
@@ -255,6 +255,22 @@
                 ],
             });
         });
+
+        $('#manufacture_id').select2({
+            theme: 'bootstrap4'
+        })
+
+        $('#category_id').select2({
+            theme: 'bootstrap4'
+        })
+
+        $('#updateAsset').find('#manufacture_id').select2({
+            theme: 'bootstrap4'
+        })
+
+        $('#updateAsset').find('#category_id').select2({
+            theme: 'bootstrap4'
+        })
 
         //create/post/store
         $(document).ready(function () {
@@ -387,7 +403,7 @@
                 var img_holder = $('#upload-update-img');
                 var currentImagePath = $(this).data('value');
                 var extension = img_path.substring(img_path.lastIndexOf('.')+1).toLowerCase();
-                if(extension == 'jpg' || extension == 'jpeg' || extension == 'png'){
+                if(extension == 'jpg' || extension == 'jpeg' || extension == 'png' || extension == 'webp'){
                     if(typeof(FileReader) != 'undefined'){
                         img_holder.empty();
                         var reader = new FileReader();

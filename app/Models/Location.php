@@ -18,4 +18,14 @@ class Location extends Model
     public function units(){
         return $this->hasOne(Unit::class, 'location_id', 'id');
     }
+
+    public function danliris_pengeluarans()
+    {
+        return $this->hasOne(Danliris_Pengeluaran::class, 'location_id', 'id');
+    }
+
+    public function efrata_pengeluarans()
+    {
+        return $this->hasOne(Efrata_Pengeluaran::class, 'location_id', 'id');
+    }
 }

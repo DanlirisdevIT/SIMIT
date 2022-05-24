@@ -27,7 +27,7 @@ class Danliris_Stock_Controller extends Controller
         $assets = Asset::all();
         $categories = Category::all();
         $danliris_datefilter = Danliris_Movement::whereBetween('createdUtc', array($request->from_date, $request->to_date));
-        $danliris_assetflter = Danliris_Movement::where('asset_name', array($request->asset_name));
+        $danliris_assetfilter = Danliris_Movement::where('asset_name', array($request->asset_name));
         if(!empty($request->ajax('from_date'))){
             if($request->ajax()){
                 return DataTables::of($danliris_datefilter)

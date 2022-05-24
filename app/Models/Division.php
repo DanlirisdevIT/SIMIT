@@ -27,6 +27,16 @@ class Division extends Model
         return $this->hasOne(Danliris_Permintaan::class, 'division_id', 'id');
     }
 
+    public function danliris_pengeluarans()
+    {
+        return $this->hasOne(Danliris_Pengeluaran::class, 'division_id', 'id');
+    }
+
+    public function efrata_pengeluarans()
+    {
+        return $this->hasOne(Efrata_Pengeluaran::class, 'division_id', 'id');
+    }
+
     public function efrata_permintaans()
     {
         return $this->hasOne(Efrata_Permintaan::class, 'division_id', 'id');

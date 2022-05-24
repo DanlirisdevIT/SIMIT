@@ -53,9 +53,44 @@ class Unit extends Model
         return $this->hasOne(AG_Permintaan::class, 'unit_id', 'id');
     }
 
-    public function pemasukans()
+    // public function pemasukans()
+    // {
+    //     return $this->hasOne(Pemasukan::class, 'unit_id', 'id');
+    // }
+
+    public function danliris_pemasukans()
     {
-        return $this->hasOne(Pemasukan::class, 'unit_id', 'id');
+        return $this->hasOne(Danliris_Pemasukan::class, 'unit_id', 'id');
+    }
+
+    public function danliris_pengeluarans()
+    {
+        return $this->hasOne(Danliris_Pengeluaran::class, 'unit_id', 'id');
+    }
+
+    public function ag_pemasukans()
+    {
+        return $this->hasOne(AG_Pemasukan::class, 'unit_id', 'id');
+    }
+
+    public function efrata_pemasukans()
+    {
+        return $this->hasOne(Efrata_Pemasukan::class, 'unit_id', 'id');
+    }
+
+    public function danliris_budgets()
+    {
+        return $this->hasOne(Danliris_Budget::class, 'unit_id', 'id');
+    }
+
+    public function ag_budgets()
+    {
+        return $this->hasOne(AG_Budget::class, 'unit_id', 'id');
+    }
+
+    public function efrata_budgets()
+    {
+        return $this->hasOne(Efrata_Budget::class, 'unit_id', 'id');
     }
 
     public function danliris_histories(){

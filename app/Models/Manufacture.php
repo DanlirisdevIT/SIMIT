@@ -20,8 +20,18 @@ class Manufacture extends Model
         return $this->hasOne(Asset::class, 'manufacture_id', 'id');
     }
 
-    public function pemasukans()
+    public function danliris_pemasukans()
     {
-        return $this->hasOne(Pemasukan::class, 'manufacture_id', 'id');
+        return $this->hasOne(Danliris_Pemasukan::class, 'manufacture_id', 'id');
+    }
+
+    public function ag_pemasukans()
+    {
+        return $this->hasOne(AG_Pemasukan::class, 'manufacture_id', 'id');
+    }
+
+    public function efrata_pemasukans()
+    {
+        return $this->hasOne(Efrata_Pemasukan::class, 'manufacture_id', 'id');
     }
 }

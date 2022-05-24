@@ -7,7 +7,7 @@
                 <div class="col-lg-12">
                     <div class="card card-primary card-outline">
                         <div class="card-body">
-                            <h2 class="mb-4">List Kategori</h2>
+                            <h2 class="mb-4">Kategori</h2>
 
                             <button style="float: right; font-weight: 900;" class="btn btn-info" type="button"  data-toggle="modal" data-target="#addCategory">
                                 Tambah

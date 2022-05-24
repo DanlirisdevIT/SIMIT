@@ -13,12 +13,6 @@ class Danliris_Movement extends Model
 
     protected $table = 'danliris_movements';
 
-    protected $fillable = [
-        'quantity',
-        'barcode',
-        'status'
-    ];
-
     public function danliris_permintaans()
     {
         return $this->belongsTo(Danliris_Permintaan::class, 'danliris_permintaan_id', 'id');
@@ -32,5 +26,15 @@ class Danliris_Movement extends Model
     public function categories()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    public function danliris_pemasukans()
+    {
+        return $this->belongsTo(Danliris_Pemasukan::class, 'danliris_pemasukan_id', 'id');
+    }
+
+    public function danliris_pengeluarans()
+    {
+        return $this->belongsTo(Danliris_Movement::class, 'danliris_movement_id', 'id');
     }
 }

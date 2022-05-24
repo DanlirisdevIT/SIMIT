@@ -26,7 +26,17 @@ class Category extends Model
 
     public function danliris_permintaans()
     {
-        return $this->hasOne(Danliris_Permintaan::class, 'category_id', 'id');
+        return $this->hasMany(Danliris_Permintaan::class, 'category_id', 'id');
+    }
+
+    public function danliris_pengeluarans()
+    {
+        return $this->hasOne(Danliris_Pengeluaran::class, 'category_id', 'id');
+    }
+
+    public function efrata_pengeluarans()
+    {
+        return $this->hasOne(Efrata_Pengeluaran::class, 'category_id', 'id');
     }
 
     public function efrata_permintaans()
@@ -60,5 +70,20 @@ class Category extends Model
     public function service_masuk_assets()
     {
         return $this->hasOne(ServiceMasukAsset::class, 'category_id', 'id');
+    }
+
+    public function danliris_pemasukans()
+    {
+        return $this->hasOne(Danliris_Pemasukan::class, 'category_id', 'id');
+    }
+
+    public function ag_pemasukans()
+    {
+        return $this->hasOne(AG_Pemasukan::class, 'category_id', 'id');
+    }
+
+    public function efrata_pemasukans()
+    {
+        return $this->hasOne(Efrata_Pemasukan::class, 'category_id', 'id');
     }
 }

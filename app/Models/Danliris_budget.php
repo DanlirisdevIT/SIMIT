@@ -15,6 +15,7 @@ class Danliris_budget extends Model
         'date',
         'group',
         'quantity',
+        'realisasi',
         'unitPrice',
         'totalPrice',
         'description'
@@ -36,6 +37,11 @@ class Danliris_budget extends Model
         return $this->belongsTo(Division::class, 'division_id', 'id');
     }
 
+    public function units()
+    {
+        return $this->belongsTo(Unit::class, 'unit_id', 'id');
+    }
+
     public function categories()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
@@ -46,8 +52,13 @@ class Danliris_budget extends Model
         return $this->belongsTo(Asset::class, 'asset_id', 'id');
     }
 
-    public function pemasukans()
+    // public function pemasukans()
+    // {
+    //     return $this->hasOne(Pemasukan::class, 'budget_id', 'id');
+    // }
+
+    public function danliris_pemasukans()
     {
-        return $this->hasOne(Pemasukan::class, 'budget_id', 'id');
+        return $this->hasOne(Danliris_Pemasukan::class, 'danliris_budget_id', 'id');
     }
 }

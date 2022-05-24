@@ -60,10 +60,10 @@ class AssetController extends Controller
             'asset_name'=>'required',
             // 'manufactureName'=>'required',
             // 'category_name'=>'required',
-            'model_number'=>'required',
-            'EOL'=>'required',
-            'images'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'notes'=>'required',
+            // 'model_number'=>'required',
+            // 'EOL'=>'required',
+            // 'images'=>'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            // 'notes'=>'required',
         ]);
 
         if($validator->fails()){
@@ -208,10 +208,10 @@ class AssetController extends Controller
             'asset_name'=>'required',
             // 'manufactureName'=>'required',
             // 'category_name'=>'required',
-            'model_number'=>'required',
-            'EOL'=>'required',
-            // 'images'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'notes'=>'required',
+            // 'model_number'=>'required',
+            // 'EOL'=>'required',
+            // 'images'=>'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            // 'notes'=>'required',
         ]);
 
         if($validator->fails())
@@ -232,6 +232,19 @@ class AssetController extends Controller
                 $assets->model_number=$request->model_number;
                 $assets->notes=$request->notes;
                 // $file_photo = $request->file('images');
+                // if($request->hasFile('images'))
+                // {   
+                //     $prev_path = "uploads/images/".$assets->images;
+                //     if(file_exists($prev_path))
+                //     {
+                //         unlink($prev_path);
+                //     }
+                //     $file = $request->file('images');
+                //     $extension = $file->getClientOriginalName();
+                //     $filename = time().'-'.$extension;
+                //     $file->move('uploads/images/', $filename);
+                //     $assets->images = $filename;
+                // }
                 if($request->hasFile('images'))
                 {
                     $prev_path = "uploads/images/".$assets->images;

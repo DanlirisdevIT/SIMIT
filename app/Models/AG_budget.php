@@ -46,8 +46,13 @@ class AG_budget extends Model
         return $this->belongsTo(Asset::class, 'asset_id', 'id');
     }
 
-    public function pemasukans()
+    // public function pemasukans()
+    // {
+    //     return $this->hasOne(Pemasukan::class, 'budget_id', 'id');
+    // }
+
+    public function ag_pemasukans()
     {
-        return $this->hasOne(Pemasukan::class, 'budget_id', 'id');
+        return $this->hasOne(AG_Pemasukan::class, 'ag_budget_id', 'id');
     }
 }

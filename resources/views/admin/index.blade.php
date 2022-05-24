@@ -8,7 +8,7 @@
             <div class="col-lg-12">
                 <div class="card card-primary card-outline">
                     <div class="card-body">
-                        <h2 class="mb-4">List Admin</h2>
+                        <h2 class="mb-4">Admin</h2>
 
                         <div id="success_message"></div>
 

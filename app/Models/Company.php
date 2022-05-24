@@ -28,6 +28,16 @@ class Company extends Model
         return $this->hasOne(Danliris_Permintaan::class, 'company_id', 'id');
     }
 
+    public function danliris_pengeluarans()
+    {
+        return $this->hasOne(Danliris_Pengeluaran::class, 'company_id', 'id');
+    }
+
+    public function efrata_pengeluarans()
+    {
+        return $this->hasOne(Efrata_Pengeluaran::class, 'company_id', 'id');
+    }
+
     public function efrata_permintaans()
     {
         return $this->hasOne(Efrata_Permintaan::class, 'company_id', 'id');

@@ -7,7 +7,7 @@
                 <div class="col-lg-12">
                     <div class="card card-primary card-outline">
                         <div class="card-body">
-                            <h2 class="mb-4">List Lokasi</h2>
+                            <h2 class="mb-4">Lokasi</h2>
 
                             {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCompany"> Tambah </button> --}}
 

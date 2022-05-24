@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('level');
             $table->unsignedBigInteger('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('company_name')->nullable();
             $table->rememberToken();
             $table->string('createdBy');
             $table->dateTime('createdUtc');

@@ -52,13 +52,16 @@ class AddAdminController extends Controller
             $createdBy = Auth::user()->name;
             $createdUtc = Carbon::now();
             $password = $request->password;
+            $company_id = $request->company_id;
+            $company_name = Company::with('users')->where('id',$company_id)->first();
 
             $data = new User();
             $data -> name = $request->input('name');
             $data -> username = $request->input('username');
             $data -> password = bcrypt($password);
             $data -> level = 'admin';
-            $data -> company_id = $request->company_id;
+            $data -> company_id = $company_id;
+            $data -> company_name = $company_name->companyName;
             $data -> createdBy = $createdBy;
             $data -> createdUtc = $createdUtc;
             $data -> save();

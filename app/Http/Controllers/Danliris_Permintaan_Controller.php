@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Helpers\Helper;
 
 class Danliris_Permintaan_Controller extends Controller
 {
@@ -56,7 +57,10 @@ class Danliris_Permintaan_Controller extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all()->where('deletedBy', '=', Null);
+        $assets = Asset::all()->where('deletedBy', '=', Null);
+
+        return response()->json(['status' => 200, 'categories' => $categories, 'assets' => $assets]);
     }
 
     /**
@@ -68,10 +72,10 @@ class Danliris_Permintaan_Controller extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'date' => 'required',
-            'username' => 'required',
-            'quantity' => 'required',
-            'description' => 'required',
+            // 'date' => 'required',
+            // 'username' => 'required',
+            // 'quantity' => 'required',
+            // 'description' => 'required',
         ]);
 
         if($validator->fails()){
@@ -82,20 +86,75 @@ class Danliris_Permintaan_Controller extends Controller
             $getBy  = Auth::user()->name;
             $getUtc = Carbon::now();
             $getDate = Carbon::parse($request->input('date'))->format('Y-m-d');
+            $permintaan_uniqueid = Helper::IDGenerator(new Danliris_Permintaan(), 'dl_permintaan_uid', 'PERMINTAAN', 5);
+            
+            $category_id = array();
+
+            $category_id = json_encode($request->category_id);
+
+            // $data = json_decode($request->quantity);
+
+            // foreach($request->all() as $val)
+            // {
+            //     dd($val);
+            // }
+
+            // dd($request->all());
 
             $data = new Danliris_Permintaan();
             $data -> date = $getDate;
+            $data -> dl_permintaan_uid = $permintaan_uniqueid;
             $data -> username = $request->input('username');
             $data -> division_id = $request->input('division_id');
             $data -> company_id = $request->input('company_id');
+            $data -> unit_id = $request->input('unit_id');
             $data -> category_id = $request->input('category_id');
             $data -> asset_id = $request->input('asset_id');
-            $data -> unit_id = $request->input('unit_id');
             $data -> quantity = $request->input('quantity');
+            // foreach($request->category_id as $c)
+            // {
+            //     $data -> category_id = $c;
+            // }
+
+            // foreach($request->asset_id as $a)
+            // {
+            //     $data -> asset_id = $a;
+            // }
+
+            // foreach($request->quantity as $q)
+            // {
+            //     $data -> quantity = $q;
+            // }
             $data -> description = $request->input('description');
             $data -> createdBy = $getBy;
             $data -> createdUtc = $getUtc;
             $data -> save();
+
+            // $data = array();
+
+            // foreach(count($request->all() as $i => $value)
+            // {
+            //     $data_permintaan = [
+            //         'date' => $getDate,
+            //         'dl_permintaan_uid' => $permintaan_uniqueid,
+            //         'username' => $value->username,
+            //         'division_id' => $value->division_id,
+            //         'company_id' => $value->company_id,
+            //         'unit_id' => $value->unit_id,
+            //         'category_id' => $value->category_id,
+            //         'asset_id' => $value->asset_id,
+            //         'quantity' => $value->quantity,
+            //         'description' => $value->description,
+            //         'createdBy' => $getBy,
+            //         'createdUtc' => $getUtc,
+            //     ];
+
+            //     $input_permintaan[] = $data_permintaan;
+
+            //     dd($input_permintaan);
+            // }
+
+            // Danliris_Permintaan::insert($input_permintaan);
 
             return response()->json(['status' => 200, 'messages' => 'Data telah ditambahkan']);
         }
@@ -152,7 +211,7 @@ class Danliris_Permintaan_Controller extends Controller
         $validator = Validator::make($request->all(), [
             'username' => 'required',
             'quantity' => 'required',
-            'description' => 'required',
+            // 'description' => 'required',
         ]);
 
         if($validator->fails())

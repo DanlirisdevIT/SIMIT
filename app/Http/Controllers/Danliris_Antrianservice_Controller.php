@@ -36,6 +36,11 @@ class Danliris_Antrianservice_Controller extends Controller
         $divisions = Division::all();
         $assets = Asset::all();
         $units = Unit::all();
+        // $deliveryDateToSec = strtotime($date);
+        // $currentDateToSec = strtotime(Date('Y-m-d'));
+        // $dateDiff = $deliveryDateToSec - $currentDateToSec;
+        // $daysLeft = $dateDiff/86400;
+        // $daysLeft = intVal($daysLeft);
         if($request->ajax()){
             return DataTables::of($danliris_antrianservices)
             ->addIndexColumn()
@@ -50,6 +55,36 @@ class Danliris_Antrianservice_Controller extends Controller
             //     $tgl_selesai = Carbon::createFromFormat('Y-m-d', $data->tgl_selesai)->format('d F Y');
             //     return $tgl_selesai;
             // })
+            ->addColumn('time_remaining', function($data) {
+                if($data->time_remaining == "3")
+                {
+                    return "3 Hari";
+                }
+                else if($data->time_remaining == "60")
+                {
+                    return "3 Bulan";
+                }
+            })
+            ->addColumn('sisa_hari', function($data) {
+                $data_date = $data->date;
+                $deliveryDateToSec = strtotime($data_date);
+                $currentDateToSec = strtotime(Date('Y-m-d'));
+                $dateDiff = $currentDateToSec - $deliveryDateToSec;
+
+                if($data->time_remaining == "3")
+                {
+                    $daysLeft = $dateDiff/86400;
+                    $daysLeft = intVal($daysLeft);
+                    return $daysLeft;
+                }
+                else if($data->time_remaining == "60")
+                {
+                    $daysLeft = $dateDiff/5184000;
+                    $daysLeft = intVal($daysLeft);
+                    return $daysLeft;
+                }
+
+            })
             ->addColumn('action', function($data){
                 $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-primary btn-sm editAntrianService1">Edit </a>';
                 $btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-success btn-sm editAntrianService">Done </a>';
@@ -57,7 +92,7 @@ class Danliris_Antrianservice_Controller extends Controller
                 // $btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->id.'" data-original-title="selesai" class="btn btn-success btn-sm selesaiAntrianService"><i class="fas fa-flag-checkered"></i></a>';
                 return $btn;
             })
-            ->rawColumns(['date', 'action'])
+            ->rawColumns(['date', 'action', 'sisa_hari'])
             ->make(true);
         }
 
@@ -111,9 +146,9 @@ class Danliris_Antrianservice_Controller extends Controller
             $data -> date = $getDate;
             $data -> danliris_history_id = $request->danliris_history_id;
             $data -> username = $request->input('username');
-            $data -> division_id = $request->division_id;
-            $data -> unit_id = $request->unit_id;
-            $data -> asset_id = $request->asset_id;
+            $data -> divisi_name = $request->divisi_name;
+            $data -> unit_name = $request->unit_name;
+            $data -> asset_name = $request->asset_name;
             $data -> asset_ip = $request->input('asset_ip');
             $data -> status = $request->input('status');
             $data -> prioritas = $request->input('prioritas');
@@ -244,7 +279,7 @@ class Danliris_Antrianservice_Controller extends Controller
             // $getDateFin = Carbon::parse($request->input('tgl_selesai'))->format('Y-m-d');
             if($danliris_antrianservices)
             {
-                // $danliris_antrianservices -> date = $getDate;
+                $danliris_antrianservices -> date = $getDate;
                 // $danliris_antrianservices ->tgl_selesai = $getDateFin;
                 $danliris_antrianservices -> nama_teknisi = $request->input('nama_teknisi');
                 $danliris_antrianservices -> jenis_kerusakan = $request->input('jenis_kerusakan');

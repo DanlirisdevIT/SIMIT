@@ -7,7 +7,7 @@
                 <div class="col-lg-12">
                     <div class="card card-primary card-outline">
                         <div class="card-body">
-                            <h2 class="mb-4">List Manufaktur</h2>
+                            <h2 class="mb-4">Manufaktur</h2>
 
                             <button style="float: right; font-weight: 900;" class="btn btn-info" type="button"  data-toggle="modal" data-target="#addManufacture">
                                 Tambah
@@ -39,7 +39,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Tambah Manufaktur</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <button type="button" class="close" id="btn-close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -120,7 +120,7 @@
                         <div class="form-group">
                             <label name="url" class="col-sm-4 control-label"> Url </label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="url" name="url" placeholder="Masukkan url..." value = "'.$manufactures->url.'" maxlength="50" required>
+                                <input type="text" class="form-control" id="url" name="url" placeholder="Masukkan url..." value = "'.$manufactures->url.'" required>
                             </div>
                         </div>
 
@@ -206,6 +206,11 @@
                     [0, 'desc'],
                 ],
             });
+
+            //close listener
+            $('#btn-close').on('click', function() {
+                $('#addManufacture').val("");
+            })
 
              //create/post/store
             $(document).ready(function () {
@@ -314,14 +319,14 @@
                 var img_holder = $('#upload-update-img');
                 var currentImagePath = $(this).data('value');
                 var extension = img_path.substring(img_path.lastIndexOf('.')+1).toLowerCase();
-                if(extension == 'jpg' || extension == 'jpeg' || extension == 'png'){
+                if(extension == 'jpg' || extension == 'jpeg' || extension == 'png' || extension == 'webp'){
                     if(typeof(FileReader) != 'undefined'){
                         img_holder.empty();
                         var reader = new FileReader();
                         reader.onload = function(e){
                             $('<img/>', {'src':e.target.result, 'class':'img-fluid', 'style':'max-width:100px;margin-bottom:10px;'}).appendTo(img_holder);
                         }
-                        img_holder.show();
+                        // img_holder.show();
                         reader.readAsDataURL($(this)[0].files[0]);
                     }else{
                         $(img_holder).html('this browser not supporting file reader');

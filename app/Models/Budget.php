@@ -29,6 +29,11 @@ class Budget extends Model
         return $this->belongsTo(Permintaan::class, 'permintaan_id', 'id');
     }
 
+    public function units()
+    {
+        return $this->belongsTo(Unit::class, 'unit_id', 'id');
+    }
+
     public function divisions()
     {
         return $this->belongsTo(Division::class, 'division_id', 'id');

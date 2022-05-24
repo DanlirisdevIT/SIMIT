@@ -49,9 +49,19 @@ class AG_Permintaan extends Model
         return $this->hasOne(AG_budget::class, 'ag_permintaan_id', 'id');
     }
 
-    public function pemasukans()
+    // public function pemasukans()
+    // {
+    //     return $this->hasOne(Pemasukan::class, 'permintaan_id', 'id');
+    // }
+
+    public function ag_pemasukans()
     {
-        return $this->hasOne(Pemasukan::class, 'permintaan_id', 'id');
+        return $this->hasOne(AG_Pemasukan::class, 'ag_permintaan_id', 'id');
+    }
+
+    public function ag_pengeluarans()
+    {
+        return $this->hasOne(AG_Pengeluaran::class, 'ag_permintaan_id', 'id');
     }
 
     public function units()

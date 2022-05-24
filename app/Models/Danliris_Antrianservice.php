@@ -24,6 +24,11 @@ class Danliris_Antrianservice extends Model
     {
         return $this->belongsTo(Danliris_History::class, 'danliris_history_id', 'id');
     }
+    
+    public function danliris_movements()
+    {
+        return $this->belongsTo(Danliris_Movement::class, 'danliris_history_id', 'id');
+    }
 
     public function divisions()
     {

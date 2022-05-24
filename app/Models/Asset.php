@@ -34,7 +34,7 @@ class Asset extends Model
 
     public function danliris_permintaans()
     {
-        return $this->hasOne(Danliris_Permintaan::class, 'asset_id', 'id');
+        return $this->hasMany(Danliris_Permintaan::class, 'asset_id', 'id');
     }
 
     public function efrata_permintaans()
@@ -70,5 +70,39 @@ class Asset extends Model
 
     public function AG_histories(){
         return $this->hasOne(AG_History::class, 'asset_id', 'id');
+    }
+    public function danliris_pemasukans()
+    {
+        return $this->hasOne(Danliris_Pemasukan::class, 'asset_id', 'id');
+    }
+
+    public function danliris_pengeluarans()
+    {
+        return $this->hasOne(Danliris_Pengeluaran::class, 'asset_id', 'id');
+    }
+
+    public function danliris_movement()
+    {
+        return $this->hasOne(Danliris_Movement::class, 'asset_id', 'id');
+    }
+
+    public function efrata_pengeluarans()
+    {
+        return $this->hasOne(Efrata_Pengeluaran::class, 'asset_id', 'id');
+    }
+
+    public function ag_pengeluarans()
+    {
+        return $this->hasOne(AG_Pengeluaran::class, 'asset_id', 'id');
+    }
+
+    public function ag_pemasukans()
+    {
+        return $this->hasOne(AG_Pemasukan::class, 'asset_id', 'id');
+    }
+
+    public function efrata_pemasukans()
+    {
+        return $this->hasOne(Efrata_Pemasukan::class, 'asset_id', 'id');
     }
 }
