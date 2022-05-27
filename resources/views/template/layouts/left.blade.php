@@ -294,7 +294,7 @@
                         {{-- service_final --}}
                         @if(Auth::user()->company_name == 'Efrata' || is_null(Auth::user()->company_id))
                         <li class="nav-item">
-                            <a href="{{ route('efrata_historyservice.index') }}" class="nav-link ">
+                            <a href="{{ route('efrata_service_history.index') }}" class="nav-link ">
                             <i class="far fa-circle nav-icon"></i>
                             <p>History Service</p>
                             </a>
@@ -302,7 +302,7 @@
                         @endif
                         @if(Auth::user()->company_name == 'Danliris' || is_null(Auth::user()->company_id))
                         <li class="nav-item">
-                            <a href="{{ route('danliris_historyservice.index') }}" class="nav-link ">
+                            <a href="{{ route('danliris_service_history.index') }}" class="nav-link ">
                             <i class="far fa-circle nav-icon"></i>
                             <p>History Service</p>
                             </a>
@@ -310,7 +310,7 @@
                         @endif
                         @if(Auth::user()->company_name == 'AG' || is_null(Auth::user()->company_id))
                         <li class="nav-item">
-                            <a href="{{ route('ag_historyservice.index') }}" class="nav-link ">
+                            <a href="{{ route('ag_service_history.index') }}" class="nav-link ">
                             <i class="far fa-circle nav-icon"></i>
                             <p>History Service</p>
                             </a>

@@ -16,6 +16,7 @@ class CreateDanlirisAntrianservicesTable extends Migration
         Schema::create('danliris_antrianservices', function (Blueprint $table) {
             $table->id();
             $table->date('date')->nullable();
+            $table->date('date_left')->nullable();
             $table->unsignedBigInteger('danliris_history_id');
             $table->foreign('danliris_history_id')->references('id')->on('danliris_histories')->onDelete('cascade')->onUpdate('cascade');
             $table->string('username', 255);
@@ -33,10 +34,11 @@ class CreateDanlirisAntrianservicesTable extends Migration
             $table->string('prioritas', 255)->nullable();
             $table->string('barcode', 255)->nullable();
             $table->string('time_remaining', 255);
-            $table->date('tgl_selesai')->nullable();
             $table->string('nama_teknisi', 255)->nullable();
             $table->string('jenis_kerusakan', 255)->nullable();
             $table->string('tindakan_perbaikan', 255)->nullable();
+            $table->string('undone')->nullable();
+            $table->date('final_date_left')->nullable();
             $table->string('createdBy', 255)->nullable();
             $table->dateTime('createdUtc')->nullable();
             $table->string('updatedBy', 255)->nullable();

@@ -24,8 +24,8 @@ class Danliris_Stock_Controller extends Controller
 
         $danliris_movements = Danliris_Movement::with(['assets', 'categories'])
         ->whereNull('deletedBy')->get();
-        $assets = Asset::all();
-        $categories = Category::all();
+        $assets = Asset::whereNull('deletedBy')->get();
+        $categories = Category::whereNull('deletedBy')->get();
         $danliris_datefilter = Danliris_Movement::whereBetween('createdUtc', array($request->from_date, $request->to_date));
         $danliris_assetfilter = Danliris_Movement::where('asset_name', array($request->asset_name));
         if(!empty($request->ajax('from_date'))){

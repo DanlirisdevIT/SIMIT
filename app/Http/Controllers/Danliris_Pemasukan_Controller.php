@@ -70,12 +70,12 @@ class Danliris_Pemasukan_Controller extends Controller
      */
     public function create(Request $request)
     {
-        $manufactures = Manufacture::all();
+        $manufactures = Manufacture::whereNull('deletedBy')->get();
         // $categories = Category::all();
         $danliris_budgets = Danliris_Budget::whereNull('deletedBy')->get();
-        $assets = Asset::all();
-        $suppliers = Supplier::all();
-        $units = Unit::all();
+        $assets = Asset::whereNull('deletedBy')->get();
+        $suppliers = Supplier::whereNull('deletedBy')->get();
+        $units = Unit::whereNull('deletedBy')->get();
 
         $getData = $request->danliris_budget_id;
 
@@ -249,11 +249,11 @@ class Danliris_Pemasukan_Controller extends Controller
         $units = Unit::with('danliris_pemasukans')->where('id', $danliris_pemasukans->unit_id)->first();
         $suppliers = Supplier::with('danliris_pemasukans')->where('id', $danliris_pemasukans->supplier_id)->first();
         $manufactures = Manufacture::with('danliris_pemasukans')->where('id', $danliris_pemasukans->manufacture_id)->first();
-        $danliris_permintaansAll = Danliris_Permintaan::all();
-        $suppliersAll = Supplier::all();
-        $unitsAll = Unit::all();
-        $manufacturesAll = Manufacture::all();
-        $danliris_budgetAll = Danliris_Budget::all();
+        $danliris_permintaansAll = Danliris_Permintaan::whereNull('deletedBy')->get();
+        $suppliersAll = Supplier::whereNull('deletedBy')->get();
+        $unitsAll = Unit::whereNull('deletedBy')->get();
+        $manufacturesAll = Manufacture::whereNull('deletedBy')->get();
+        $danliris_budgetAll = Danliris_Budget::whereNull('deletedBy')->get();
 
         $getDate = Carbon::createFromFormat('Y-m-d', $danliris_pemasukans->date)->format('d/m/Y');
         // $getDate = Carbon::parse($danliris_pemasukans->date)->format('d/m/Y');

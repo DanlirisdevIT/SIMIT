@@ -25,22 +25,16 @@ class Danliris_Antrianservice_Controller extends Controller
     {
         $date = $request->input('date');
         // $dateFin = $request->input('tgl_selesai');
-
         $danliris_antrianservices = Danliris_Antrianservice::with([ 'danliris_histories', 'divisions', 'assets', 'units'])
         ->when($date, function ($query, $date){
             $query->where('danliris_antrianservice_id', $date);
         })
         // ->whereNull(['nama_teknisi', 'jenis_kerusakan', 'penyebab_kerusakan', 'tindakan_perbaikan'])
-        ->whereNull('deletedBy')->whereNull('tgl_selesai')->whereNull('nama_teknisi')->whereNull('jenis_kerusakan')->whereNull('tindakan_perbaikan')->get();
-        $danliris_histories = Danliris_History::all();
-        $divisions = Division::all();
-        $assets = Asset::all();
-        $units = Unit::all();
-        // $deliveryDateToSec = strtotime($date);
-        // $currentDateToSec = strtotime(Date('Y-m-d'));
-        // $dateDiff = $deliveryDateToSec - $currentDateToSec;
-        // $daysLeft = $dateDiff/86400;
-        // $daysLeft = intVal($daysLeft);
+        ->whereNull('deletedBy')->whereNull('final_date_left')->whereNull('nama_teknisi')->whereNull('jenis_kerusakan')->whereNull('tindakan_perbaikan')->get();
+        $danliris_histories = Danliris_History::whereNull('deletedBy')->get();
+        $divisions = Division::whereNull('deletedBy')->get();
+        $assets = Asset::whereNull('deletedBy')->get();
+        $units = Unit::whereNull('deletedBy')->get();
         if($request->ajax()){
             return DataTables::of($danliris_antrianservices)
             ->addIndexColumn()
@@ -48,13 +42,6 @@ class Danliris_Antrianservice_Controller extends Controller
                 $date = Carbon::createFromFormat('Y-m-d', $data->date)->format('d F Y');
                 return $date;
             })
-            // ->addColumn('tgl_selesai', function($data) {
-            //     $dateFin = Carbon::createFromFormat('Y-m-d', $data->tgl_selesai)->format('d F Y');
-            // })
-            // ->addColumn('tgl_selesai', function($data) {
-            //     $tgl_selesai = Carbon::createFromFormat('Y-m-d', $data->tgl_selesai)->format('d F Y');
-            //     return $tgl_selesai;
-            // })
             ->addColumn('time_remaining', function($data) {
                 if($data->time_remaining == "3")
                 {
@@ -66,10 +53,10 @@ class Danliris_Antrianservice_Controller extends Controller
                 }
             })
             ->addColumn('sisa_hari', function($data) {
-                $data_date = $data->date;
+                $data_date = $data->date_left;
                 $deliveryDateToSec = strtotime($data_date);
                 $currentDateToSec = strtotime(Date('Y-m-d'));
-                $dateDiff = $currentDateToSec - $deliveryDateToSec;
+                $dateDiff = $deliveryDateToSec - $currentDateToSec;
 
                 if($data->time_remaining == "3")
                 {
@@ -85,18 +72,18 @@ class Danliris_Antrianservice_Controller extends Controller
                 }
 
             })
-            ->addColumn('action', function($data){
+            ->addColumn('action', function($data)
+            {   
                 $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-primary btn-sm editAntrianService1">Edit </a>';
-                $btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-success btn-sm editAntrianService">Done </a>';
-                
-                // $btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->id.'" data-original-title="selesai" class="btn btn-success btn-sm selesaiAntrianService"><i class="fas fa-flag-checkered"></i></a>';
+                $btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-success btn-sm editAntrianService"> Done </a>';
                 return $btn;
+                
             })
             ->rawColumns(['date', 'action', 'sisa_hari'])
             ->make(true);
         }
 
-        return view('service.antrianservice.danliris_antrianservice.index', compact('danliris_histories' ,'divisions', 'assets', 'units'));
+        return view('service.antrianservice.danliris_antrianservice.index', compact('danliris_histories' ,'divisions', 'assets', 'units', 'now'));
     }
 
     /**
@@ -140,10 +127,12 @@ class Danliris_Antrianservice_Controller extends Controller
         {
             $getBy  = Auth::user()->name;
             $getUtc = Carbon::now();
-            $getDate = Carbon::parse($request->input('date'))->format('Y-m-d');
+            $getDateCome = Carbon::parse($request->input('date'))->format('Y-m-d');
+            $getDateLeft = Carbon::createFromFormat('d/m/Y', $request->input('date_left'))->format('Y-m-d');
 
             $data = new Danliris_Antrianservice();
-            $data -> date = $getDate;
+            $data -> date = $getDateCome;
+            $data -> date_left = $getDateLeft;
             $data -> danliris_history_id = $request->danliris_history_id;
             $data -> username = $request->input('username');
             $data -> divisi_name = $request->divisi_name;
@@ -171,7 +160,17 @@ class Danliris_Antrianservice_Controller extends Controller
      */
     public function show($id)
     {
-        //
+        $danliris_antrianservices = Danliris_Antrianservice::with([ 'danliris_histories'])->where('id', $id)->first();
+        $danliris_histories = Danliris_History::with('danliris_antrianservices')->where('id', $danliris_antrianservices->danliris_history_id)->first();
+        $getDate = Carbon::createFromFormat('Y-m-d', $danliris_antrianservices->date)->format('d-m-Y');
+        if($danliris_antrianservices)
+        {
+            return response()->json(['status' => 200, 'danliris_antrianservices' => $danliris_antrianservices, 'danliris_histories' => $danliris_histories, 'getDate' => $getDate]);
+        }
+        else
+        {
+            return response()->json(['status' => 404, 'messages' => 'Tidak ada data ditemukan.']);
+        }
     }
 
     //Button Edit
@@ -190,43 +189,53 @@ class Danliris_Antrianservice_Controller extends Controller
         }
     }
 
-    public function update1(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'nama_teknisi' => 'nullable',
-            'jenis_kerusakan' => 'nullable',
-            'penyebab_kerusakan' => 'nullable',
-            'tindakan_perbaikan' => 'nullable'
-        ]);
+    // public function update1(Request $request, $id)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'nama_teknisi' => 'nullable',
+    //         'jenis_kerusakan' => 'nullable',
+    //         'penyebab_kerusakan' => 'nullable',
+    //         'tindakan_perbaikan' => 'nullable'
+    //     ]);
 
-        if($validator->fails())
-        {
-            return response()->json(['status' => 400, 'errors' => $validator->errors()]);
-        }
-        else
-        {
-            $danliris_antrianservices = Danliris_Antrianservice::find($id);
-            $getBy = Auth::user()->name;
-            $getUtc = Carbon::now();
-            $getDate = Carbon::parse($request->input('date'))->format('Y-m-d');
-            if($danliris_antrianservices)
-            {
-                $danliris_antrianservices -> date = $getDate;
-                $danliris_antrianservices -> danliris_history_id = $request->danliris_history_id;
-                $danliris_antrianservices -> status = $request->input('status');
-                $danliris_antrianservices -> prioritas = $request->input('prioritas');
-                $danliris_antrianservices -> updatedBy=$getBy;
-                $danliris_antrianservices -> updatedUtc=$getUtc;
-                $danliris_antrianservices ->update();
+    //     if($validator->fails())
+    //     {
+    //         return response()->json(['status' => 400, 'errors' => $validator->errors()]);
+    //     }
+    //     else
+    //     {
+    //         $danliris_antrianservices = Danliris_Antrianservice::find($id);
+    //         $getBy = Auth::user()->name;
+    //         $getUtc = Carbon::now();
+    //         $getDate = Carbon::parse($request->input('date'))->format('Y-m-d');
+    //         if($danliris_antrianservices)
+    //         {
+    //             $danliris_antrianservices -> date = $getDate;
+    //             $danliris_antrianservices -> danliris_history_id = $request->danliris_history_id;
+    //             $danliris_antrianservices -> status = $request->input('status');
+    //             $danliris_antrianservices -> prioritas = $request->input('prioritas');
+    //             $danliris_antrianservices -> updatedBy=$getBy;
+    //             $danliris_antrianservices -> updatedUtc=$getUtc;
+    //             $danliris_antrianservices ->update();
 
-                return response()->json(['status' => 200, 'messages' => 'Data berhasil diperbaharui.']);
-            }
-            else
-            {
-                return response()->json(['status' => 404, 'messages' => 'Tidak ada data ditemukan.']);
-            }
-        }
-    }
+    //             return response()->json(['status' => 200, 'messages' => 'Data berhasil diperbaharui.']);
+    //         }
+    //         else
+    //         {
+    //             return response()->json(['status' => 404, 'messages' => 'Tidak ada data ditemukan.']);
+    //         }
+    //     }
+    // }
+    
+    // public function undoneServiceUpdate (Request $request, $id)
+    // {
+    //     $danliris_antrianservices = Danliris_Antrianservice::find($id);
+    //     $getBy = Auth::user()->name;
+    //     $getUtc = Carbon::now();
+
+    //     Danliris_Antrianservice::where('id', $danliris_antrianservices)->update(['jenis_kerusakan' => $request->jenis_kerusakan, 'tindakan_perbaikan' => $request->tindakan_perbaikan, 'undone' => $request->undone, 'updatedUtc' => $getUtc, 'updatedBy' => $getBy ]);
+
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -279,14 +288,32 @@ class Danliris_Antrianservice_Controller extends Controller
             // $getDateFin = Carbon::parse($request->input('tgl_selesai'))->format('Y-m-d');
             if($danliris_antrianservices)
             {
-                $danliris_antrianservices -> date = $getDate;
-                // $danliris_antrianservices ->tgl_selesai = $getDateFin;
-                $danliris_antrianservices -> nama_teknisi = $request->input('nama_teknisi');
-                $danliris_antrianservices -> jenis_kerusakan = $request->input('jenis_kerusakan');
-                $danliris_antrianservices -> tindakan_perbaikan = $request->input('tindakan_perbaikan');
-                $danliris_antrianservices -> updatedBy=$getBy;
-                $danliris_antrianservices -> updatedUtc=$getUtc;
-                $danliris_antrianservices ->save();
+                if($request->input('status') != '')
+                {
+                    $danliris_antrianservices -> status = $request->input('status');
+                    $danliris_antrianservices -> prioritas = $request->input('prioritas');
+                    $danliris_antrianservices -> update();
+                }
+                else if($request->input('undone') != '')
+                {
+                    $danliris_antrianservices -> jenis_kerusakan = $request->input('jenis_kerusakan');
+                    $danliris_antrianservices -> tindakan_perbaikan = $request->input('tindakan_perbaikan');
+                    $danliris_antrianservices -> undone = "Ya";
+                    $danliris_antrianservices -> updatedBy=$getBy;
+                    $danliris_antrianservices -> updatedUtc=$getUtc;
+                    $danliris_antrianservices -> update();
+                }
+                else
+                {
+                    $danliris_antrianservices -> date = $getDate;
+                    // $danliris_antrianservices ->tgl_selesai = $getDateFin;
+                    $danliris_antrianservices -> nama_teknisi = $request->input('nama_teknisi');
+                    $danliris_antrianservices -> jenis_kerusakan = $request->input('jenis_kerusakan');
+                    $danliris_antrianservices -> tindakan_perbaikan = $request->input('tindakan_perbaikan');
+                    $danliris_antrianservices -> updatedBy=$getBy;
+                    $danliris_antrianservices -> updatedUtc=$getUtc;
+                    $danliris_antrianservices ->save();
+                }
                 return response()->json(['status' => 200, 'messages' => 'Data berhasil diperbaharui.']);
             }
             else

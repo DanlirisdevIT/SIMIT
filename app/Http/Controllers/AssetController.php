@@ -22,8 +22,8 @@ class AssetController extends Controller
     public function index(Request $request)
     {
         $assets = Asset::with(['manufactures', 'categories'])->whereNull('deletedBy')->get();
-        $manufactures = Manufacture::all();
-        $categories = Category::all();
+        $manufactures = Manufacture::whereNull('deletedBy')->get();
+        $categories = Category::whereNull('deletedBy')->get();
         if($request->ajax()){
             return DataTables::of($assets)
             ->addIndexColumn()
@@ -123,7 +123,7 @@ class AssetController extends Controller
         // }])->first();
         // $assets = Asset::with(['manufactures', 'categories'])->where('id', $id)->first();
         $manufactures = Manufacture::with('assets')->where('id', $assets->manufacture_id)->first();
-        $manufactures2 = Manufacture::all();
+        $manufactures2 = Manufacture::whereNull('deletedBy')->get();
         $categories = Category::with('assets')->where('id', $assets->category_id)->first();
         if($assets)
         {

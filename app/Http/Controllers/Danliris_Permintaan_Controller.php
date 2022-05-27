@@ -27,11 +27,11 @@ class Danliris_Permintaan_Controller extends Controller
     {
         // $permintaans = Danliris_Permintaan::with(['categories', 'assets', 'divisions', 'companies', 'units'])->whereNull('deletedBy')->get();
         $danliris_permintaans = Danliris_Permintaan::with(['categories', 'assets', 'divisions', 'companies', 'units'])->whereNull('deletedBy')->get();
-        $categories = Category::all();
-        $assets = Asset::all();
-        $divisions = Division::all();
-        $companies = Company::all();
-        $units = Unit::all();
+        $categories = Category::whereNull('deletedBy')->get();
+        $assets = Asset::whereNull('deletedBy')->get();
+        $divisions = Division::whereNull('deletedBy')->get();
+        $companies = Company::whereNull('deletedBy')->get();
+        $units = Unit::whereNull('deletedBy')->get();
         if($request->ajax()){
             return DataTables::of($danliris_permintaans)
             ->addIndexColumn()
@@ -57,8 +57,8 @@ class Danliris_Permintaan_Controller extends Controller
      */
     public function create()
     {
-        $categories = Category::all()->where('deletedBy', '=', Null);
-        $assets = Asset::all()->where('deletedBy', '=', Null);
+        $categories = Category::whereNull('deletedBy')->get();
+        $assets = Asset::whereNull('deletedBy')->get();
 
         return response()->json(['status' => 200, 'categories' => $categories, 'assets' => $assets]);
     }

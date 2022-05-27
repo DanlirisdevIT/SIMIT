@@ -31,14 +31,14 @@ class Danliris_Pengeluaran_Controller extends Controller
     public function index(Request $request)
     {
         $danliris_pengeluarans = Danliris_Pengeluaran::with(['danliris_pemasukans', 'assets', 'companies', 'divisions', 'units', 'users', 'locations', 'categories'])->whereNull('deletedBy')->get();
-        $assets = Asset::all();
-        $companies = Company::all();
-        $divisions = Division::all();
-        $units = Unit::all();
-        $users = User::all();
-        $locations = Location::all();
-        $categories = Category::all();
-        $danliris_pemasukans = Danliris_Pemasukan::all();
+        $assets = Asset::whereNull('deletedBy')->get();
+        $companies = Company::whereNull('deletedBy')->get();
+        $divisions = Division::whereNull('deletedBy')->get();
+        $units = Unit::whereNull('deletedBy')->get();
+        $users = User::whereNull('deletedBy')->get();
+        $locations = Location::whereNull('deletedBy')->get();
+        $categories = Category::whereNull('deletedBy')->get();
+        $danliris_pemasukans = Danliris_Pemasukan::whereNull('deletedBy')->get();
         if($request->ajax()){
             return DataTables::of($danliris_pengeluarans)
             ->addIndexColumn()
@@ -83,7 +83,7 @@ class Danliris_Pengeluaran_Controller extends Controller
 
     public function create(Request $request)
     {
-        $danliris_pemasukanAll = Danliris_Pemasukan::all();
+        $danliris_pemasukanAll = Danliris_Pemasukan::whereNull('deletedBy')->get();
         $getPemasukan = $request->danliris_pemasukan_id;
         $danliris_pengeluaran = Danliris_Pengeluaran::with(['danliris_pemasukans', 'assets', 'companies', 'divisions', 'units', 'users', 'locations', 'categories', 'danliris_permintaans'])->where('id', $getPemasukan)->first();
         $danliris_pemasukan = Danliris_Pemasukan::with('danliris_pengeluarans')->where('id', $getPemasukan)->first();
@@ -91,8 +91,8 @@ class Danliris_Pengeluaran_Controller extends Controller
         // $getUser_id = Danliris_Pemasukan::where('id', $getPemasukan)->pluck('danliris_permintaan_id');
         // $getUser = Danliris_Permintaan::with('danliris_pemasukans')->where('id', $danliris_pemasukan->danliris_permintaan_id)->first();
         // $getUser = Danliris_Permintaan::with('danliris_pemasukans')->where('id', $danliris_pemasukan->danliris_permintaan_id)->first();
-        $getUnit = Unit::all();
-        $getDivisi = Division::all();
+        $getUnit = Unit::whereNull('deletedBy')->get();
+        $getDivisi = Division::whereNull('deletedBy')->get();
 
         return response()->json(['status' => 200, 'getPemasukan' => $getPemasukan, 'danliris_pemasukan' => $danliris_pemasukan, 'danliris_pengeluaran' => $danliris_pengeluaran,
                                                 'danliris_pemasukanAll' => $danliris_pemasukanAll, 'getUnit' => $getUnit, 'getDivisi' => $getDivisi]);

@@ -25,10 +25,10 @@ class BudgetController extends Controller
     public function index(Request $request)
     {
         $budgets = Budget::with(['permintaans', 'divisions', 'categories', 'assets'])->whereNull('deletedBy')->get();
-        $permintaans = Permintaan::all();
-        $divisions = Division::all();
-        $categories = Category::all();
-        $assets = Asset::all();
+        $permintaans = Permintaan::whereNull('deletedBy')->get();
+        $divisions = Division::whereNull('deletedBy')->get();
+        $categories = Category::whereNull('deletedBy')->get();
+        $assets = Asset::whereNull('deletedBy')->get();
         if($request->ajax()){
             return DataTables::of($budgets)
             ->addIndexColumn()

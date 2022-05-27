@@ -28,12 +28,12 @@ class DanlirisBudgetController extends Controller
         // $budgets = Budget::with(['permintaans', 'divisions', 'categories', 'assets'])->whereNull('deletedBy')->get();
         $danliris_budgets = Danliris_budget::with(['danliris_permintaans', 'divisions', 'categories', 'assets'])->whereNull('deletedBy')->get();
         // $permintaans = Permintaan::all();
-        $danliris_permintaans = Danliris_Permintaan::all();
+        $danliris_permintaans = Danliris_Permintaan::whereNull('deletedBy')->get();
         $filter_dl_budgets = Danliris_budget::with(['danliris_permintaans', 'divisions', 'categories', 'assets'])->whereBetween('date', array($request->from_date, $request->to_date))->whereNull('deletedBy')->get();
-        $units = Unit::all();
-        $divisions = Division::all();
-        $categories = Category::all();
-        $assets = Asset::all();
+        $units = Unit::whereNull('deletedBy')->get();
+        $divisions = Division::whereNull('deletedBy')->get();
+        $categories = Category::whereNull('deletedBy')->get();
+        $assets = Asset::whereNull('deletedBy')->get();
         // $user = Auth::user()->username;
         // if($request->ajax())
         // {

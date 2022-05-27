@@ -22,8 +22,8 @@ class Danliris_Servicefinal_Controller extends Controller
     {
         $date = $request->input('date');
 
-        $danliris_antrianservices = Danliris_Antrianservice::with([ 'danliris_histories'])->whereNull('deletedBy')->whereNull('tgl_selesai')->get();
-        $danliris_histories = Danliris_History::all();
+        $danliris_antrianservices = Danliris_Antrianservice::with([ 'danliris_histories'])->whereNull('deletedBy')->get();
+        $danliris_histories = Danliris_History::whereNull('deletedBy')->get();
         if($request->ajax()){
             return DataTables::of($danliris_antrianservices)
             ->addIndexColumn()
@@ -31,15 +31,15 @@ class Danliris_Servicefinal_Controller extends Controller
                 $date = Carbon::createFromFormat('Y-m-d', $data->date)->format('d F Y');
                 return $date;
             })
-            // ->addColumn('action', function($data){
-            //     $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-primary btn-sm editServiceFinal">Edit </a>';
-            //     return $btn;
-            // })
+            ->addColumn('action', function($data){
+                $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$data->id.'" class="btn btn-primary btn-sm detail"> <i class="fa fa-eye"></i> </a>';
+                return $btn;
+            })
             ->rawColumns(['date', 'action'])
             ->make(true);
         }
 
-        return view('service.historyservice.danliris_historyservice.index', compact('danliris_histories'));
+        return view('service.service_history.danliris_service_history.index', compact('danliris_histories'));
     }
 
     /**
@@ -82,17 +82,17 @@ class Danliris_Servicefinal_Controller extends Controller
      */
     public function edit($id)
     {
-        // $danliris_antrianservices = Danliris_Antrianservice::with([ 'danliris_histories'])->where('id', $id)->first();;
-        // $danliris_histories = Danliris_History::with('danliris_antrianservices')->where('id', $danliris_antrianservices->danliris_history_id)->first();
-        // $getDate = Carbon::createFromFormat('Y-m-d', $danliris_antrianservices->date)->format('d-m-Y');
-        // if($danliris_antrianservices)
-        // {
-        //     return response()->json(['status' => 200, 'danliris_antrianservices' => $danliris_antrianservices, 'danliris_histories' => $danliris_histories, 'getDate' => $getDate]);
-        // }
-        // else
-        // {
-        //     return response()->json(['status' => 404, 'messages' => 'Tidak ada data ditemukan.']);
-        // }
+        $danliris_antrianservices = Danliris_Antrianservice::with([ 'danliris_histories'])->where('id', $id)->first();;
+        $danliris_histories = Danliris_History::with('danliris_antrianservices')->where('id', $danliris_antrianservices->danliris_history_id)->first();
+        $getDate = Carbon::createFromFormat('Y-m-d', $danliris_antrianservices->date)->format('d-m-Y');
+        if($danliris_antrianservices)
+        {
+            return response()->json(['status' => 200, 'danliris_antrianservices' => $danliris_antrianservices, 'danliris_histories' => $danliris_histories, 'getDate' => $getDate]);
+        }
+        else
+        {
+            return response()->json(['status' => 404, 'messages' => 'Tidak ada data ditemukan.']);
+        }
     }
 
     /**

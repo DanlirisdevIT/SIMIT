@@ -23,9 +23,9 @@ class UnitController extends Controller
     public function index(Request $request)
     {
         $units = Unit::with(['divisions', 'companies', 'locations'])->whereNull('deletedBy')->get();
-        $divisions = Division::all();
-        $companies = Company::all();
-        $locations = Location::all();
+        $divisions = Division::whereNull('deletedBy')->get();
+        $companies = Company::whereNull('deletedBy')->get();
+        $locations = Location::whereNull('deletedBy')->get();
         if($request->ajax()){
             return DataTables::of($units)
             ->addIndexColumn()
@@ -105,7 +105,7 @@ class UnitController extends Controller
     {
         $units = Unit::with(['divisions', 'companies', 'locations'])->where('id', $id)->first();
         $divisions = Division::with('units')->where('id', $units->division_id)->first();
-        $divisions2 = Division::all();
+        $divisions2 = Division::whereNull('deletedBy')->get();
         $companies = Company::with('units')->where('id', $units->company_id)->first();
         $locations = Location::with('units')->where('id', $units->location_id)->first();
         if($units)

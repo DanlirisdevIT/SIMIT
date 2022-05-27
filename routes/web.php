@@ -223,18 +223,19 @@ Route::get('getOrder_detail', [DanlirisBudgetController::class, 'getOrder_detail
 
 //antrianservice route
 Route::get('antrianservice/{id}/edit', [AntrianServiceController::class, 'edit'])->name('antrianservice.edit');
-Route::resource('antrianservice', AntrianServiceController::class)->except(['show']);
+Route::resource('antrianservice', AntrianServiceController::class);
 
 Route::get('danliris_antrianservice/{id}/edit', [Danliris_Antrianservice_Controller::class, 'edit'])->name('danliris_antrianservice.edit');
 Route::get('danliris_antrianservice/{id}/edit1', [Danliris_Antrianservice_Controller::class, 'edit1'])->name('danliris_antrianservice.edit1');
-Route::resource('danliris_antrianservice', Danliris_Antrianservice_Controller::class)->except(['show']);
-
+Route::resource('danliris_antrianservice', Danliris_Antrianservice_Controller::class);
+Route::resource('undoneService', Danliris_Antrianservice_Controller::class);
+Route::put('undoneService/{id}/undoneServiceUpdate', [Danliris_Antrianservice_Controller::class, 'undoneServiceUpdate'])->name('undoneServiceUpdate');
 
 Route::get('efrata_antrianservice/{id}/edit', [Efrata_Antrianservice_Controller::class, 'edit'])->name('efrata_antrianservice.edit');
-Route::resource('efrata_antrianservice', Efrata_Antrianservice_Controller::class)->except(['show']);
+Route::resource('efrata_antrianservice', Efrata_Antrianservice_Controller::class);
 
 Route::get('ag_antrianservice/{id}/edit', [AG_Antrianservice_Controller::class, 'edit'])->name('ag_antrianservice.edit');
-Route::resource('ag_antrianservice', AG_Antrianservice_Controller::class)->except(['show']);
+Route::resource('ag_antrianservice', AG_Antrianservice_Controller::class);
 
 //pemasukan route
 Route::get('pemasukan/{id}/edit', [PemasukanController::class, 'edit'])->name('pemasukan.edit');
@@ -247,17 +248,18 @@ Route::get('pemasukan/{id}/edit', [AG_Pemasukan_Controller::class, 'edit'])->nam
 Route::resource('ag_pemasukan', AG_Pemasukan_Controller::class)->except(['show']);
 
 //history service route
-Route::get('danliris_historyservice/{id}/edit', [Danliris_Servicefinal_Controller::class, 'edit'])->name('danliris_historyservice.edit');
-Route::resource('danliris_historyservice', Danliris_Servicefinal_Controller::class)->except(['show']);
+Route::get('danliris_service_history/{id}/edit', [Danliris_Servicefinal_Controller::class, 'edit'])->name('danliris_service_history.edit');
+Route::resource('danliris_service_history', Danliris_Servicefinal_Controller::class)->except(['show']);
 
-Route::get('efrata_historyservice/{id}/edit', [Efrata_Servicefinal_Controller::class, 'edit'])->name('efrata_historyservice.edit');
-Route::resource('efrata_historyservice', Efrata_Servicefinal_Controller::class)->except(['show']);
+Route::get('efrata_service_history/{id}/edit', [Efrata_Servicefinal_Controller::class, 'edit'])->name('efrata_service_history.edit');
+Route::resource('efrata_service_history', Efrata_Servicefinal_Controller::class)->except(['show']);
 
-Route::get('ag_historyservice/{id}/edit', [AG_Servicefinal_Controller::class, 'edit'])->name('ag_historyservice.edit');
-Route::resource('ag_historyservice', AG_Servicefinal_Controller::class)->except(['show']);
+Route::get('ag_service_history/{id}/edit', [AG_Servicefinal_Controller::class, 'edit'])->name('ag_service_history.edit');
+Route::resource('ag_service_history', AG_Servicefinal_Controller::class)->except(['show']);
 
 //Service Tidak Tercapai
 Route::resource('danliris_service_tidak_tercapai', Danliris_Service_Tidak_Tercapai_Controller::class);
+Route::get('danliris_service_tidak_tercapai/{id}/edit', [Danliris_Service_Tidak_Tercapai_Controller::class, 'edit'])->name('danliris_service_tidak_tercapai.edit');
 
 // Route::get('efrata_service_tidak_tercapai', Efrata_Service_Tidak_Tercapai_Controller::class);
 
